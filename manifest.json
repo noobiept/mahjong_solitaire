@@ -1,0 +1,7 @@
+{
+    "name": "Mahjong Solitaire",
+    "version": "1.0",
+    "description": "Mahjong Solitaire",
+    "app": { "launch": { "local_path": "index.html" } },
+    "manifest_version": 2
+}
