@@ -9,7 +9,8 @@ var SELECTED_TILE = null;
     A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
 
     args = {
-        tileName : String,      // tile name plus the number ('bamboo1' for example)
+        tileId   : String,      // the id of the image to be loaded
+        tileName : String,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
         x        : Number,
         y        : Number
     }
@@ -18,10 +19,16 @@ var SELECTED_TILE = null;
 function Tile( args )
 {
     // validate the arguments
+if ( typeof args.tileId == 'undefined' )
+    {
+    console.log( 'Provide the .tileId.' );
+    return;
+    }
+
 if ( typeof args.tileName == 'undefined' )
     {
-    console.log( 'Provide the .tileName.' );
-    return;
+        // if not provided, we assume its the same as the id
+    args.tileName = args.tileId;
     }
 
 if ( typeof args.x == 'undefined' )
@@ -38,7 +45,7 @@ this.width = 44;
 this.height = 53;
 
     // load the image
-var shape = new createjs.Bitmap( PRELOAD.getResult( args.tileName ) );
+var shape = new createjs.Bitmap( PRELOAD.getResult( args.tileId ) );
 
     // and the background (its used to tell when a tile is selected or not)
 var background = new createjs.Shape();
@@ -89,13 +96,7 @@ if ( !SELECTED_TILE )
 else
     {
         // can't select the same tile again
-    if ( SELECTED_TILE == this )
-        {
-//        this.unSelectTile();  //HERE un-select, or simply let it continue being selected?
-        return;
-        }
-
-    else
+    if ( SELECTED_TILE !== this )
         {
             // valid match
         if ( SELECTED_TILE.tileName == this.tileName )
@@ -133,7 +134,8 @@ SELECTED_TILE = null;
 
 var g = this.background.graphics;
 
-g.beginFill( 'white' );
+g.clear();
+g.beginFill( 'transparent' );
 g.drawRoundRect( 0, 0, this.width, this.height, 2 );
 };
 
