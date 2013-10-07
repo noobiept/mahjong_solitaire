@@ -17,15 +17,12 @@ var SELECTED_TILE = null;
 
 function Tile( args )
 {
+    // validate the arguments
 if ( typeof args.tileName == 'undefined' )
     {
     console.log( 'Provide the .tileName.' );
     return;
     }
-
-
-var shape = new createjs.Bitmap( PRELOAD.getResult( args.tileName ) );
-
 
 if ( typeof args.x == 'undefined' )
     {
@@ -37,17 +34,39 @@ if ( typeof args.y == 'undefined' )
     args.y = 0;
     }
 
-shape.x = args.x;
-shape.y = args.y;
+this.width = 44;
+this.height = 53;
 
-shape.on( 'click', this.onClick );
+    // load the image
+var shape = new createjs.Bitmap( PRELOAD.getResult( args.tileName ) );
 
-STAGE.addChild( shape );
+    // and the background (its used to tell when a tile is selected or not)
+var background = new createjs.Shape();
+
+background.setBounds( 0, 0, this.width, this.height );
+
+
+var container = new createjs.Container();
+
+container.addChild( background );
+container.addChild( shape );
+
+container.x = args.x;
+container.y = args.y;
+
+container.on( 'click', this.onClick, this );
+
+STAGE.addChild( container );
 
 ALL_TILES.push( this );
 
 this.tileName = args.tileName;
+this.background = background;
 this.shape = shape;
+this.container = container;
+
+
+this.unSelectTile();
 }
 
 
@@ -60,11 +79,10 @@ if ( event.paused ) //HERE this one doesnt seem to work?..
     }
 
 
+    // no tile is selected, so we select the first one
 if ( !SELECTED_TILE )
     {
-    SELECTED_TILE = this;
-
-        //HERE have some visual change in the tile
+    this.selectTile();
     }
 
     // 2 tiles selected, check if its a valid match or not
@@ -73,25 +91,56 @@ else
         // can't select the same tile again
     if ( SELECTED_TILE == this )
         {
+//        this.unSelectTile();  //HERE un-select, or simply let it continue being selected?
         return;
         }
 
-        // valid match
-    if ( SELECTED_TILE.tileName == this.tileName )
+    else
         {
-        SELECTED_TILE.remove();
-        this.remove();
+            // valid match
+        if ( SELECTED_TILE.tileName == this.tileName )
+            {
+            SELECTED_TILE.remove();
+            this.remove();
 
-        SELECTED_TILE = null;
+            SELECTED_TILE = null;
+            }
+
+        else
+            {
+            SELECTED_TILE.unSelectTile();
+            this.selectTile();
+            }
         }
     }
 };
 
 
+Tile.prototype.selectTile = function()
+{
+SELECTED_TILE = this;
+
+var g = this.background.graphics;
+
+g.beginFill( 'red' );
+g.drawRoundRect( 0, 0, this.width, this.height, 2 );
+};
+
+
+Tile.prototype.unSelectTile = function()
+{
+SELECTED_TILE = null;
+
+var g = this.background.graphics;
+
+g.beginFill( 'white' );
+g.drawRoundRect( 0, 0, this.width, this.height, 2 );
+};
+
 
 Tile.prototype.remove = function()
 {
-STAGE.remove( this.shape );
+STAGE.removeChild( this.container );
 
 var position = ALL_TILES.indexOf( this );
 

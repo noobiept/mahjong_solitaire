@@ -92,6 +92,19 @@ new Tile({
     tileName: 'bamboo1'
     });
 
+new Tile({
+    x: 200,
+    y: 100,
+    tileName: 'bamboo1'
+    });
+
+new Tile({
+    x: 200,
+    y: 300,
+    tileName: 'bamboo2'
+    });
+
+
 createjs.Ticker.on( 'tick', tick );
 }
 
