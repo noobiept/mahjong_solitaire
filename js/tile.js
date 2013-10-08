@@ -11,17 +11,17 @@ var SELECTED_TILE = null;
     args = {
         tileId   : String,      // the id of the image to be loaded
         tileName : String,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
-        x        : Number,
-        y        : Number
+        column : Number,
+        line   : Number
     }
  */
 
 function Tile( args )
 {
     // validate the arguments
-if ( typeof args.tileId == 'undefined' )
+if ( typeof args.tileId == 'undefined' || typeof args.gridObject == 'undefined' )
     {
-    console.log( 'Provide the .tileId.' );
+    console.log( 'Provide the .tileId and the gridObject.' );
     return;
     }
 
@@ -31,14 +31,14 @@ if ( typeof args.tileName == 'undefined' )
     args.tileName = args.tileId;
     }
 
-if ( typeof args.x == 'undefined' )
+if ( typeof args.column == 'undefined' )
     {
-    args.x = 0;
+    args.column = 0;
     }
 
-if ( typeof args.y == 'undefined' )
+if ( typeof args.line == 'undefined' )
     {
-    args.y = 0;
+    args.line = 0;
     }
 
 this.width = 44;
@@ -58,8 +58,6 @@ var container = new createjs.Container();
 container.addChild( background );
 container.addChild( shape );
 
-container.x = args.x;
-container.y = args.y;
 
 container.on( 'click', this.onClick, this );
 
@@ -71,7 +69,10 @@ this.tileName = args.tileName;
 this.background = background;
 this.shape = shape;
 this.container = container;
+this.column = args.column;
+this.line = args.line;
 
+args.gridObject.addTile( this, args.column, args.line );
 
 this.unSelectTile();
 }
@@ -138,6 +139,14 @@ g.clear();
 g.beginFill( 'transparent' );
 g.drawRoundRect( 0, 0, this.width, this.height, 2 );
 };
+
+
+Tile.prototype.moveTo = function( x, y )
+{
+this.container.x = x;
+this.container.y = y;
+};
+
 
 
 Tile.prototype.remove = function()

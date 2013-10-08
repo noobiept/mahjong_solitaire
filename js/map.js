@@ -14,31 +14,43 @@
 
 function Map()
 {
-this.addTileSuit( 4, 9, 'bamboo' );
-this.addTileSuit( 4, 9, 'character' );
-this.addTileSuit( 4, 9, 'circle' );
-this.addTileSuit( 4, 4, 'wind' );
-this.addTileSuit( 4, 3, 'dragon' );
-this.addTileSuit( 1, 4, 'flower', 'flower' );
-this.addTileSuit( 1, 4, 'season', 'season' );
+var grid = new Grid( 0, 0, 20, 20 );
+
+this.addTileSuit( grid, 1, 9, 'bamboo' );
+
+//this.addTileSuit( 4, 9, 'bamboo' );
+//this.addTileSuit( 4, 9, 'character' );
+//this.addTileSuit( 4, 9, 'circle' );
+//this.addTileSuit( 4, 4, 'wind' );
+//this.addTileSuit( 4, 3, 'dragon' );
+//this.addTileSuit( 1, 4, 'flower', 'flower' );
+//this.addTileSuit( 1, 4, 'season', 'season' );
+
+this.grids_array = [ grid ];
 }
 
 
-Map.prototype.addTileSuit = function( repetitions, maxNumber, tileId, tileName )
+Map.prototype.addTileSuit = function( gridObject, repetitions, maxNumber, tileId, tileName )
 {
 var width = CANVAS.width;
 var height = CANVAS.height;
+
+var column = 0;
+var line = 0;   //HERE
 
 for (var a = 0 ; a < repetitions ; a++)
     {
     for (var b = 0 ; b < maxNumber ; b++)
         {
         new Tile({
-                x : getRandomInt( 0, width ),
-                y : getRandomInt( 0, height ),
-                tileId : tileId + (b + 1),
-                tileName: tileName
+                column     : column,
+                line       : 0,
+                tileId     : tileId + (b + 1),
+                tileName   : tileName,
+                gridObject : gridObject
             });
+
+        column++;
         }
     }
 };

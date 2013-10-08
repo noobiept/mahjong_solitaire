@@ -32,6 +32,8 @@
 
 var CANVAS;
 
+var MAP;
+
 var BASE_URL = '';
 
     // createjs
@@ -110,8 +112,7 @@ function startGame()
 {
 resetStuff();
 
-new Map();
-
+MAP = new Map();
 
 createjs.Ticker.on( 'tick', tick );
 }
