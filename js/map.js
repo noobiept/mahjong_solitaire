@@ -12,11 +12,31 @@
         - season tiles (4)
  */
 
-function Map()
-{
-var grid = new Grid( 0, 0, 20, 20 );
 
-this.addTileSuit( grid, 1, 9, 'bamboo' );
+function Map( mapDescription )
+{
+var nextTile = this.getNextTile();
+var grid;
+
+this.grids_array = [];
+
+
+for (var a = 0 ; a < mapDescription.length ; a++)
+    {
+    var gridDescription = mapDescription[ a ];
+
+    grid = new Grid( 0, 0, 20, 20 );
+
+    this.grids_array.push( grid );
+
+    for (var b = 0 ; b < gridDescription.length ; b++)
+        {
+        var position = gridDescription[ b ];
+
+        var tileObject = nextTile( grid, position.column, position.line );
+        }
+    }
+
 
 //this.addTileSuit( 4, 9, 'bamboo' );
 //this.addTileSuit( 4, 9, 'character' );
@@ -26,8 +46,26 @@ this.addTileSuit( grid, 1, 9, 'bamboo' );
 //this.addTileSuit( 1, 4, 'flower', 'flower' );
 //this.addTileSuit( 1, 4, 'season', 'season' );
 
-this.grids_array = [ grid ];
 }
+
+
+Map.prototype.getNextTile = function()
+{
+var tilesLeft = 144;
+
+var tilesNames = [ '' ];
+
+return function( gridObject, column, line )
+    {
+    return new Tile({
+            column     : column,
+            line       : line,
+            tileId     : 'bamboo1',     //HERE
+            tileName   : 'bamboo1',
+            gridObject : gridObject
+        });
+    }
+};
 
 
 Map.prototype.addTileSuit = function( gridObject, repetitions, maxNumber, tileId, tileName )

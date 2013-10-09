@@ -26,8 +26,8 @@ Grid.prototype.addTile = function( tileObject, column, line )
 {
 this.grid_array[ column ][ line ] = tileObject;
 
-tileObject.moveTo( this.startingX + column * tileObject.width,
-                   this.startingY + line * tileObject.height );
+tileObject.moveTo( this.startingX + column * tileObject.width / 2,
+                   this.startingY + line * tileObject.height / 2 );
 };
 
 

@@ -15,8 +15,11 @@
         
         - eh mahjongg solitaire, visto k o original mahjongg eh diferente, joga-se com 4 pessoas e tem regras diferentes
 
-        - have different tick for drawing, and game logic
-    
+        - cant select a tile that has others tiles to the left and right of it (has to have a side free)
+        - say how many tiles are left
+        - say how many possible plays are there
+
+        - if a tile is half on top of another, the one below can't be selected, has to be fully seen
     links:
     
         - http://en.wikipedia.org/wiki/Mahjong_solitaire
@@ -112,7 +115,7 @@ function startGame()
 {
 resetStuff();
 
-MAP = new Map();
+MAP = new Map( PYRAMID );
 
 createjs.Ticker.on( 'tick', tick );
 }
