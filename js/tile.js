@@ -12,7 +12,8 @@ var SELECTED_TILE = null;
         tileId   : String,      // the id of the image to be loaded
         tileName : String,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
         column : Number,
-        line   : Number
+        line   : Number,
+        gridObject : Grid
     }
  */
 
@@ -71,6 +72,7 @@ this.shape = shape;
 this.container = container;
 this.column = args.column;
 this.line = args.line;
+this.gridObject = args.gridObject;
 
 args.gridObject.addTile( this, args.column, args.line );
 
@@ -86,6 +88,10 @@ if ( event.paused ) //HERE this one doesnt seem to work?..
     return;
     }
 
+if ( !this.isTileSelectable() )
+    {
+    return;
+    }
 
     // no tile is selected, so we select the first one
 if ( !SELECTED_TILE )
@@ -148,6 +154,70 @@ this.container.y = y;
 };
 
 
+/*
+    to be able to select a tile, one of the sides (left or right) as to be free, and the tile can't have other tiles on top of it (in a grid above)
+ */
+
+Tile.prototype.isTileSelectable = function()
+{
+var column = this.column;
+var line = this.line;
+var grid = this.gridObject;
+
+var isLeftFree = true;
+var isRightFree = true;
+
+if ( column > 0 )
+    {
+    if ( grid.grid_array[ column - 1 ][ line ] ||
+         grid.grid_array[ column - 1 ][ line + 1 ] )
+        {
+        isLeftFree = false;
+        }
+    }
+
+    //HERE check max. column?...
+if ( grid.grid_array[ column + 2 ][ line ] ||
+     grid.grid_array[ column + 2 ][ line + 1 ] )
+    {
+    isRightFree = false;
+    }
+
+if ( !isLeftFree && !isRightFree )
+    {
+    return false;
+    }
+
+    // check grids above, if there's any tile on top of this one
+var gridAbove;
+var gridPosition = grid.position;
+
+while( true )
+    {
+    gridPosition++;
+
+    gridAbove = Grid.get( gridPosition );
+
+    if ( !gridAbove )
+        {
+        break;
+        }
+
+    if ( gridAbove.grid_array[ column ][ line ] ||
+         gridAbove.grid_array[ column ][ line + 1 ] ||
+         gridAbove.grid_array[ column + 1 ][ line ] ||
+         gridAbove.grid_array[ column + 1 ][ line + 1 ] )
+        {
+        return false;
+        }
+    }
+
+return true;
+};
+
+
+
+
 
 Tile.prototype.remove = function()
 {
@@ -156,9 +226,12 @@ STAGE.removeChild( this.container );
 var position = ALL_TILES.indexOf( this );
 
 ALL_TILES.splice( position, 1 );
+
+this.gridObject.removeTile( this.column, this.line );
 };
 
 
+window.SELECTED_TILE = SELECTED_TILE;
 
 window.Tile = Tile;
 

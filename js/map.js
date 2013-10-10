@@ -18,16 +18,14 @@ function Map( mapDescription )
 var nextTile = this.getNextTile();
 var grid;
 
-this.grids_array = [];
-
+var startingX = 20;
+var startingY = 20;
 
 for (var a = 0 ; a < mapDescription.length ; a++)
     {
     var gridDescription = mapDescription[ a ];
 
-    grid = new Grid( 0, 0, 20, 20 );
-
-    this.grids_array.push( grid );
+    grid = new Grid( startingX, startingY, 25, 25 );
 
     for (var b = 0 ; b < gridDescription.length ; b++)
         {
@@ -35,6 +33,10 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
         var tileObject = nextTile( grid, position.column, position.line );
         }
+
+        // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
+    startingX -= 6;
+    startingY += 6;
     }
 
 
@@ -66,6 +68,9 @@ return function( gridObject, column, line )
         });
     }
 };
+
+
+
 
 
 Map.prototype.addTileSuit = function( gridObject, repetitions, maxNumber, tileId, tileName )

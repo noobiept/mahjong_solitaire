@@ -9,6 +9,17 @@
             tweenjs   : 0.5
 
 
+    links:
+
+        - http://en.wikipedia.org/wiki/Mahjong_solitaire
+        - http://en.wikipedia.org/wiki/Mahjong_tiles
+        - http://pt.wikipedia.org/wiki/Mahjong
+
+    Tiles images license:
+
+        - Creative Commons Attribution-Share Alike 3.0 Unported (from wikipedia links above)
+
+
     to doo:
         - para gerar o mapa, fazer ao contrario, tipo ter o mapa vazio, e adicionar par a par, ate ter o mapa completo. assim garante-se k o mapa tem uma solucao
         
@@ -20,16 +31,13 @@
         - say how many possible plays are there
 
         - if a tile is half on top of another, the one below can't be selected, has to be fully seen
-    links:
-    
-        - http://en.wikipedia.org/wiki/Mahjong_solitaire
-        - http://en.wikipedia.org/wiki/Mahjong_tiles
-        - http://pt.wikipedia.org/wiki/Mahjong
 
-    Tiles images license:
+        - has a bug, clicking on a tile, then on a one that isnt selectable, and on other it only removes one of the tiles
 
-        - Creative Commons Attribution-Share Alike 3.0 Unported (from wikipedia links above)
-    
+        - shadow the tiles that cant be selected (as an option to be easier)
+        - show a message when a tile cant be selected (and was clicked)
+        - improve the visibility of the tiles below (right now the grids are starting in a different x/y)
+
  */
 
 
