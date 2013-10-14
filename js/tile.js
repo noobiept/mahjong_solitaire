@@ -112,6 +112,8 @@ else
             this.remove();
 
             SELECTED_TILE = null;
+
+            console.log( MAP.howManySelectablePairs() );
             }
 
         else
@@ -147,11 +149,13 @@ g.drawRoundRect( 0, 0, this.width, this.height, 2 );
 };
 
 
+
 Tile.prototype.moveTo = function( x, y )
 {
 this.container.x = x;
 this.container.y = y;
 };
+
 
 
 /*
@@ -231,7 +235,12 @@ this.gridObject.removeTile( this.column, this.line );
 };
 
 
-window.SELECTED_TILE = SELECTED_TILE;
+
+Tile.getAll = function()
+{
+return ALL_TILES;
+};
+
 
 window.Tile = Tile;
 

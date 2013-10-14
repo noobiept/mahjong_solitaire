@@ -54,6 +54,7 @@ this.grid_array[ column + 1 ][ line + 1 ] = null;
 };
 
 
+
 Grid.get = function( position )
 {
 return ALL_GRIDS[ position ];
@@ -66,7 +67,7 @@ ALL_GRIDS.length = 0;
 };
 
 
-
+    
 window.Grid = Grid;
 
 }(window));

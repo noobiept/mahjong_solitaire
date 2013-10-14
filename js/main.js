@@ -21,23 +21,20 @@
 
 
     to doo:
-        - para gerar o mapa, fazer ao contrario, tipo ter o mapa vazio, e adicionar par a par, ate ter o mapa completo. assim garante-se k o mapa tem uma solucao
-        
-        
         - eh mahjongg solitaire, visto k o original mahjongg eh diferente, joga-se com 4 pessoas e tem regras diferentes
 
-        - cant select a tile that has others tiles to the left and right of it (has to have a side free)
         - say how many tiles are left
         - say how many possible plays are there
-
-        - if a tile is half on top of another, the one below can't be selected, has to be fully seen
-
-        - has a bug, clicking on a tile, then on a one that isnt selectable, and on other it only removes one of the tiles
 
         - shadow the tiles that cant be selected (as an option to be easier)
         - show a message when a tile cant be selected (and was clicked)
         - improve the visibility of the tiles below (right now the grids are starting in a different x/y)
 
+        - 2 player mode, 2 sets of tiles next to each other, 1 player plays at each time, with a timer for each. see who can finish the game first
+        - add a map editor
+        - the tiles are separated, have them together (and maybe bigger dimensions)
+        - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
+        - when determining the tile names, don't draw the map (add argument to Tile)
  */
 
 
