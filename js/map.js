@@ -45,7 +45,7 @@ for (var a = 0 ; a < newMap.length ; a++)
     startingY += 6;
     }
 
-console.log( this.howManySelectablePairs() );
+GameMenu.updateInformation( this );
 }
 
 
@@ -79,10 +79,11 @@ for (var a = 0 ; a < mapDescription.length ; a++)
         tilePosition = gridDescription[ b ];
 
         new Tile({
-            tileId: 'bamboo1',
-            column: tilePosition.column,
-            line: tilePosition.line,
-            gridObject: grid
+            tileId     : '', // doesn't matter, since we aren't drawing the shape
+            column     : tilePosition.column,
+            line       : tilePosition.line,
+            gridObject : grid,
+            drawShape  : false
             });
         }
 

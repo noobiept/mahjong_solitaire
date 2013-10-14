@@ -32,15 +32,18 @@ ALL_GRIDS.push( this );
     The column/line argument, points to the position in top left
  */
 
-Grid.prototype.addTile = function( tileObject, column, line )
+Grid.prototype.addTile = function( tileObject, column, line, move )
 {
 this.grid_array[ column ][ line ] = tileObject;
 this.grid_array[ column ][ line + 1 ] = tileObject;
 this.grid_array[ column + 1 ][ line ] = tileObject;
 this.grid_array[ column + 1 ][ line + 1 ] = tileObject;
 
-tileObject.moveTo( this.startingX + column * tileObject.width / 2,
-                   this.startingY + line * tileObject.height / 2 );
+if ( move !== false )
+    {
+    tileObject.moveTo( this.startingX + column * tileObject.width / 2,
+            this.startingY + line * tileObject.height / 2 );
+    }
 };
 
 
@@ -67,7 +70,7 @@ ALL_GRIDS.length = 0;
 };
 
 
-    
+
 window.Grid = Grid;
 
 }(window));

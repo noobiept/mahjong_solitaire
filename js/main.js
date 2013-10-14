@@ -34,7 +34,6 @@
         - add a map editor
         - the tiles are separated, have them together (and maybe bigger dimensions)
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
-        - when determining the tile names, don't draw the map (add argument to Tile)
  */
 
 

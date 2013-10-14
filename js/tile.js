@@ -13,13 +13,15 @@ var SELECTED_TILE = null;
         tileName : String,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
         column : Number,
         line   : Number,
-        gridObject : Grid
+        gridObject : Grid,
+        drawShape : Boolean
     }
  */
 
 function Tile( args )
 {
-    // validate the arguments
+    // :: validate the arguments :: //
+
 if ( typeof args.tileId == 'undefined' || typeof args.gridObject == 'undefined' )
     {
     console.log( 'Provide the .tileId and the gridObject.' );
@@ -42,28 +44,37 @@ if ( typeof args.line == 'undefined' )
     args.line = 0;
     }
 
+
 this.width = 44;
 this.height = 53;
 
-    // load the image
-var shape = new createjs.Bitmap( PRELOAD.getResult( args.tileId ) );
 
-    // and the background (its used to tell when a tile is selected or not)
-var background = new createjs.Shape();
+    // :: draw the shape :: //
+var shape, background, container;
 
-background.setBounds( 0, 0, this.width, this.height );
+if ( args.drawShape !== false )
+    {
+        // load the image
+    shape = new createjs.Bitmap( PRELOAD.getResult( args.tileId ) );
+
+        // and the background (its used to tell when a tile is selected or not)
+    background = new createjs.Shape();
+
+    background.setBounds( 0, 0, this.width, this.height );
 
 
-var container = new createjs.Container();
+    container = new createjs.Container();
 
-container.addChild( background );
-container.addChild( shape );
+    container.addChild( background );
+    container.addChild( shape );
+
+    container.on( 'click', this.onClick, this );
+
+    STAGE.addChild( container );
+    }
 
 
-container.on( 'click', this.onClick, this );
-
-STAGE.addChild( container );
-
+    // :: set properties :: //
 ALL_TILES.push( this );
 
 this.tileName = args.tileName;
@@ -74,9 +85,19 @@ this.column = args.column;
 this.line = args.line;
 this.gridObject = args.gridObject;
 
-args.gridObject.addTile( this, args.column, args.line );
 
-this.unSelectTile();
+
+if ( args.drawShape !== false )
+    {
+    args.gridObject.addTile( this, args.column, args.line );
+
+    this.unSelectTile();
+    }
+
+else
+    {
+    args.gridObject.addTile( this, args.column, args.line, false );
+    }
 }
 
 
@@ -113,7 +134,7 @@ else
 
             SELECTED_TILE = null;
 
-            console.log( MAP.howManySelectablePairs() );
+            GameMenu.updateInformation( MAP );
             }
 
         else
