@@ -34,6 +34,7 @@
         - add a map editor
         - the tiles are separated, have them together (and maybe bigger dimensions)
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
+        - restart not working correctly
  */
 
 
@@ -57,6 +58,8 @@ CANVAS.height = 600;
 STAGE = new createjs.Stage( CANVAS );
 
 centerCanvas( CANVAS );
+
+GameMenu.init();
 
 createjs.Ticker.setInterval( 50 );
 
@@ -119,6 +122,8 @@ function startGame()
 {
 resetStuff();
 
+GameMenu.show();
+
 MAP = new Map( PYRAMID );
 
 createjs.Ticker.on( 'tick', tick );
@@ -127,7 +132,11 @@ createjs.Ticker.on( 'tick', tick );
 
 function resetStuff()
 {
+Tile.removeAll();
+Grid.removeAll();
+MAP = null;
 
+GameMenu.hide();
 }
 
 function pause()

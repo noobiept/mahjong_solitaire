@@ -22,9 +22,15 @@ function Tile( args )
 {
     // :: validate the arguments :: //
 
-if ( typeof args.tileId == 'undefined' || typeof args.gridObject == 'undefined' )
+if ( typeof args.tileId == 'undefined' )
     {
-    console.log( 'Provide the .tileId and the gridObject.' );
+    console.log( 'Provide the .tileId. Got:', args.tileId );
+    return;
+    }
+
+if ( typeof args.gridObject == 'undefined' )
+    {
+    console.log( 'Provide the .gridObject. Got:', args.gridObject );
     return;
     }
 
@@ -260,6 +266,15 @@ this.gridObject.removeTile( this.column, this.line );
 Tile.getAll = function()
 {
 return ALL_TILES;
+};
+
+
+Tile.removeAll = function()
+{
+for (var a = 0 ; a < ALL_TILES.length ; a++)
+    {
+    ALL_TILES[ a ].remove();
+    }
 };
 
 

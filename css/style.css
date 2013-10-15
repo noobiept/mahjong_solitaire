@@ -1,5 +1,29 @@
+body
+    {
+    position: relative;
+    }
+
 #mainCanvas
     {
     position: absolute;
     border: 1px solid #1d5987;
+    }
+
+
+#GameMenu
+    {
+    display: none;
+    position: absolute;
+    }
+
+#GameMenu > *
+    {
+    display: inline-block;
+    margin: 10px;
+    }
+
+
+.button
+    {
+    cursor: pointer;
     }
