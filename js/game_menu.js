@@ -16,9 +16,16 @@ var gameMenu = document.querySelector( '#GameMenu' );
 
 var tilesLeft = gameMenu.querySelector( '#GameMenu-tilesLeft span' );
 var pairsLeft = gameMenu.querySelector( '#GameMenu-pairsLeft span' );
+
+var shuffle = gameMenu.querySelector( '#GameMenu-shuffle' );
 var restart = gameMenu.querySelector( '#GameMenu-restart' );
 var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
+
+shuffle.onclick = function()
+    {
+    MAP.shuffle();
+    };
 
 restart.onclick = function()
     {

@@ -63,6 +63,12 @@ Grid.get = function( position )
 return ALL_GRIDS[ position ];
 };
 
+Grid.numberOfGrids = function()
+{
+return ALL_GRIDS.length;
+};
+
+
 
 Grid.removeAll = function()
 {

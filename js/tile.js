@@ -83,6 +83,7 @@ if ( args.drawShape !== false )
     // :: set properties :: //
 ALL_TILES.push( this );
 
+this.tileId = args.tileId;
 this.tileName = args.tileName;
 this.background = background;
 this.shape = shape;
@@ -275,6 +276,8 @@ for (var a = 0 ; a < ALL_TILES.length ; a++)
     {
     ALL_TILES[ a ].remove();
     }
+
+ALL_TILES.length = 0;
 };
 
 
