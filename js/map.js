@@ -211,10 +211,10 @@ for (a = 0 ; a < tileNames.length ; a++)
     // clear the current map
 Tile.removeAll();
 Grid.removeAll();
-console.log(currentMap);
+
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
-console.log(newMap);
+
 this.buildMap( newMap );
 };
 

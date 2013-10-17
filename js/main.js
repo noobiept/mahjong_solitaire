@@ -62,6 +62,7 @@ STAGE = new createjs.Stage( CANVAS );
 
 centerCanvas( CANVAS );
 
+MainMenu.init();
 GameMenu.init();
 
 createjs.Ticker.setInterval( 50 );
@@ -113,45 +114,22 @@ var manifest = [
         { id: 'season4', src: BASE_URL + 'images/season4.png' }
     ];
 
+
+var loadingMessage = new Message({ text: 'Loading' });
+
 PRELOAD.installPlugin( createjs.Sound );
-//PRELOAD.addEventListener( 'progress', updateLoading );
-PRELOAD.addEventListener( 'complete', startGame );
+PRELOAD.addEventListener( 'progress', function( event )
+    {
+    loadingMessage.setText( 'Loading ' + ( event.progress * 100 | 0 ) + '%' );
+    });
+PRELOAD.addEventListener( 'complete', function()
+    {
+    loadingMessage.remove();
+
+    MainMenu.open();
+    });
 PRELOAD.loadManifest( manifest, true );
 };
-
-
-
-function startGame()
-{
-resetStuff();
-
-GameMenu.show();
-
-MAP = new Map( PYRAMID );
-
-createjs.Ticker.on( 'tick', tick );
-}
-
-
-function resetStuff()
-{
-Tile.removeAll();
-Grid.removeAll();
-MAP = null;
-
-GameMenu.hide();
-}
-
-function pause()
-{
-createjs.Ticker.setPaused( true );
-}
-
-
-function resume()
-{
-createjs.Ticker.setPaused( false );
-}
 
 
 

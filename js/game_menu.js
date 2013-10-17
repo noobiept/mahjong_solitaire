@@ -29,13 +29,13 @@ shuffle.onclick = function()
 
 restart.onclick = function()
     {
-    startGame();
+    Game.start();
     };
 
 
 quit.onclick = function()
     {
-        //HERE
+    MainMenu.open();
     };
 
 

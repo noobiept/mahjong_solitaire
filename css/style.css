@@ -10,7 +10,7 @@ body
     }
 
 
-#GameMenu
+#GameMenu, #MainMenu
     {
     display: none;
     position: absolute;
@@ -26,4 +26,12 @@ body
 .button
     {
     cursor: pointer;
+    }
+
+.Message
+    {
+    position: absolute;
+    font-size: 1.5em;
+    text-align: center;
+    cursor: default;
     }

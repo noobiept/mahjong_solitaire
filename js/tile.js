@@ -272,12 +272,10 @@ return ALL_TILES;
 
 Tile.removeAll = function()
 {
-for (var a = 0 ; a < ALL_TILES.length ; a++)
+while( ALL_TILES.length > 0 )
     {
-    ALL_TILES[ a ].remove();
+    ALL_TILES[ 0 ].remove();
     }
-
-ALL_TILES.length = 0;
 };
 
 
