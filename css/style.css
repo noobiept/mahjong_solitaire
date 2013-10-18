@@ -1,6 +1,10 @@
 body
     {
     position: relative;
+
+    background-color: rgb(40, 40, 40);
+    color: white;
+    text-align: center;
     }
 
 #mainCanvas
@@ -10,7 +14,7 @@ body
     }
 
 
-#GameMenu, #MainMenu
+#GameMenu, #MainMenu, #HighScore
     {
     display: none;
     position: absolute;
@@ -34,4 +38,9 @@ body
     font-size: 1.5em;
     text-align: center;
     cursor: default;
+    }
+
+#HighScore-table td:nth-child(even), #HighScore-table th:nth-child(even)
+    {
+    background-color: rgb(90, 90, 90);
     }

@@ -64,6 +64,7 @@ centerCanvas( CANVAS );
 
 MainMenu.init();
 GameMenu.init();
+HighScore.load();
 
 createjs.Ticker.setInterval( 50 );
 
