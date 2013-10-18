@@ -9,6 +9,8 @@ function GameMenu()
 var GAME_MENU_CONTAINER;
 var TILES_LEFT;
 var PAIRS_LEFT;
+var TIMER;
+
 
 GameMenu.init = function()
 {
@@ -16,6 +18,7 @@ var gameMenu = document.querySelector( '#GameMenu' );
 
 var tilesLeft = gameMenu.querySelector( '#GameMenu-tilesLeft span' );
 var pairsLeft = gameMenu.querySelector( '#GameMenu-pairsLeft span' );
+var timer = gameMenu.querySelector( '#GameMenu-timer span' );
 
 var shuffle = gameMenu.querySelector( '#GameMenu-shuffle' );
 var restart = gameMenu.querySelector( '#GameMenu-restart' );
@@ -38,6 +41,8 @@ quit.onclick = function()
     MainMenu.open();
     };
 
+$( timer ).text( timeToString( 0 ) );
+
 
 var canvasPosition = $( CANVAS ).position();
 
@@ -52,11 +57,14 @@ $( gameMenu ).css( 'left', left + 'px' );
 GAME_MENU_CONTAINER = gameMenu;
 TILES_LEFT = tilesLeft;
 PAIRS_LEFT = pairsLeft;
+TIMER = timer;
 };
 
 
 GameMenu.show = function()
 {
+$( TIMER ).text( timeToString( 0 ) );
+
 $( GAME_MENU_CONTAINER ).css( 'display', 'block' );
 };
 
@@ -67,23 +75,29 @@ $( GAME_MENU_CONTAINER ).css( 'display', 'none' );
 };
 
 
-GameMenu.clear = function()
-{
-
-};
-
 
 
 GameMenu.updateInformation = function( mapObject )
 {
-GameMenu.updateTilesLeft();
-GameMenu.updatePairsLeft( mapObject );
+if ( GameMenu.updateTilesLeft() <= 0 )
+    {
+    Game.finished();
+    }
+
+else
+    {
+    GameMenu.updatePairsLeft( mapObject );
+    }
 };
 
 
 GameMenu.updateTilesLeft = function()
 {
-$( TILES_LEFT ).text( Tile.getAll().length );
+var tilesLeft = Tile.getAll().length;
+
+$( TILES_LEFT ).text( tilesLeft );
+
+return tilesLeft;
 };
 
 
@@ -91,6 +105,13 @@ GameMenu.updatePairsLeft = function( mapObject )
 {
 $( PAIRS_LEFT ).text( mapObject.howManySelectablePairs() );
 };
+
+
+GameMenu.updateTimer = function( time )
+{
+$( TIMER ).text( timeToString( time ) );
+};
+
 
 
 window.GameMenu = GameMenu;

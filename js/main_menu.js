@@ -7,7 +7,9 @@ function MainMenu()
 
 var MENU;
 
-var MAPS_AVAILABLE = [ PYRAMID ];
+var MAPS_AVAILABLE = [
+        { mapName: 'pyramid', mapDescription: PYRAMID }
+    ];
 var SELECTED_MAP = 0;
 
 
