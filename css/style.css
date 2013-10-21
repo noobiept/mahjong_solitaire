@@ -5,12 +5,15 @@ body
     background-color: rgb(40, 40, 40);
     color: white;
     text-align: center;
+    margin: 0;
     }
 
 #mainCanvas
     {
     position: absolute;
-    border: 1px solid #1d5987;
+    top: 0;
+    left: 0;
+    /*border: 1px solid #1d5987;*/
     }
 
 

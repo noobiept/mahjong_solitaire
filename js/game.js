@@ -47,7 +47,7 @@ Game.resetStuff();
 HighScore.add( CURRENT_MAP_NAME, TIME );
 
 new Message({
-        text: 'Map Cleared',
+        text: 'Map Cleared in ' + timeToString( TIME ),
         timeOut: 1000,
         timeOut_f: function()
             {

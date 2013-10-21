@@ -5,6 +5,11 @@ var ALL_TILES = [];
     // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
 var SELECTED_TILE = null;
 
+    // the original image dimensions, this can be scaled
+var TILE_WIDTH = 44;
+var TILE_HEIGHT = 53;
+
+
 /*
     A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
 
@@ -14,7 +19,8 @@ var SELECTED_TILE = null;
         column : Number,
         line   : Number,
         gridObject : Grid,
-        drawShape : Boolean
+        drawShape  : Boolean,
+        scale      : Number
     }
  */
 
@@ -50,9 +56,15 @@ if ( typeof args.line == 'undefined' )
     args.line = 0;
     }
 
+if ( typeof args.scale == 'undefined' )
+    {
+    args.scale = 1;
+    }
 
-this.width = 44;
-this.height = 53;
+
+
+this.width = TILE_WIDTH * args.scale;
+this.height = TILE_HEIGHT * args.scale;
 
 
     // :: draw the shape :: //
@@ -74,6 +86,9 @@ if ( args.drawShape !== false )
     container.addChild( background );
     container.addChild( shape );
 
+    container.scaleX = args.scale;
+    container.scaleY = args.scale;
+
     container.on( 'click', this.onClick, this );
 
     STAGE.addChild( container );
@@ -91,7 +106,7 @@ this.container = container;
 this.column = args.column;
 this.line = args.line;
 this.gridObject = args.gridObject;
-
+this.scale = args.scale;
 
 
 if ( args.drawShape !== false )
@@ -161,7 +176,7 @@ SELECTED_TILE = this;
 var g = this.background.graphics;
 
 g.beginFill( 'red' );
-g.drawRoundRect( 0, 0, this.width, this.height, 2 );
+g.drawRoundRect( 0, 0, TILE_WIDTH, TILE_HEIGHT, 2 );    // seems to already consider the .scale ?..
 };
 
 
@@ -173,7 +188,7 @@ var g = this.background.graphics;
 
 g.clear();
 g.beginFill( 'transparent' );
-g.drawRoundRect( 0, 0, this.width, this.height, 2 );
+g.drawRoundRect( 0, 0, TILE_WIDTH, TILE_HEIGHT, 2 );
 };
 
 
@@ -208,12 +223,15 @@ if ( column > 0 )
         }
     }
 
-    //HERE check max. column?...
-if ( grid.grid_array[ column + 2 ][ line ] ||
-     grid.grid_array[ column + 2 ][ line + 1 ] )
+if ( column + 2 < grid.grid_array.length )
     {
-    isRightFree = false;
+    if ( grid.grid_array[ column + 2 ][ line ] ||
+            grid.grid_array[ column + 2 ][ line + 1 ] )
+        {
+        isRightFree = false;
+        }
     }
+
 
 if ( !isLeftFree && !isRightFree )
     {
@@ -276,6 +294,17 @@ while( ALL_TILES.length > 0 )
     {
     ALL_TILES[ 0 ].remove();
     }
+};
+
+
+Tile.getImageWidth = function()
+{
+return TILE_WIDTH;
+};
+
+Tile.getImageHeight = function()
+{
+return TILE_HEIGHT;
 };
 
 

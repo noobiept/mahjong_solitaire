@@ -15,6 +15,31 @@
 
 function Map( mapDescription )
 {
+this.columns = 20;  //HERE the columns/line should be in mapDescription. depends on the map
+this.lines = 22;
+
+var canvasWidth = CANVAS.width;
+var canvasHeight = CANVAS.height;
+
+var tileWidth = Tile.getImageWidth();
+var tileHeight = Tile.getImageHeight();
+
+    // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
+    // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
+var scaleWidth = canvasWidth / ( this.columns / 2 * tileWidth );
+var scaleHeight = canvasHeight / ( this.lines / 2 * tileHeight );
+
+if ( scaleWidth < scaleHeight )
+    {
+    this.scale = scaleWidth;
+    }
+
+else
+    {
+    this.scale = scaleHeight;
+    }
+
+
 var newMap = this.determineTileNames( mapDescription );
 
 this.buildMap( newMap );
@@ -37,14 +62,14 @@ this.buildMap( newMap );
 Map.prototype.buildMap = function( mapDescription )
 {
 var grid;
-var startingX = 20;
-var startingY = 20;
+var startingX = 10;
+var startingY = 10;
 
 for (var a = 0 ; a < mapDescription.length ; a++)
     {
     var gridDescription = mapDescription[ a ];
 
-    grid = new Grid( startingX, startingY, 25, 25 );
+    grid = new Grid( startingX, startingY, this.columns, this.lines );
 
     for (var b = 0 ; b < gridDescription.length ; b++)
         {
@@ -56,7 +81,8 @@ for (var a = 0 ; a < mapDescription.length ; a++)
             tileName   : position.tileName,
             column     : position.column,
             line       : position.line,
-            gridObject : grid
+            gridObject : grid,
+            scale      : this.scale
             });
         }
 
@@ -90,7 +116,7 @@ for (var a = 0 ; a < mapDescription.length ; a++)
     {
     gridDescription = mapDescription[ a ];
 
-    grid = new Grid( startingX, startingY, 25, 25 );
+    grid = new Grid( startingX, startingY, this.columns, this.lines );
 
         // initialize the grid's array
     newMap[ a ] = [];

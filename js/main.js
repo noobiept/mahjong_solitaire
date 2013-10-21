@@ -34,10 +34,6 @@
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
             - need to test it more
-
-        - restart not working correctly
-
-        - add a timer with high-score
  */
 
 
@@ -55,12 +51,11 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#mainCanvas' );
 
-CANVAS.width = 800;
-CANVAS.height = 600;
+CANVAS.width = $( window ).width();
+CANVAS.height = $( window ).height() - $( '#GameMenu' ).height();
 
 STAGE = new createjs.Stage( CANVAS );
 
-centerCanvas( CANVAS );
 
 MainMenu.init();
 GameMenu.init();
