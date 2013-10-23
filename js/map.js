@@ -62,7 +62,12 @@ this.buildMap( newMap );
 Map.prototype.buildMap = function( mapDescription )
 {
 var grid;
-var startingX = 10;
+
+    // center the map horizontally
+var canvasWidth = CANVAS.width;
+var mapWidth = this.columns / 2 * Tile.getImageWidth() * this.scale;
+
+var startingX = canvasWidth / 2 - mapWidth / 2;
 var startingY = 10;
 
 for (var a = 0 ; a < mapDescription.length ; a++)

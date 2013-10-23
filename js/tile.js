@@ -268,7 +268,6 @@ return true;
 
 
 
-
 Tile.prototype.remove = function()
 {
 STAGE.removeChild( this.container );
@@ -288,6 +287,7 @@ return ALL_TILES;
 };
 
 
+
 Tile.removeAll = function()
 {
 while( ALL_TILES.length > 0 )
@@ -297,15 +297,18 @@ while( ALL_TILES.length > 0 )
 };
 
 
+
 Tile.getImageWidth = function()
 {
 return TILE_WIDTH;
 };
 
+
 Tile.getImageHeight = function()
 {
 return TILE_HEIGHT;
 };
+
 
 
 window.Tile = Tile;
