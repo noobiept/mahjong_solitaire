@@ -156,7 +156,7 @@ else
 
             SELECTED_TILE = null;
 
-            GameMenu.updateInformation( MAP );
+            GameMenu.updateInformation( Game.getMap() );
             }
 
         else

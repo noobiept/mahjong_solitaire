@@ -8,9 +8,7 @@ function MainMenu()
 var MENU;
 var HIGH_SCORE;
 
-var MAPS_AVAILABLE = [
-        { mapName: 'pyramid', mapDescription: PYRAMID }
-    ];
+var MAPS_AVAILABLE = [ PYRAMID ];
 var SELECTED_MAP = 0;
 
 

@@ -13,10 +13,10 @@
  */
 
 
-function Map( mapDescription )
+function Map( mapInfo )
 {
-this.columns = 20;  //HERE the columns/line should be in mapDescription. depends on the map
-this.lines = 22;
+this.columns = mapInfo.numberOfColumns;
+this.lines = mapInfo.numberOfLines;
 
 var canvasWidth = CANVAS.width;
 var canvasHeight = CANVAS.height;
@@ -40,7 +40,7 @@ else
     }
 
 
-var newMap = this.determineTileNames( mapDescription );
+var newMap = this.determineTileNames( mapInfo.mapDescription );
 
 this.buildMap( newMap );
 }

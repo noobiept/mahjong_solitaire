@@ -39,8 +39,6 @@
 
 var CANVAS;
 
-var MAP;
-
 var BASE_URL = '';
 
     // createjs

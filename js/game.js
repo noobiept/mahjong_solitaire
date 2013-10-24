@@ -5,33 +5,30 @@ function Game()
 
 }
 
-var CURRENT_MAP_NAME;
 var CURRENT_MAP_DESCRIPTION;
+var CURRENT_MAP;
 
 var TIME;           // time passed in milliseconds
 var TIMER_F;        // return of window.setInterval()
 
+var MAP;
 
 
 Game.start = function( selectedMap )
 {
 if ( typeof selectedMap == 'undefined' )
     {
-        // use the previous map -- assumes this isn't the first time its being called //HERE
-    selectedMap = {
-            mapName        : CURRENT_MAP_NAME,
-            mapDescription : CURRENT_MAP_DESCRIPTION
-        };
+        // use the previous map -- assumes this isn't the first time its being called
+    selectedMap = CURRENT_MAP;
     }
 
 Game.resetStuff();
 
 GameMenu.show();
 
-CURRENT_MAP_NAME = selectedMap.mapName;
-CURRENT_MAP_DESCRIPTION = selectedMap.mapDescription;
+CURRENT_MAP = selectedMap;
 
-MAP = new Map( selectedMap.mapDescription );   //HERE have the MAP be part of 'Game'
+MAP = new Map( selectedMap );
 
 Game.startTimer();
 
@@ -44,7 +41,7 @@ Game.finished = function()
 {
 Game.resetStuff();
 
-HighScore.add( CURRENT_MAP_NAME, TIME );
+HighScore.add( CURRENT_MAP.mapName, TIME );
 
 new Message({
         text: 'Map Cleared in ' + timeToString( TIME ),
@@ -97,6 +94,13 @@ Game.resume = function()
 {
 createjs.Ticker.setPaused( false );
 };
+
+
+Game.getMap = function()
+{
+return MAP;
+};
+
 
 
 window.Game = Game;

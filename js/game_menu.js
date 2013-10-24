@@ -27,7 +27,7 @@ var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
 shuffle.onclick = function()
     {
-    MAP.shuffle();
+    Game.getMap().shuffle();
     };
 
 restart.onclick = function()
