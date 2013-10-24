@@ -8,7 +8,7 @@ function MainMenu()
 var MENU;
 var HIGH_SCORE;
 
-var MAPS_AVAILABLE = [ PYRAMID ];
+var MAPS_AVAILABLE = [];
 var SELECTED_MAP = 0;
 
 
@@ -41,6 +41,17 @@ highScore.onclick = function( event )
 
 centerElement( MENU );
 };
+
+
+/*
+    add to the array the maps loaded from the preloadjs (only done once in the load of the game)
+ */
+
+MainMenu.addMaps = function( maps )
+{
+MAPS_AVAILABLE = maps;
+};
+
 
 
 MainMenu.open = function()

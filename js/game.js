@@ -13,6 +13,31 @@ var TIMER_F;        // return of window.setInterval()
 
 var MAP;
 
+/*
+    // mapDescription: each array (inside the main one) corresponds to a grid (and array of 'grids')
+    // inside the grid array, we have several objects with the position where we'll put a tile
+
+    selectedMap = {
+        "mapName": "pyramid",
+        "numberOfColumns": 20,
+        "numberOfLines": 22,
+        "mapDescription":
+            [
+                    // first grid
+                [
+                    { "column": 0, "line": 0 },
+                    { "column": 18, "line": 0 },
+                        // ...
+                ],
+                    // second grid
+                [
+                    { "column": 4, "line": 4 },
+                        // ...
+                ],
+                    // ...
+            ]
+    }
+ */
 
 Game.start = function( selectedMap )
 {

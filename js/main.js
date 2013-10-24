@@ -105,8 +105,12 @@ var manifest = [
         { id: 'season1', src: BASE_URL + 'images/season1.png' },
         { id: 'season2', src: BASE_URL + 'images/season2.png' },
         { id: 'season3', src: BASE_URL + 'images/season3.png' },
-        { id: 'season4', src: BASE_URL + 'images/season4.png' }
+        { id: 'season4', src: BASE_URL + 'images/season4.png' },
+
+            // maps
+        { id: 'map_pyramid', src: BASE_URL + 'maps/pyramid.json' }
     ];
+
 
 
 var loadingMessage = new Message({ text: 'Loading' });
@@ -120,6 +124,10 @@ PRELOAD.addEventListener( 'complete', function()
     {
     loadingMessage.remove();
 
+
+    MainMenu.addMaps([
+            PRELOAD.getResult( 'map_pyramid' )
+        ]);
     MainMenu.open();
     });
 PRELOAD.loadManifest( manifest, true );
