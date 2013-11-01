@@ -26,10 +26,15 @@ ALL_GRIDS.push( this );
 }
 
 
-/*
+/**
     Each tile occupies a 2x2 square
 
     The column/line argument, points to the position in top left
+
+    @param {Object} tileObject
+    @param {Number} column
+    @param {Number} line
+    @param {Boolean=true} move
  */
 
 Grid.prototype.addTile = function( tileObject, column, line, move )
