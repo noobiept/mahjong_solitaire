@@ -1,7 +1,11 @@
-function GridPosition( column, line, gridObject )
+/*
+    Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square
+ */
+
+function GridPosition( column, line, gridObject, scale )
 {
-var width = Tile.getImageWidth();
-var height = Tile.getImageHeight();
+var width = Tile.getImageWidth() / 2 * scale;
+var height = Tile.getImageHeight() / 2 * scale;
 
 var container = new createjs.Container();
 
@@ -12,7 +16,7 @@ var background = new createjs.Shape();
 var g = background.graphics;
 
 g.beginFill( 'gray' );
-g.drawRoundRect( 0, 0, width, height, 3 );
+g.drawRoundRect( 0, 0, 10, 10, 3 );
 
 container.addChild( background );
 
@@ -29,8 +33,10 @@ this.tileObject = null;
 this.column = column;
 this.line = line;
 this.gridObject = gridObject;
+this.scale = scale;
 
-gridObject.addTile( this, column, line );
+
+this.moveTo( gridObject.startingX + column * this.width, gridObject.startingY + line * this.height );
 }
 
 GridPosition.prototype.moveTo = function( x, y )
@@ -57,11 +63,12 @@ else
             tileId: 'bamboo1',
             column: this.column,
             line: this.line,
-            gridObject: this.gridObject
+            gridObject: this.gridObject,
+            scale: this.scale
         });
 
 
-    this.tileObject.container.on('click', this.onClick, this);
+    this.tileObject.container.removeAllEventListeners( 'click' );
     }
 };
 

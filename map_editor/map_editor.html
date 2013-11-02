@@ -13,6 +13,22 @@
 
     <script type="text/javascript" src="{{ STATIC_URL }}grid_position.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}map_editor.js"></script>
+
+    <style type="text/css">
+
+        #menu > *
+            {
+            display: inline-block;
+            }
+
+        #Grids-container > *
+            {
+            display: inline-block;
+            margin: 0 10px;
+            cursor: pointer;
+            }
+
+    </style>
 </head>
 <body>
 
@@ -29,6 +45,8 @@
     <input id="lines" type="number" />
 
     <input type="button" value="New Map" />
+
+    <div id="Grids-currentGrid"></div>
 
     <div id="Grids-container"></div>
 </div>
