@@ -2,7 +2,11 @@
     Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square
  */
 
-function GridPosition( column, line, gridObject, scale )
+    // position in array corresponds to position in the grid
+    // the value is another array with the GridPosition
+var ALL_POSITIONS = [];
+
+function GridPosition( column, line, gridObject, scale, hidden )
 {
 var width = Tile.getImageWidth() / 2 * scale;
 var height = Tile.getImageHeight() / 2 * scale;
@@ -22,7 +26,11 @@ container.addChild( background );
 
 container.on( 'click', this.onClick, this );
 
-STAGE.addChild( container );
+
+if ( hidden !== true )
+    {
+    STAGE.addChild( container );
+    }
 
 
 this.container = container;
@@ -37,6 +45,16 @@ this.scale = scale;
 
 
 this.moveTo( gridObject.startingX + column * this.width, gridObject.startingY + line * this.height );
+
+
+var gridPosition = gridObject.position;
+
+if ( !ALL_POSITIONS[ gridPosition ] )
+    {
+    ALL_POSITIONS[ gridPosition ] = [];
+    }
+
+ALL_POSITIONS[ gridPosition ].push( this );
 }
 
 GridPosition.prototype.moveTo = function( x, y )
@@ -72,3 +90,21 @@ else
     }
 };
 
+
+GridPosition.prototype.show = function()
+{
+STAGE.addChild( this.container );
+};
+
+
+GridPosition.prototype.hide = function()
+{
+STAGE.removeChild( this.container );
+};
+
+
+
+GridPosition.getAll = function( gridPosition )
+{
+return ALL_POSITIONS[ gridPosition ];
+};

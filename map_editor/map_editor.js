@@ -11,8 +11,8 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
 
-CANVAS.width = 800;
-CANVAS.height = 600;
+CANVAS.width = 700;
+CANVAS.height = 700;
 
 STAGE = new createjs.Stage( CANVAS );
 
@@ -35,8 +35,8 @@ var numberOfGrids = 7;
 var columns = 11;
 var lines = 11;
 
-var startingX = 10;
-var startingY = 10;
+var startingX = 100;
+var startingY = 0;
 
 
 var gridsContainer = document.querySelector( '#Grids-container' );
@@ -52,9 +52,11 @@ for (var a = 0 ; a < numberOfGrids ; a++)
 
     gridElement.onclick = function()
         {
-        SELECTED_GRID = parseInt( $( this ).text() ) - 1;
+        var newGrid = parseInt( $( this ).text() ) - 1;
 
-        $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (SELECTED_GRID + 1) );
+        $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (newGrid + 1) );
+
+        selectGrid( newGrid );
         };
 
     gridsContainer.appendChild( gridElement );
@@ -64,17 +66,46 @@ for (var a = 0 ; a < numberOfGrids ; a++)
     }
 
 
-var grid = Grid.get( SELECTED_GRID );
 
 $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (SELECTED_GRID + 1) );
 
-for (var a = 0 ; a < columns ; a++)
+
+for (var a = 0 ; a < numberOfGrids ; a++)
     {
-    for (var b = 0 ; b < lines ; b++)
+    var grid = Grid.get( a );
+
+    for (var b = 0 ; b < columns ; b++)
         {
-        new GridPosition( a, b, grid, 2 );
+        for (var c = 0 ; c < lines ; c++)
+            {
+            new GridPosition( b, c, grid, 2, true );
+            }
         }
     }
+
+
+selectGrid( SELECTED_GRID );
 };
 
 
+function selectGrid( gridPosition )
+{
+var previousGridPositions = GridPosition.getAll( SELECTED_GRID );
+
+    // hide previous grid
+for (var a = 0 ; a < previousGridPositions.length ; a++)
+    {
+    previousGridPositions[ a ].hide();
+    }
+
+
+    // show next one
+var gridPositions = GridPosition.getAll( gridPosition );
+
+for (var a = 0 ; a < gridPositions.length ; a++)
+    {
+    gridPositions[ a ].show();
+    }
+
+SELECTED_GRID = gridPosition;
+}
