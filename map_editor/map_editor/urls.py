@@ -7,6 +7,9 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'views.home', name='home'),
+
+    url(r'^save_map/?$', 'views.saveMap', name='saveMap'),
+
     # url(r'^map_editor/', include('map_editor.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
