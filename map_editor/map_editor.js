@@ -307,20 +307,8 @@ localStorage.setItem( 'previousMap', mapName );
 
 function clearMap()
 {
-var allGridPositions = GridPosition.getAll();
-
-for (var a = 0 ; a < allGridPositions.length ; a++)
-    {
-    var grids = allGridPositions[ a ];
-
-    for (var b = 0 ; b < grids.length ; b++)
-        {
-        var gridPosition = grids[ b ];
-
-        gridPosition.remove();
-        }
-    }
-
+GridPosition.removeAll();
+Grid.removeAll();
 
 document.querySelector( '#Grids-container' ).innerHTML = '';
 }

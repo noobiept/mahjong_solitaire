@@ -112,6 +112,7 @@ GridPosition.prototype.remove = function()
 if ( this.tileObject )
     {
     this.tileObject.remove();
+    this.tileObject = null;
     }
 
 
@@ -120,6 +121,27 @@ STAGE.removeChild( this.container );
 var position = ALL_POSITIONS[ this.gridPosition ].indexOf( this );
 
 ALL_POSITIONS[ this.gridPosition ].splice( position, 1 );
+};
+
+
+
+GridPosition.removeAll = function()
+{
+for (var a = 0 ; a < ALL_POSITIONS.length ; a++)
+    {
+    var grids = ALL_POSITIONS[ a ];
+
+    for (var b = 0 ; b < grids.length ; b++)
+        {
+        var gridPosition = grids[ b ];
+
+        gridPosition.remove();
+
+        b--;
+        }
+    }
+
+ALL_POSITIONS = [];
 };
 
 
