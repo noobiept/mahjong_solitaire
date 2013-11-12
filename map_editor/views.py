@@ -25,3 +25,23 @@ def saveMap( request ):
         f.write( json.dumps( dataJson, indent= 4 ) )
 
     return HttpResponse()
+
+
+
+def loadMap( request ):
+
+    mapName = request.POST.get( 'mapName' )
+
+    filePath = os.path.abspath( '../maps/{}.json'.format( mapName ) )
+
+    try:
+        with open( filePath, 'r', encoding= 'utf-8' ) as f:
+            content = f.read()
+
+    except FileNotFoundError as error:
+
+        print( error )
+        return HttpResponseBadRequest( "Couldn't find the map:", error )
+
+
+    return HttpResponse( json.dumps( content ), mimetype= 'application/json' )

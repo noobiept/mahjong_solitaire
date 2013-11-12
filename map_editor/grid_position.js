@@ -54,8 +54,11 @@ if ( !ALL_POSITIONS[ gridPosition ] )
     ALL_POSITIONS[ gridPosition ] = [];
     }
 
+this.gridPosition = gridPosition;
+
 ALL_POSITIONS[ gridPosition ].push( this );
 }
+
 
 GridPosition.prototype.moveTo = function( x, y )
 {
@@ -71,6 +74,7 @@ if ( this.hasTile )
     this.hasTile = false;
 
     this.tileObject.remove();
+    this.tileObject = null;
     }
 
 else
@@ -103,8 +107,34 @@ STAGE.removeChild( this.container );
 };
 
 
+GridPosition.prototype.remove = function()
+{
+if ( this.tileObject )
+    {
+    this.tileObject.remove();
+    }
 
-GridPosition.getAll = function( gridPosition )
+
+STAGE.removeChild( this.container );
+
+var position = ALL_POSITIONS[ this.gridPosition ].indexOf( this );
+
+ALL_POSITIONS[ this.gridPosition ].splice( position, 1 );
+};
+
+
+
+/*
+    Get all the GridPosition elements from a selected grid
+ */
+
+GridPosition.getGrid = function( gridPosition )
 {
 return ALL_POSITIONS[ gridPosition ];
+};
+
+
+GridPosition.getAll = function()
+{
+return ALL_POSITIONS;
 };

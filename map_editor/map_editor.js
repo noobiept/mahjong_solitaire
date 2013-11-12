@@ -2,6 +2,8 @@
     to doo:
 
         - i have to add +1 column otherwise when adding a tile to the last column it gives an error...
+        
+        - add a button to see just the tiles of the selected grid, and another button to see all tiles (to be easier to make the maps, and confirm each grid is correct)
  */
 
 var CANVAS;
@@ -16,8 +18,8 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
 
-CANVAS.width = 700;
-CANVAS.height = 700;
+CANVAS.width = 1000;
+CANVAS.height = 800;
 
 STAGE = new createjs.Stage( CANVAS );
 
@@ -27,25 +29,41 @@ createjs.Ticker.addEventListener('tick', function()
     });
 
 
+document.querySelector( '#saveMap' ).onclick = saveMap;
+document.querySelector( '#loadMap' ).onclick = function()
+    {
+    var mapName = document.querySelector( '#mapName' ).value;
+
+    loadMap( mapName );
+    };
+
+
 PRELOAD = new createjs.LoadQueue();
 
 var manifest = [
-    { id: 'bamboo1', src: '/static/images/bamboo1.png' }
+        { id: 'bamboo1', src: '/static/images/bamboo1.png' }
     ];
 
 PRELOAD.loadManifest( manifest, true );
 
+PRELOAD.addEventListener( 'complete', function()
+    {
+    loadMap();
+    });
+};
 
-var numberOfGrids = 7;
-var columns = 11;
-var lines = 11;
+
+function constructGrid( mapInfo )
+{
+var numberOfGrids = mapInfo.mapDescription.length;
+var columns = mapInfo.numberOfColumns;
+var lines = mapInfo.numberOfLines;
 
 var startingX = 100;
 var startingY = 0;
 
 
 var gridsContainer = document.querySelector( '#Grids-container' );
-
 
 for (var a = 0 ; a < numberOfGrids ; a++)
     {
@@ -71,6 +89,7 @@ for (var a = 0 ; a < numberOfGrids ; a++)
     }
 
 
+SELECTED_GRID = 0;
 
 $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (SELECTED_GRID + 1) );
 
@@ -83,23 +102,60 @@ for (var a = 0 ; a < numberOfGrids ; a++)
         {
         for (var c = 0 ; c < lines ; c++)
             {
-            new GridPosition( b, c, grid, 2, true );
+            new GridPosition( b, c, grid, 1.5, true );
             }
         }
     }
 
 
 selectGrid( SELECTED_GRID );
-    
-document.querySelector( '#saveMap' ).onclick = saveMap;
 
-updateMenuValues();
-};
+updateMenuValues( mapInfo );
+}
+
+
+
+function constructMap( mapInfo )
+{
+var mapDescription = mapInfo.mapDescription;
+
+for (var a = 0 ; a < mapDescription.length ; a++)
+    {
+    var gridDescription = mapDescription[ a ];
+    var gridPositions = GridPosition.getGrid( a );
+
+        // so that we don't change the array in GridPosition, we get a new one (clone)
+    var gridPositionsCopy = gridPositions.slice( 0 );
+
+    for (var b = 0 ; b < gridDescription.length ; b++)
+        {
+        var tile = gridDescription[ b ];
+
+            // find the GridPosition that corresponds to the column/line tile
+        for (var c = 0 ; c < gridPositionsCopy.length ; c++)
+            {
+            var gridPosition = gridPositionsCopy[ c ];
+
+            if ( gridPosition.column == tile.column && gridPosition.line == tile.line )
+                {
+                gridPosition.onClick();
+
+                    // remove this GridPosition, since its already got an hit (so that the next search is faster)
+                gridPositionsCopy.splice( c, 1 );
+                break;
+                }
+            }
+        }
+    }
+}
+
+
+
 
 
 function selectGrid( gridPosition )
 {
-var previousGridPositions = GridPosition.getAll( SELECTED_GRID );
+var previousGridPositions = GridPosition.getGrid( SELECTED_GRID );
 
     // hide previous grid
 for (var a = 0 ; a < previousGridPositions.length ; a++)
@@ -109,7 +165,7 @@ for (var a = 0 ; a < previousGridPositions.length ; a++)
 
 
     // show next one
-var gridPositions = GridPosition.getAll( gridPosition );
+var gridPositions = GridPosition.getGrid( gridPosition );
 
 for (var a = 0 ; a < gridPositions.length ; a++)
     {
@@ -123,7 +179,7 @@ SELECTED_GRID = gridPosition;
     the number of grids/columns/lines value in the menu's input element
  */
 
-function updateMenuValues()
+function updateMenuValues( mapInfo )
 {
 var allGrids = Grid.getAll();
 
@@ -138,6 +194,7 @@ var numberOfLines = grid.numberOfLines;
 document.querySelector( '#grids' ).value = numberOfGrids;
 document.querySelector( '#columns' ).value = numberOfColumns;
 document.querySelector( '#lines' ).value = numberOfLines;
+document.querySelector( '#mapName' ).value = mapInfo.mapName;
 }
 
 
@@ -183,15 +240,14 @@ var mapDefinition = {
     };
 
 $.ajax({
-        type: 'post',
-        url: '/save_map/',
-        async: false,
-        data: { data: JSON.stringify( mapDefinition ) },
-        success: function( jqXHR, textStatus )
+    type  : 'post',
+    url   : '/save_map/',
+    async : false,
+    data  : { data: JSON.stringify( mapDefinition ) },
+    success: function( jqXHR, textStatus )
         {
         console.log( 'Saved Map' );
         },
-
     error: function( jqXHR, textStatus, errorThrown )
         {
         console.log( jqXHR, textStatus, errorThrown );
@@ -199,6 +255,75 @@ $.ajax({
     });
 }
 
+
+function loadMap( mapName )
+{
+clearMap();
+
+    // try to load the latest map (that was loaded in the previous session)
+if ( typeof mapName == 'undefined' )
+    {
+    var previousMap = localStorage.getItem( 'previousMap' );
+
+    if ( previousMap !== null )
+        {
+        mapName = previousMap;
+        }
+
+    else
+        {
+        console.log( 'Invalid map name.' );
+        return;
+        }
+    }
+
+$.ajax({
+    type  : 'post',
+    url   : '/load_map/',
+    async : false,
+    data  : { mapName: mapName },
+    dataType : 'json',
+
+    success: function( jqXHR, textStatus )
+        {
+        var mapInfo = JSON.parse( jqXHR );
+
+        constructGrid( mapInfo );
+
+        constructMap( mapInfo );
+        },
+
+    error: function( jqXHR, textStatus, errorThrown )
+        {
+        console.log( jqXHR, textStatus, errorThrown );
+        }
+    });
+
+
+localStorage.setItem( 'previousMap', mapName );
+}
+
+
+
+function clearMap()
+{
+var allGridPositions = GridPosition.getAll();
+
+for (var a = 0 ; a < allGridPositions.length ; a++)
+    {
+    var grids = allGridPositions[ a ];
+
+    for (var b = 0 ; b < grids.length ; b++)
+        {
+        var gridPosition = grids[ b ];
+
+        gridPosition.remove();
+        }
+    }
+
+
+document.querySelector( '#Grids-container' ).innerHTML = '';
+}
 
 
 

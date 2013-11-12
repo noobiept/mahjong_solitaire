@@ -10,6 +10,8 @@ urlpatterns = patterns('',
 
     url(r'^save_map/?$', 'views.saveMap', name='saveMap'),
 
+    url(r'^load_map/?$', 'views.loadMap', name='loadMap'),
+
     # url(r'^map_editor/', include('map_editor.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
