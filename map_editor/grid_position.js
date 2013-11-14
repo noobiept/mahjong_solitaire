@@ -98,12 +98,22 @@ else
 GridPosition.prototype.show = function()
 {
 STAGE.addChild( this.container );
+
+if ( this.tileObject )
+    {
+    STAGE.addChild( this.tileObject.container );
+    }
 };
 
 
 GridPosition.prototype.hide = function()
 {
 STAGE.removeChild( this.container );
+
+if ( this.tileObject )
+    {
+    STAGE.removeChild( this.tileObject.container );
+    }
 };
 
 

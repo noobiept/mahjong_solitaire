@@ -2,8 +2,6 @@
     to doo:
 
         - i have to add +1 column otherwise when adding a tile to the last column it gives an error...
-        
-        - add a button to see just the tiles of the selected grid, and another button to see all tiles (to be easier to make the maps, and confirm each grid is correct)
  */
 
 var CANVAS;
@@ -11,7 +9,8 @@ var STAGE;
 var PRELOAD;
 
 
-var SELECTED_GRID = 0;
+    // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
+var SELECTED_GRID = -1;
 
 
 window.onload = function()
@@ -35,6 +34,11 @@ document.querySelector( '#loadMap' ).onclick = function()
     var mapName = document.querySelector( '#mapName' ).value;
 
     loadMap( mapName );
+    };
+
+document.querySelector( '#Grids-seeAll').onclick = function()
+    {
+    selectGrid( -1 );
     };
 
 
@@ -77,8 +81,6 @@ for (var a = 0 ; a < numberOfGrids ; a++)
         {
         var newGrid = parseInt( $( this ).text() ) - 1;
 
-        $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (newGrid + 1) );
-
         selectGrid( newGrid );
         };
 
@@ -89,9 +91,8 @@ for (var a = 0 ; a < numberOfGrids ; a++)
     }
 
 
-SELECTED_GRID = 0;
-
-$( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (SELECTED_GRID + 1) );
+    // no grid selected initially
+SELECTED_GRID = -1;
 
 
 for (var a = 0 ; a < numberOfGrids ; a++)
@@ -152,24 +153,72 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
 
 
-
 function selectGrid( gridPosition )
 {
-var previousGridPositions = GridPosition.getGrid( SELECTED_GRID );
-
-    // hide previous grid
-for (var a = 0 ; a < previousGridPositions.length ; a++)
+    // already selected
+if ( gridPosition == SELECTED_GRID )
     {
-    previousGridPositions[ a ].hide();
+    return;
     }
 
+var a;
+var previousGridPositions;
+var allTiles = Tile.getAll();
 
-    // show next one
-var gridPositions = GridPosition.getGrid( gridPosition );
-
-for (var a = 0 ; a < gridPositions.length ; a++)
+    // show all the tiles (but not the GridPosition)
+if ( gridPosition < 0 )
     {
-    gridPositions[ a ].show();
+    previousGridPositions = GridPosition.getGrid( SELECTED_GRID );
+
+            // hide previous grid
+    for (a = 0 ; a < previousGridPositions.length ; a++)
+        {
+        previousGridPositions[ a ].hide();
+        }
+
+        // show all tiles
+    for (a = 0 ; a < allTiles.length ; a++)
+        {
+        STAGE.addChild( allTiles[ a ].container );
+        }
+
+    $( '#Grids-currentGrid' ).text( 'All Grids.' );
+    }
+
+    // show only the selected GridPosition/Tile elements
+else
+    {
+        // when previously wasn't any grid selected
+    if ( SELECTED_GRID < 0 )
+        {
+            // hide all tiles
+        for (a = 0 ; a < allTiles.length ; a++)
+            {
+            STAGE.removeChild( allTiles[ a ].container );
+            }
+        }
+
+        // a grid was selected, and now we're choosing a different one
+    else
+        {
+        previousGridPositions = GridPosition.getGrid( SELECTED_GRID );
+
+            // hide previous grid
+        for (var a = 0 ; a < previousGridPositions.length ; a++)
+            {
+            previousGridPositions[ a ].hide();
+            }
+        }
+
+        // show next one
+    var gridPositions = GridPosition.getGrid( gridPosition );
+
+    for (a = 0 ; a < gridPositions.length ; a++)
+        {
+        gridPositions[ a ].show();
+        }
+
+    $( '#Grids-currentGrid' ).text( 'Selected Grid: ' + (gridPosition + 1) );
     }
 
 SELECTED_GRID = gridPosition;
