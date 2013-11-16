@@ -75,6 +75,8 @@ if ( this.hasTile )
 
     this.tileObject.remove();
     this.tileObject = null;
+
+    TILES_LEFT++;
     }
 
 else
@@ -91,7 +93,11 @@ else
 
 
     this.tileObject.container.removeAllEventListeners( 'click' );
+
+    TILES_LEFT--;
     }
+
+updateTilesLeft();
 };
 
 

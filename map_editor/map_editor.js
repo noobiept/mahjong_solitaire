@@ -12,6 +12,8 @@ var PRELOAD;
     // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
 var SELECTED_GRID = -1;
 
+var TILES_LEFT = 144;
+
 
 window.onload = function()
 {
@@ -244,6 +246,12 @@ document.querySelector( '#grids' ).value = numberOfGrids;
 document.querySelector( '#columns' ).value = numberOfColumns;
 document.querySelector( '#lines' ).value = numberOfLines;
 document.querySelector( '#mapName' ).value = mapInfo.mapName;
+}
+
+
+function updateTilesLeft()
+{
+$( '#TilesLeft' ).text( 'Tiles Left: ' + TILES_LEFT );
 }
 
 
