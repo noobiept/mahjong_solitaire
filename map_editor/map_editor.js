@@ -44,6 +44,23 @@ document.querySelector( '#Grids-seeAll').onclick = function()
     };
 
 
+document.querySelector( '#newMap' ).onclick = function()
+    {
+    var numberOfGrids = document.querySelector( '#grids' ).value;
+    var numberOfColumns = document.querySelector( '#columns' ).value;
+    var numberOfLines = document.querySelector( '#lines' ).value;
+
+    clearMap();
+
+    constructGrid({
+            numberOfColumns: parseInt( numberOfColumns ),
+            numberOfLines: parseInt( numberOfLines ),
+            numberOfGrids: parseInt( numberOfGrids ),
+            mapName: ''
+        });
+    };
+
+
 PRELOAD = new createjs.LoadQueue();
 
 var manifest = [
@@ -61,7 +78,18 @@ PRELOAD.addEventListener( 'complete', function()
 
 function constructGrid( mapInfo )
 {
-var numberOfGrids = mapInfo.mapDescription.length;
+var numberOfGrids;
+
+if ( mapInfo.numberOfGrids )
+    {
+    numberOfGrids = mapInfo.numberOfGrids;
+    }
+
+else
+    {
+    numberOfGrids = mapInfo.mapDescription.length;
+    }
+
 var columns = mapInfo.numberOfColumns;
 var lines = mapInfo.numberOfLines;
 
@@ -246,6 +274,8 @@ document.querySelector( '#grids' ).value = numberOfGrids;
 document.querySelector( '#columns' ).value = numberOfColumns;
 document.querySelector( '#lines' ).value = numberOfLines;
 document.querySelector( '#mapName' ).value = mapInfo.mapName;
+
+updateTilesLeft();
 }
 
 
@@ -366,6 +396,8 @@ function clearMap()
 {
 GridPosition.removeAll();
 Grid.removeAll();
+
+TILES_LEFT = 144;
 
 document.querySelector( '#Grids-container' ).innerHTML = '';
 }
