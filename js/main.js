@@ -24,6 +24,7 @@
 
         - improve the visibility of the tiles below (right now the grids are starting in a different x/y)
             - shadow the tiles that cant be selected (as an option to be easier)
+                - shadow progressively (grids lower are less visible, and the ones close to the top more visible, to be able to tell the grids)
             - the tiles are separated, have them together (and maybe bigger dimensions)
 
         - show a message when a tile cant be selected (and was clicked)
@@ -108,7 +109,8 @@ var manifest = [
         { id: 'season4', src: BASE_URL + 'images/season4.png' },
 
             // maps
-        { id: 'map_pyramid', src: BASE_URL + 'maps/pyramid.json' }
+        { id: 'map_pyramid', src: BASE_URL + 'maps/pyramid.json' },
+        { id: 'map_tower', src: BASE_URL + 'maps/tower.json' }
     ];
 
 
@@ -125,8 +127,10 @@ PRELOAD.addEventListener( 'complete', function()
     loadingMessage.remove();
 
 
+        // the order of the array needs to match the order of the html elements in the main menu
     MainMenu.addMaps([
-            PRELOAD.getResult( 'map_pyramid' )
+            PRELOAD.getResult( 'map_pyramid' ),
+            PRELOAD.getResult( 'map_tower' )
         ]);
     MainMenu.open();
     });

@@ -194,6 +194,7 @@ if ( gridPosition == SELECTED_GRID )
 var a;
 var previousGridPositions;
 var allTiles = Tile.getAll();
+var allGridPositions = GridPosition.getAll();
 
     // show all the tiles (but not the GridPosition)
 if ( gridPosition < 0 )
@@ -206,11 +207,23 @@ if ( gridPosition < 0 )
         previousGridPositions[ a ].hide();
         }
 
-        // show all tiles
-    for (a = 0 ; a < allTiles.length ; a++)
+        // show all the tiles
+        // add the tiles starting on the bottom grid, and going up (so that the z-index is correct (the tiles on top grids, are above the tiles on grids below))
+    for (a = 0 ; a < allGridPositions.length ; a++)
         {
-        STAGE.addChild( allTiles[ a ].container );
+        var individualGrid = allGridPositions[ a ];
+
+        for (var b = 0 ; b < individualGrid.length ; b++)
+            {
+            var gridPositionObject = individualGrid[ b ];
+
+            if ( gridPositionObject.tileObject )
+                {
+                STAGE.addChild( gridPositionObject.tileObject.container );
+                }
+            }
         }
+
 
     $( '#Grids-currentGrid' ).text( 'All Grids.' );
     }

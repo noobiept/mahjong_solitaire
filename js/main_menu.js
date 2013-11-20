@@ -8,8 +8,13 @@ function MainMenu()
 var MENU;
 var HIGH_SCORE;
 
+    // has the mapInfo of the maps (the .json loaded from /maps/)
 var MAPS_AVAILABLE = [];
 var SELECTED_MAP = 0;
+
+    // has reference for the html elements used to select the map in the main menu
+var MAPS_ELEMENTS = [];
+
 
 
 MainMenu.init = function()
@@ -39,6 +44,25 @@ highScore.onclick = function( event )
     event.stopPropagation();
     };
 
+
+
+var selectMapContainer = MENU.querySelector( '#MainMenu-selectMap' );
+
+var maps = selectMapContainer.getElementsByTagName( 'div' );
+
+for (var a = 0 ; a < maps.length ; a++)
+    {
+    maps[ a ].mapPosition = a;
+
+    maps[ a ].onclick = function()
+        {
+            // this points to the html element
+        MainMenu.selectMap( this.mapPosition );
+        }
+    }
+
+MAPS_ELEMENTS = maps;
+
 centerElement( MENU );
 };
 
@@ -57,6 +81,8 @@ MAPS_AVAILABLE = maps;
 MainMenu.open = function()
 {
 Game.resetStuff();
+
+MainMenu.selectMap( 0 );
 
 $( MENU ).css( 'display', 'block' );
 };
@@ -146,6 +172,17 @@ back.onclick = function()
 $( HIGH_SCORE ).css( 'display', 'block' );
 
 centerElement( HIGH_SCORE );
+};
+
+
+
+MainMenu.selectMap = function( position )
+{
+$( MAPS_ELEMENTS[ SELECTED_MAP ] ).removeClass( 'mapSelected' );
+
+$( MAPS_ELEMENTS[ position ] ).addClass( 'mapSelected' );
+
+SELECTED_MAP = position;
 };
 
 
