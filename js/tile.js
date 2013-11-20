@@ -6,8 +6,8 @@ var ALL_TILES = [];
 var SELECTED_TILE = null;
 
     // the original image dimensions, this can be scaled
-var TILE_WIDTH = 44;
-var TILE_HEIGHT = 53;
+var TILE_WIDTH = 38;
+var TILE_HEIGHT = 47;
 
 
 /*
@@ -78,13 +78,10 @@ if ( args.drawShape !== false )
         // and the background (its used to tell when a tile is selected or not)
     background = new createjs.Shape();
 
-    background.setBounds( 0, 0, this.width, this.height );
-
-
     container = new createjs.Container();
 
-    container.addChild( background );
     container.addChild( shape );
+    container.addChild( background );
 
     container.scaleX = args.scale;
     container.scaleY = args.scale;
@@ -175,8 +172,8 @@ SELECTED_TILE = this;
 
 var g = this.background.graphics;
 
-g.beginFill( 'red' );
-g.drawRoundRect( 0, 0, TILE_WIDTH, TILE_HEIGHT, 2 );    // seems to already consider the .scale ?..
+g.beginFill( 'rgba(255, 0, 0, 0.3)' );
+g.drawRoundRect( 3, 3, TILE_WIDTH, TILE_HEIGHT, 5 );    // seems to already consider the .scale ?..
 };
 
 
@@ -188,7 +185,7 @@ var g = this.background.graphics;
 
 g.clear();
 g.beginFill( 'transparent' );
-g.drawRoundRect( 0, 0, TILE_WIDTH, TILE_HEIGHT, 2 );
+g.drawRoundRect( 3, 3, TILE_WIDTH, TILE_HEIGHT, 5 );
 };
 
 

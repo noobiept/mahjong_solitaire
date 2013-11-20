@@ -31,10 +31,11 @@
 
         - 2 player mode, 2 sets of tiles next to each other, 1 player plays at each time, with a timer for each. see who can finish the game first
 
-        - add a map editor
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
             - need to test it more
+
+        - z-index of tiles. start adding from right to left
  */
 
 
