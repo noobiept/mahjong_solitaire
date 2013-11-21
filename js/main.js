@@ -34,8 +34,6 @@
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
             - need to test it more
-
-        - z-index of tiles. start adding from right to left
  */
 
 

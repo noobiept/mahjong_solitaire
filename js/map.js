@@ -61,6 +61,7 @@ this.buildMap( newMap );
 
 Map.prototype.buildMap = function( mapDescription )
 {
+var mapObject = this;
 var grid;
 
     // center the map horizontally
@@ -76,20 +77,73 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
     grid = new Grid( startingX, startingY, this.columns, this.lines );
 
+
+        // get all the columns of each line
+        // key the line number, value an array with the columns
+        // example = { "10": [ { column: 2 }, ... ] }
+    var lines = {};
+
     for (var b = 0 ; b < gridDescription.length ; b++)
         {
         var position = gridDescription[ b ];
 
+        var lineStr = position.line.toString();
 
-        new Tile({
-            tileId     : position.tileId,
-            tileName   : position.tileName,
-            column     : position.column,
-            line       : position.line,
-            gridObject : grid,
-            scale      : this.scale
+        if ( !lines[ lineStr ] )
+            {
+            lines[ lineStr ] = [];
+            }
+
+        lines[ lineStr ].push({
+                tileId   : position.tileId,
+                tileName : position.tileName,
+                column   : position.column
             });
         }
+
+        // now we need to sort the lines (bottom to top), and the columns (left to right)
+    var linesNumber = [];
+
+        // get all the lines numbers
+    $.each(lines, function(key, value)
+        {
+        linesNumber.push( parseInt( key ) );
+        });
+
+        // sort the lines (the higher numbers first)
+    linesNumber.sort(function(a, b)
+        {
+        return b - a;
+        });
+
+        // go each line at a time
+    for (var c = 0 ; c < linesNumber.length ; c++)
+        {
+        var line = linesNumber[ c ];
+
+            // get all the elements of the line
+        var columns = lines[ line.toString() ];
+
+            // sort first by the columns (left to right, so lower numbers first)
+        columns.sort(function(a, b)
+            {
+            return a.column - b.column;
+            });
+
+            // add the tiles, already sorted out
+        for (var d = 0 ; d < columns.length ; d++)
+            {
+            new Tile({
+                tileId     : columns[ d ].tileId,
+                tileName   : columns[ d ].tileName,
+                column     : columns[ d ].column,
+                line       : line,
+                gridObject : grid,
+                scale      : mapObject.scale
+                });
+            }
+        }
+
 
         // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
     startingX -= 6;

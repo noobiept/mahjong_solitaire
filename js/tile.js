@@ -6,8 +6,8 @@ var ALL_TILES = [];
 var SELECTED_TILE = null;
 
     // the original image dimensions, this can be scaled
-var TILE_WIDTH = 38;
-var TILE_HEIGHT = 47;
+var TILE_WIDTH = 36;
+var TILE_HEIGHT = 45;
 
 
 /*
@@ -173,7 +173,7 @@ SELECTED_TILE = this;
 var g = this.background.graphics;
 
 g.beginFill( 'rgba(255, 0, 0, 0.3)' );
-g.drawRoundRect( 3, 3, TILE_WIDTH, TILE_HEIGHT, 5 );    // seems to already consider the .scale ?..
+g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );    // seems to already consider the .scale ?..
 };
 
 
@@ -185,7 +185,7 @@ var g = this.background.graphics;
 
 g.clear();
 g.beginFill( 'transparent' );
-g.drawRoundRect( 3, 3, TILE_WIDTH, TILE_HEIGHT, 5 );
+g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
 };
 
 
