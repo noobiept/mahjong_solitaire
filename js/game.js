@@ -5,13 +5,15 @@ function Game()
 
 }
 
-var CURRENT_MAP_DESCRIPTION;
 var CURRENT_MAP;
 
 var TIME;           // time passed in milliseconds
 var TIMER_F;        // return of window.setInterval()
 
 var MAP;
+
+    // whether we shadow the un-selectable tiles or not
+var SHADOW_ON = false;
 
 /*
     // mapDescription: each array (inside the main one) corresponds to a grid (and array of 'grids')
@@ -49,11 +51,11 @@ if ( typeof selectedMap == 'undefined' )
 
 Game.resetStuff();
 
-GameMenu.show();
-
 CURRENT_MAP = selectedMap;
 
 MAP = new Map( selectedMap );
+
+GameMenu.show();
 
 Game.startTimer();
 
@@ -95,6 +97,41 @@ TIMER_F = window.setInterval( function()
 };
 
 
+Game.shadowTiles = function()
+{
+MAP.shadowTiles();
+
+var selectedTile = Tile.getSelectedTile();
+
+    // calling .shadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
+if ( selectedTile )
+    {
+    selectedTile.selectTile();
+    }
+};
+
+
+Game.unShadowTiles = function()
+{
+MAP.unShadowTiles();
+
+var selectedTile = Tile.getSelectedTile();
+
+    // calling .unShadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
+if ( selectedTile )
+    {
+    selectedTile.selectTile();
+    }
+};
+
+
+Game.updateInformation = function()
+{
+if ( SHADOW_ON )
+    {
+    MAP.shadowTiles();
+    }
+};
 
 
 Game.resetStuff = function()
@@ -126,6 +163,16 @@ Game.getMap = function()
 return MAP;
 };
 
+
+Game.getShadowOption = function()
+{
+return SHADOW_ON;
+};
+
+Game.setShadowOption = function( value )
+{
+SHADOW_ON = value;
+};
 
 
 window.Game = Game;

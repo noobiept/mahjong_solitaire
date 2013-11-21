@@ -466,6 +466,44 @@ return count;
 };
 
 
+/*
+    shadows the un-selectable tiles in the map
+ */
+
+Map.prototype.shadowTiles = function()
+{
+var allTiles = Tile.getAll();
+
+for (var a = 0 ; a < allTiles.length ; a++)
+    {
+    var tile = allTiles[ a ];
+
+    if ( !tile.isTileSelectable() )
+        {
+        tile.shadow();
+        }
+
+    else
+        {
+        tile.clearBackground();
+        }
+    }
+};
+
+
+Map.prototype.unShadowTiles = function()
+{
+var allTiles = Tile.getAll();
+
+for (var a = 0 ; a < allTiles.length ; a++)
+    {
+    var tile = allTiles[ a ];
+
+    tile.clearBackground();
+    }
+};
+
+
 
 window.Map = Map;
 

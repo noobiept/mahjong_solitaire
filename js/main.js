@@ -29,7 +29,7 @@
 
         - show a message when a tile cant be selected (and was clicked)
 
-        - 2 player mode, 2 sets of tiles next to each other, 1 player plays at each time, with a timer for each. see who can finish the game first
+        - 2 player mode, 2 sets of tiles next to each other, 1 player plays one at a time, with a timer for each. see who can finish the game first
 
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs

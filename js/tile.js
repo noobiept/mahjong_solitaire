@@ -153,6 +153,7 @@ else
 
             SELECTED_TILE = null;
 
+            Game.updateInformation();
             GameMenu.updateInformation( Game.getMap() );
             }
 
@@ -181,10 +182,26 @@ Tile.prototype.unSelectTile = function()
 {
 SELECTED_TILE = null;
 
+this.clearBackground();
+};
+
+
+Tile.prototype.clearBackground = function()
+{
 var g = this.background.graphics;
 
 g.clear();
 g.beginFill( 'transparent' );
+g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
+};
+
+
+Tile.prototype.shadow = function()
+{
+var g = this.background.graphics;
+
+g.clear();
+g.beginFill( 'rgba(0, 0, 0, 0.3)' );
 g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
 };
 
@@ -306,6 +323,11 @@ Tile.getImageHeight = function()
 return TILE_HEIGHT;
 };
 
+
+Tile.getSelectedTile = function()
+{
+return SELECTED_TILE;
+};
 
 
 window.Tile = Tile;

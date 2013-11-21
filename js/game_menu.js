@@ -21,6 +21,8 @@ var pairsLeft = gameMenu.querySelector( '#GameMenu-pairsLeft span' );
 var timer = gameMenu.querySelector( '#GameMenu-timer span' );
 
 var shuffle = gameMenu.querySelector( '#GameMenu-shuffle' );
+var shadow = document.querySelector( '#GameMenu-shadow' );
+var shadowValue = shadow.querySelector( 'span' );
 var restart = gameMenu.querySelector( '#GameMenu-restart' );
 var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
@@ -29,6 +31,30 @@ shuffle.onclick = function()
     {
     Game.getMap().shuffle();
     };
+
+shadow.onclick = function()
+    {
+    var shadowOn = Game.getShadowOption();
+
+    if ( shadowOn )
+        {
+        Game.setShadowOption( false );
+
+        Game.unShadowTiles();
+
+        $( shadowValue ).text( 'Off' );
+        }
+
+    else
+        {
+        Game.setShadowOption( true );
+
+        Game.shadowTiles();
+
+        $( shadowValue ).text( 'On' );
+        }
+    };
+
 
 restart.onclick = function()
     {
