@@ -56,7 +56,9 @@ CURRENT_MAP = selectedMap;
 MAP = new Map( selectedMap );
 
 GameMenu.show();
+$( CANVAS ).css( 'display', 'block' );
 
+Game.updateInformation();
 Game.startTimer();
 
 createjs.Ticker.on( 'tick', tick );
@@ -142,7 +144,8 @@ Tile.removeAll();
 Grid.removeAll();
 MAP = null;
 
-GameMenu.hide();
+GameMenu.clear();
+$( CANVAS ).css( 'display', 'none' );
 };
 
 

@@ -130,6 +130,7 @@ if ( event.paused ) //HERE this one doesnt seem to work?..
 
 if ( !this.isTileSelectable() )
     {
+    GameMenu.showMessage( 'Un-selectable tile.' );
     return;
     }
 

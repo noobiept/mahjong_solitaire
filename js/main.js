@@ -22,15 +22,9 @@
 
     to doo:
 
-        - improve the visibility of the tiles below (right now the grids are starting in a different x/y)
-            - shadow the tiles that cant be selected (as an option to be easier)
-                - shadow progressively (grids lower are less visible, and the ones close to the top more visible, to be able to tell the grids)
-            - the tiles are separated, have them together (and maybe bigger dimensions)
-
-        - show a message when a tile cant be selected (and was clicked)
+        - shadow progressively (grids lower are less visible, and the ones close to the top more visible, to be able to tell the grids), to improve visibility
 
         - 2 player mode, 2 sets of tiles next to each other, 1 player plays one at a time, with a timer for each. see who can finish the game first
-
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
             - need to test it more

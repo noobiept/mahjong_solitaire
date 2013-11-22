@@ -10,7 +10,10 @@ var GAME_MENU_CONTAINER;
 var TILES_LEFT;
 var PAIRS_LEFT;
 var TIMER;
+var MESSAGE;
 
+    // the return of the window.setTimeout()
+var MESSAGE_TIMEOUT = null;
 
 GameMenu.init = function()
 {
@@ -70,20 +73,11 @@ quit.onclick = function()
 $( timer ).text( timeToString( 0 ) );
 
 
-var canvasPosition = $( CANVAS ).position();
-
-var left = canvasPosition.left;
-var top = canvasPosition.top + CANVAS.height;
-
-    // position the game menu in the bottom of the canvas
-$( gameMenu ).css( 'top', top + 'px' );
-$( gameMenu ).css( 'left', left + 'px' );
-
-
 GAME_MENU_CONTAINER = gameMenu;
 TILES_LEFT = tilesLeft;
 PAIRS_LEFT = pairsLeft;
 TIMER = timer;
+MESSAGE = gameMenu.querySelector( '#GameMenu-message' );
 };
 
 
@@ -91,13 +85,20 @@ GameMenu.show = function()
 {
 $( TIMER ).text( timeToString( 0 ) );
 
-$( GAME_MENU_CONTAINER ).css( 'display', 'block' );
+$( GAME_MENU_CONTAINER ).css( 'display', 'inline-flex' );
 };
 
 
-GameMenu.hide = function()
+GameMenu.clear = function()
 {
+    // hide the html elements
 $( GAME_MENU_CONTAINER ).css( 'display', 'none' );
+
+    // cancel the message timeout, if its active
+window.clearTimeout( MESSAGE_TIMEOUT );
+MESSAGE_TIMEOUT = null;
+
+$( MESSAGE ).text( '' );
 };
 
 
@@ -136,6 +137,25 @@ $( PAIRS_LEFT ).text( mapObject.howManySelectablePairs() );
 GameMenu.updateTimer = function( time )
 {
 $( TIMER ).text( timeToString( time ) );
+};
+
+
+GameMenu.showMessage = function( text )
+{
+    // a timeout is active, from a previous call. cancel it
+if ( MESSAGE_TIMEOUT !== null )
+    {
+    window.clearTimeout( MESSAGE_TIMEOUT );
+    }
+
+$( MESSAGE ).text( text );
+
+MESSAGE_TIMEOUT = window.setTimeout( function()
+    {
+    $( MESSAGE ).text( '' );
+    MESSAGE_TIMEOUT = null;
+
+    }, 2000 );
 };
 
 

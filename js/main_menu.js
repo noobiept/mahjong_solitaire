@@ -62,8 +62,6 @@ for (var a = 0 ; a < maps.length ; a++)
     }
 
 MAPS_ELEMENTS = maps;
-
-centerElement( MENU );
 };
 
 
@@ -170,8 +168,6 @@ back.onclick = function()
     };
 
 $( HIGH_SCORE ).css( 'display', 'block' );
-
-centerElement( HIGH_SCORE );
 };
 
 

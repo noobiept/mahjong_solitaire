@@ -184,23 +184,6 @@ return date;
 }
 
 
-
-
-/*
-    center the canvas in the middle of window
- */
-
-function centerCanvas( canvasElement )
-{
-var left = window.innerWidth / 2 - canvasElement.width / 2;
-var top = window.innerHeight / 2 - canvasElement.height / 2;
-
-$( canvasElement ).css( 'left', left + 'px' );
-$( canvasElement ).css( 'top', top + 'px' );
-}
-
-
-
 /*
     Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
