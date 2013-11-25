@@ -23,6 +23,7 @@ MENU = document.querySelector( '#MainMenu' );
 HIGH_SCORE = document.querySelector( '#HighScore' );
 
 var startGame = MENU.querySelector( '#MainMenu-startGame' );
+var twoPlayers = MENU.querySelector( '#MainMenu-twoPlayers' );
 var highScore = MENU.querySelector( '#MainMenu-highScore' );
 
 
@@ -31,6 +32,15 @@ startGame.onclick = function( event )
     MainMenu.hide();
 
     Game.start( MAPS_AVAILABLE[ SELECTED_MAP ] );
+
+    event.stopPropagation();
+    };
+
+twoPlayers.onclick = function( event )
+    {
+    MainMenu.hide();
+
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], true );
 
     event.stopPropagation();
     };

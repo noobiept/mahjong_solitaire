@@ -45,17 +45,23 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#mainCanvas' );
 
-CANVAS.width = $( window ).width();
-CANVAS.height = $( window ).height() - $( '#GameMenu' ).height();
-
 STAGE = new createjs.Stage( CANVAS );
-
 
 MainMenu.init();
 GameMenu.init();
 HighScore.load();
 
+
 createjs.Ticker.setInterval( 50 );
+createjs.Ticker.on( 'tick', function( event )
+    {
+    if ( event.paused )
+        {
+        return;
+        }
+
+    STAGE.update();
+    });
 
 PRELOAD = new createjs.LoadQueue();
 
@@ -133,13 +139,3 @@ PRELOAD.loadManifest( manifest, true );
 };
 
 
-
-function tick( event )
-{
-if ( event.paused )
-    {
-    return;
-    }
-
-STAGE.update();
-}

@@ -19,9 +19,6 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
 
-CANVAS.width = 1000;
-CANVAS.height = 800;
-
 STAGE = new createjs.Stage( CANVAS );
 
 createjs.Ticker.addEventListener('tick', function()

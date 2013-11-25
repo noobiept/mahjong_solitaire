@@ -15,9 +15,10 @@ var MAP;
     // whether we shadow the un-selectable tiles or not
 var SHADOW_ON = false;
 
-/*
-    // mapDescription: each array (inside the main one) corresponds to a grid (and array of 'grids')
-    // inside the grid array, we have several objects with the position where we'll put a tile
+/**
+    mapDescription:
+        each array (inside the main one) corresponds to a grid (an array of 'grids')
+        inside the grid array, we have several objects with the position where we'll put a tile
 
     selectedMap = {
         "mapName": "pyramid",
@@ -39,9 +40,12 @@ var SHADOW_ON = false;
                     // ...
             ]
     }
+
+    @param {Object} selectedMap
+    @param {Boolean=false} twoPlayers
  */
 
-Game.start = function( selectedMap )
+Game.start = function( selectedMap, twoPlayers )
 {
 if ( typeof selectedMap == 'undefined' )
     {
@@ -49,19 +53,26 @@ if ( typeof selectedMap == 'undefined' )
     selectedMap = CURRENT_MAP;
     }
 
+if ( twoPlayers !== true )
+    {
+    twoPlayers = false;
+    }
+
 Game.resetStuff();
+
+CANVAS.width = $( window ).width();
+CANVAS.height = $( window ).height() - $( '#GameMenu' ).height();
+$( CANVAS ).css( 'display', 'block' );
 
 CURRENT_MAP = selectedMap;
 
 MAP = new Map( selectedMap );
 
 GameMenu.show();
-$( CANVAS ).css( 'display', 'block' );
+
 
 Game.updateInformation();
 Game.startTimer();
-
-createjs.Ticker.on( 'tick', tick );
 };
 
 
