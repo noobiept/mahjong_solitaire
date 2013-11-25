@@ -80,7 +80,7 @@ MainMenu.open = function()
 {
 Game.resetStuff();
 
-MainMenu.selectMap( 0 );
+MainMenu.selectMap( SELECTED_MAP );
 
 $( MENU ).css( 'display', 'block' );
 };

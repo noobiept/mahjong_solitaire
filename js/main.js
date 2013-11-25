@@ -28,6 +28,8 @@
 
         - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
             - need to test it more
+
+        - improve layout of main menu
  */
 
 

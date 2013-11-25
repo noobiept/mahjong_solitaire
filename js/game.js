@@ -74,7 +74,7 @@ HighScore.add( CURRENT_MAP.mapName, TIME );
 
 new Message({
         text: 'Map Cleared in ' + timeToString( TIME ),
-        timeOut: 1000,
+        timeOut: 2000,
         timeOut_f: function()
             {
             MainMenu.open();
