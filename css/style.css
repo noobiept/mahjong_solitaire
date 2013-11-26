@@ -49,9 +49,8 @@ body
     cursor: pointer;
     }
 
-.Message
+#Message
     {
-    position: absolute;
     font-size: 1.5em;
     text-align: center;
     cursor: default;

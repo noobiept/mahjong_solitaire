@@ -83,14 +83,18 @@ Game.resetStuff();
 
 HighScore.add( CURRENT_MAP.mapName, TIME );
 
-new Message({
-        text: 'Map Cleared in ' + timeToString( TIME ),
-        timeOut: 2000,
-        timeOut_f: function()
-            {
-            MainMenu.open();
-            }
-    });
+var endMessage = document.querySelector( '#Message' );
+
+$( endMessage ).text( 'Map Cleared in ' + timeToString( TIME ) );
+$( endMessage ).css( 'display', 'block' );
+
+
+window.setTimeout( function()
+    {
+    $( endMessage ).css( 'display', 'none' );
+
+    MainMenu.open();
+    }, 2000 );
 };
 
 

@@ -26,9 +26,6 @@
 
         - 2 player mode, 2 sets of tiles next to each other, 1 player plays one at a time, with a timer for each. see who can finish the game first
 
-        - option to shuffle the tiles, in case of reaching a point where there's no more valid pairs
-            - need to test it more
-
         - improve layout of main menu
  */
 
@@ -116,16 +113,17 @@ var manifest = [
 
 
 
-var loadingMessage = new Message({ text: 'Loading' });
+var loadingMessage = document.querySelector( '#Message' );
+
 
 PRELOAD.installPlugin( createjs.Sound );
 PRELOAD.addEventListener( 'progress', function( event )
     {
-    loadingMessage.setText( 'Loading ' + ( event.progress * 100 | 0 ) + '%' );
+    $( loadingMessage ).text( 'Loading ' + ( event.progress * 100 | 0 ) + '%' );
     });
 PRELOAD.addEventListener( 'complete', function()
     {
-    loadingMessage.remove();
+    $( loadingMessage ).css( 'display', 'none' );
 
 
         // the order of the array needs to match the order of the html elements in the main menu

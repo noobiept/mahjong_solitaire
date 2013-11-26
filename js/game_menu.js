@@ -33,6 +33,7 @@ var quit = gameMenu.querySelector( '#GameMenu-quit' );
 shuffle.onclick = function()
     {
     Game.getMap().shuffle();
+    Game.updateInformation();
     };
 
 shadow.onclick = function()
@@ -113,7 +114,14 @@ if ( GameMenu.updateTilesLeft() <= 0 )
 
 else
     {
-    GameMenu.updatePairsLeft( mapObject );
+    var pairsLeft = GameMenu.updatePairsLeft( mapObject );
+
+    if ( pairsLeft <= 0 )
+        {
+        Game.getMap().shuffle();
+        GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
+        Game.updateInformation();
+        }
     }
 };
 
@@ -130,7 +138,11 @@ return tilesLeft;
 
 GameMenu.updatePairsLeft = function( mapObject )
 {
-$( PAIRS_LEFT ).text( mapObject.howManySelectablePairs() );
+var pairsLeft = mapObject.howManySelectablePairs();
+
+$( PAIRS_LEFT ).text( pairsLeft );
+
+return pairsLeft;
 };
 
 
