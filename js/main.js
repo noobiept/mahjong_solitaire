@@ -25,6 +25,7 @@
         - shadow progressively (grids lower are less visible, and the ones close to the top more visible, to be able to tell the grids), to improve visibility
 
         - 2 player mode, 2 sets of tiles next to each other, 1 player plays one at a time, with a timer for each. see who can finish the game first
+            - need to refactor the Tile / Grid / ?.., so that it doesnt use the ALL_TILES/etc, otherwise I can't have 2 maps at the same time (move that array into the Game())
 
         - improve layout of main menu
  */
