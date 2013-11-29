@@ -107,7 +107,7 @@ $( MESSAGE ).text( '' );
 
 GameMenu.updateInformation = function( mapObject )
 {
-if ( GameMenu.updateTilesLeft() <= 0 )
+if ( GameMenu.updateTilesLeft( mapObject ) <= 0 )
     {
     Game.finished();
     }
@@ -126,9 +126,9 @@ else
 };
 
 
-GameMenu.updateTilesLeft = function()
+GameMenu.updateTilesLeft = function( mapObject )
 {
-var tilesLeft = Tile.getAll().length;
+var tilesLeft = mapObject.all_tiles.length;
 
 $( TILES_LEFT ).text( tilesLeft );
 

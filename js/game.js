@@ -155,8 +155,11 @@ Game.resetStuff = function()
 {
 window.clearInterval( TIMER_F );
 
-Tile.removeAll();
-Grid.removeAll();
+if ( MAP )
+    {
+    MAP.clear();
+    }
+
 MAP = null;
 
 GameMenu.clear();

@@ -40,6 +40,11 @@ else
     }
 
 
+    // contain all grids/tiles of this map
+this.all_tiles = [];
+this.all_grids = [];
+
+
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
 this.buildMap( newMap );
@@ -75,7 +80,12 @@ for (var a = 0 ; a < mapDescription.length ; a++)
     {
     var gridDescription = mapDescription[ a ];
 
-    grid = new Grid( startingX, startingY, this.columns, this.lines );
+    grid = this.addGrid({
+            startingX       : startingX,
+            startingY       : startingY,
+            numberOfColumns : this.columns,
+            numberOfLines   : this.lines
+        });
 
 
         // get all the columns of each line
@@ -133,13 +143,14 @@ for (var a = 0 ; a < mapDescription.length ; a++)
             // add the tiles, already sorted out
         for (var d = 0 ; d < columns.length ; d++)
             {
-            new Tile({
-                tileId     : columns[ d ].tileId,
-                tileName   : columns[ d ].tileName,
-                column     : columns[ d ].column,
-                line       : line,
-                gridObject : grid,
-                scale      : mapObject.scale
+            this.addTile({
+                    tileId     : columns[ d ].tileId,
+                    tileName   : columns[ d ].tileName,
+                    column     : columns[ d ].column,
+                    line       : line,
+                    gridObject : grid,
+                    mapObject  : this,
+                    scale      : mapObject.scale
                 });
             }
         }
@@ -175,7 +186,12 @@ for (var a = 0 ; a < mapDescription.length ; a++)
     {
     gridDescription = mapDescription[ a ];
 
-    grid = new Grid( startingX, startingY, this.columns, this.lines );
+    grid = this.addGrid({
+            startingX       : startingX,
+            startingY       : startingY,
+            numberOfColumns : this.columns,
+            numberOfLines   : this.lines
+        });
 
         // initialize the grid's array
     newMap[ a ] = [];
@@ -184,12 +200,13 @@ for (var a = 0 ; a < mapDescription.length ; a++)
         {
         tilePosition = gridDescription[ b ];
 
-        new Tile({
-            tileId     : '', // doesn't matter, since we aren't drawing the shape
-            column     : tilePosition.column,
-            line       : tilePosition.line,
-            gridObject : grid,
-            drawShape  : false
+        this.addTile({
+                tileId     : '', // doesn't matter, since we aren't drawing the shape
+                column     : tilePosition.column,
+                line       : tilePosition.line,
+                gridObject : grid,
+                mapObject  : this,
+                drawShape  : false
             });
         }
 
@@ -199,7 +216,7 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
 
     // determine the selectable tiles
-var allTiles = Tile.getAll();
+var allTiles = this.all_tiles;
 var selectableTiles = [];
 var tile;
 var nextTile = this.getNextTile( tilePairs );
@@ -225,12 +242,12 @@ while( allTiles.length > 0 )
                 tileName : nextTileName.tileName
             });
 
-        tile.remove();
+        this.removeTile( tile );
         }
     }
 
     // clear the grids
-Grid.removeAll();
+this.removeAllGrids();
 
 return newMap;
 };
@@ -239,10 +256,10 @@ return newMap;
 
 Map.prototype.shuffle = function()
 {
-var allTiles = Tile.getAll();
+var allTiles = this.all_tiles;
 var a;
 
-var numberOfGrids = Grid.numberOfGrids();
+var numberOfGrids = this.all_grids.length;
 var currentMap = [];
 
 for (a = 0 ; a < numberOfGrids ; a++)
@@ -294,8 +311,8 @@ for (a = 0 ; a < tileNames.length ; a++)
     }
 
     // clear the current map
-Tile.removeAll();
-Grid.removeAll();
+this.removeAllTiles();
+this.removeAllGrids();
 
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
@@ -418,7 +435,7 @@ return function()
 
 Map.prototype.getSelectableTiles = function()
 {
-var allTiles = Tile.getAll();
+var allTiles = this.all_tiles;
 var tile;
 var selectableTiles = [];
 
@@ -472,7 +489,7 @@ return count;
 
 Map.prototype.shadowTiles = function()
 {
-var allTiles = Tile.getAll();
+var allTiles = this.all_tiles;
 
 for (var a = 0 ; a < allTiles.length ; a++)
     {
@@ -493,7 +510,7 @@ for (var a = 0 ; a < allTiles.length ; a++)
 
 Map.prototype.unShadowTiles = function()
 {
-var allTiles = Tile.getAll();
+var allTiles = this.all_tiles;
 
 for (var a = 0 ; a < allTiles.length ; a++)
     {
@@ -503,6 +520,69 @@ for (var a = 0 ; a < allTiles.length ; a++)
     }
 };
 
+
+
+Map.prototype.addTile = function( args )
+{
+var tile = new Tile( args );
+
+this.all_tiles.push( tile );
+
+return tile;
+};
+
+
+Map.prototype.removeTile = function( tileObject )
+{
+var position = this.all_tiles.indexOf( tileObject );
+
+this.all_tiles.splice( position, 1 );
+
+tileObject.remove();
+};
+
+
+
+Map.prototype.addGrid = function( args )
+{
+var grid = new Grid( args.startingX, args.startingY, args.numberOfColumns, args.numberOfLines, this.all_grids.length );
+
+this.all_grids.push( grid );
+
+return grid;
+};
+
+
+Map.prototype.removeGrid = function( gridObject )
+{
+var position = this.all_grids.indexOf( gridObject );
+
+this.all_grids.splice( position, 1 );
+};
+
+
+Map.prototype.removeAllGrids = function()
+{
+this.all_grids.length = 0;
+};
+
+Map.prototype.removeAllTiles = function()
+{
+for (var a = 0 ; a < this.all_tiles.length ; a++)
+    {
+    this.all_tiles[ a ].remove();
+    }
+
+this.all_tiles.length = 0;
+};
+
+
+
+Map.prototype.clear = function()
+{
+this.removeAllTiles();
+this.removeAllGrids();
+};
 
 
 window.Map = Map;

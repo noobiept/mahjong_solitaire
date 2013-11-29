@@ -73,17 +73,15 @@ if ( this.hasTile )
     {
     this.hasTile = false;
 
-    this.tileObject.remove();
+    Map.removeTile( this.tileObject );
     this.tileObject = null;
-
-    TILES_LEFT++;
     }
 
 else
     {
     this.hasTile = true;
 
-    this.tileObject = new Tile({
+    var tile = Map.addTile({
             tileId: 'bamboo1',
             column: this.column,
             line: this.line,
@@ -91,13 +89,10 @@ else
             scale: this.scale
         });
 
-
-    this.tileObject.container.removeAllEventListeners( 'click' );
-
-    TILES_LEFT--;
+    this.tileObject = tile;
     }
 
-updateTilesLeft();
+Map.updateTilesLeft();
 };
 
 
@@ -127,7 +122,7 @@ GridPosition.prototype.remove = function()
 {
 if ( this.tileObject )
     {
-    this.tileObject.remove();
+    Map.removeTile( this.tileObject );
     this.tileObject = null;
     }
 
@@ -157,7 +152,7 @@ for (var a = 0 ; a < ALL_POSITIONS.length ; a++)
         }
     }
 
-ALL_POSITIONS = [];
+ALL_POSITIONS.length = 0;
 };
 
 

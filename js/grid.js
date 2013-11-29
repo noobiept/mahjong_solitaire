@@ -1,8 +1,6 @@
 (function(window)
 {
-var ALL_GRIDS = [];
-
-function Grid( startingX, startingY, numberOfColumns, numberOfLines )
+function Grid( startingX, startingY, numberOfColumns, numberOfLines, position )
 {
 this.grid_array = [];
 
@@ -20,9 +18,7 @@ this.startingX = startingX;
 this.startingY = startingY;
 this.numberOfColumns = numberOfColumns;
 this.numberOfLines = numberOfLines;
-this.position = ALL_GRIDS.length;
-
-ALL_GRIDS.push( this );
+this.position = position;
 }
 
 
@@ -60,33 +56,6 @@ this.grid_array[ column ][ line + 1 ] = null;
 this.grid_array[ column + 1 ][ line ] = null;
 this.grid_array[ column + 1 ][ line + 1 ] = null;
 };
-
-
-
-Grid.get = function( position )
-{
-return ALL_GRIDS[ position ];
-};
-
-
-Grid.getAll = function()
-{
-return ALL_GRIDS;
-};
-
-
-Grid.numberOfGrids = function()
-{
-return ALL_GRIDS.length;
-};
-
-
-
-Grid.removeAll = function()
-{
-ALL_GRIDS.length = 0;
-};
-
 
 
 window.Grid = Grid;

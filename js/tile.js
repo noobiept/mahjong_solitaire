@@ -1,7 +1,5 @@
 (function(window)
 {
-var ALL_TILES = [];
-
     // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
 var SELECTED_TILE = null;
 
@@ -19,6 +17,7 @@ var TILE_HEIGHT = 45;
         column : Number,
         line   : Number,
         gridObject : Grid,
+        mapObject  : Map,
         drawShape  : Boolean,
         scale      : Number
     }
@@ -37,6 +36,12 @@ if ( typeof args.tileId == 'undefined' )
 if ( typeof args.gridObject == 'undefined' )
     {
     console.log( 'Provide the .gridObject. Got:', args.gridObject );
+    return;
+    }
+
+if ( typeof args.mapObject == 'undefined' )
+    {
+    console.log( 'Provide the .mapObject. Got:', args.mapObject );
     return;
     }
 
@@ -93,7 +98,6 @@ if ( args.drawShape !== false )
 
 
     // :: set properties :: //
-ALL_TILES.push( this );
 
 this.tileId = args.tileId;
 this.tileName = args.tileName;
@@ -103,6 +107,7 @@ this.container = container;
 this.column = args.column;
 this.line = args.line;
 this.gridObject = args.gridObject;
+this.mapObject = args.mapObject;
 this.scale = args.scale;
 
 
@@ -149,8 +154,8 @@ else
             // valid match
         if ( SELECTED_TILE.tileName == this.tileName )
             {
-            SELECTED_TILE.remove();
-            this.remove();
+            this.mapObject.removeTile( SELECTED_TILE );
+            this.mapObject.removeTile( this );
 
             SELECTED_TILE = null;
 
@@ -261,7 +266,7 @@ while( true )
     {
     gridPosition++;
 
-    gridAbove = Grid.get( gridPosition );
+    gridAbove = this.mapObject.all_grids[ gridPosition ];
 
     if ( !gridAbove )
         {
@@ -287,28 +292,7 @@ Tile.prototype.remove = function()
 {
 STAGE.removeChild( this.container );
 
-var position = ALL_TILES.indexOf( this );
-
-ALL_TILES.splice( position, 1 );
-
 this.gridObject.removeTile( this.column, this.line );
-};
-
-
-
-Tile.getAll = function()
-{
-return ALL_TILES;
-};
-
-
-
-Tile.removeAll = function()
-{
-while( ALL_TILES.length > 0 )
-    {
-    ALL_TILES[ 0 ].remove();
-    }
 };
 
 
