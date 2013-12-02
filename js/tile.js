@@ -1,8 +1,5 @@
 (function(window)
 {
-    // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
-var SELECTED_TILE = null;
-
     // the original image dimensions, this can be scaled
 var TILE_WIDTH = 36;
 var TILE_HEIGHT = 45;
@@ -139,8 +136,10 @@ if ( !this.isTileSelectable() )
     return;
     }
 
+var selectedTile = this.mapObject.selected_tile;
+
     // no tile is selected, so we select the first one
-if ( !SELECTED_TILE )
+if ( !selectedTile )
     {
     this.selectTile();
     }
@@ -149,23 +148,23 @@ if ( !SELECTED_TILE )
 else
     {
         // can't select the same tile again
-    if ( SELECTED_TILE !== this )
+    if ( selectedTile !== this )
         {
             // valid match
-        if ( SELECTED_TILE.tileName == this.tileName )
+        if ( selectedTile.tileName == this.tileName )
             {
-            this.mapObject.removeTile( SELECTED_TILE );
+            this.mapObject.removeTile( selectedTile );
             this.mapObject.removeTile( this );
 
-            SELECTED_TILE = null;
+            selectedTile = null;
 
             Game.updateInformation();
-            GameMenu.updateInformation( Game.getMap() );
+            GameMenu.updateInformation( this.mapObject );
             }
 
         else
             {
-            SELECTED_TILE.unSelectTile();
+            selectedTile.unSelectTile();
             this.selectTile();
             }
         }
@@ -175,7 +174,7 @@ else
 
 Tile.prototype.selectTile = function()
 {
-SELECTED_TILE = this;
+this.mapObject.selected_tile = this;
 
 var g = this.background.graphics;
 
@@ -186,7 +185,7 @@ g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );    // seems to alre
 
 Tile.prototype.unSelectTile = function()
 {
-SELECTED_TILE = null;
+this.mapObject.selected_tile = null;
 
 this.clearBackground();
 };
@@ -306,12 +305,6 @@ return TILE_WIDTH;
 Tile.getImageHeight = function()
 {
 return TILE_HEIGHT;
-};
-
-
-Tile.getSelectedTile = function()
-{
-return SELECTED_TILE;
 };
 
 

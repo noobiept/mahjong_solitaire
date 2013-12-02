@@ -32,7 +32,7 @@ var quit = gameMenu.querySelector( '#GameMenu-quit' );
 
 shuffle.onclick = function()
     {
-    Game.getMap().shuffle();
+    Game.getActiveMap().shuffle();
     Game.updateInformation();
     };
 
@@ -118,7 +118,7 @@ else
 
     if ( pairsLeft <= 0 )
         {
-        Game.getMap().shuffle();
+        Game.getActiveMap().shuffle();
         GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
         Game.updateInformation();
         }

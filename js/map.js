@@ -13,7 +13,7 @@
  */
 
 
-function Map( mapInfo )
+function Map( mapInfo, centerIn )
 {
 this.columns = mapInfo.numberOfColumns;
 this.lines = mapInfo.numberOfLines;
@@ -44,10 +44,14 @@ else
 this.all_tiles = [];
 this.all_grids = [];
 
+    // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
+this.selected_tile = null;
 
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
-this.buildMap( newMap );
+this.startingX = centerIn;
+
+this.buildMap( newMap, centerIn );
 }
 
 
@@ -64,7 +68,7 @@ this.buildMap( newMap );
         ]
  */
 
-Map.prototype.buildMap = function( mapDescription )
+Map.prototype.buildMap = function( mapDescription, centerIn )
 {
 var mapObject = this;
 var grid;
@@ -73,8 +77,28 @@ var grid;
 var canvasWidth = CANVAS.width;
 var mapWidth = this.columns / 2 * Tile.getImageWidth() * this.scale;
 
-var startingX = canvasWidth / 2 - mapWidth / 2;
+
+var startingX = 0;
 var startingY = 10;
+
+    // center the map in the left or right side of the canvas (when its 2 players mode), or in the center when its just one player
+if ( centerIn == 'left' )
+    {
+    startingX = canvasWidth / 4 - mapWidth / 2;
+    }
+
+else if ( centerIn == 'right' )
+    {
+    startingX = canvasWidth / 4 - mapWidth / 2 + canvasWidth / 2;
+    }
+
+    // center in the middle (default)
+else
+    {
+    startingX = canvasWidth / 2 - mapWidth / 2;
+    }
+
+
 
 for (var a = 0 ; a < mapDescription.length ; a++)
     {
@@ -317,7 +341,7 @@ this.removeAllGrids();
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
 
-this.buildMap( newMap );
+this.buildMap( newMap, this.startingX );
 };
 
 

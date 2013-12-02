@@ -5,12 +5,18 @@ function Game()
 
 }
 
+    // current map information
 var CURRENT_MAP;
 
 var TIME;           // time passed in milliseconds
 var TIMER_F;        // return of window.setInterval()
 
-var MAP;
+
+    // has all the map objects (one for each player)
+var MAPS = [];
+
+    // when there's more than 1 player, means each player takes turns to play, this keeps track of what player/map is currently playing
+var ACTIVE_MAP = 0;
 
     // whether we shadow the un-selectable tiles or not
 var SHADOW_ON = false;
@@ -66,7 +72,18 @@ $( CANVAS ).css( 'display', 'block' );
 
 CURRENT_MAP = selectedMap;
 
-MAP = new Map( selectedMap );
+
+if ( twoPlayers )
+    {
+    MAPS.push( new Map( selectedMap, 'left' ) );
+    MAPS.push( new Map( selectedMap, 'right' ) );
+    }
+
+else
+    {
+    MAPS.push( new Map( selectedMap ) );
+    }
+
 
 GameMenu.show();
 
@@ -116,28 +133,34 @@ TIMER_F = window.setInterval( function()
 
 Game.shadowTiles = function()
 {
-MAP.shadowTiles();
-
-var selectedTile = Tile.getSelectedTile();
-
-    // calling .shadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
-if ( selectedTile )
+for (var a = 0 ; a < MAPS.length ; a++)
     {
-    selectedTile.selectTile();
+    MAPS[ a ].shadowTiles();
+
+    var selectedTile = MAPS[ a ].selected_tile;
+
+        // calling .shadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
+    if ( selectedTile )
+        {
+        selectedTile.selectTile();
+        }
     }
 };
 
 
 Game.unShadowTiles = function()
 {
-MAP.unShadowTiles();
-
-var selectedTile = Tile.getSelectedTile();
-
-    // calling .unShadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
-if ( selectedTile )
+for (var a = 0 ; a < MAPS.length ; a++)
     {
-    selectedTile.selectTile();
+    MAPS[ a ].unShadowTiles();
+
+    var selectedTile = MAPS[ a ].selected_tile;
+
+        // calling .unShadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
+    if ( selectedTile )
+        {
+        selectedTile.selectTile();
+        }
     }
 };
 
@@ -146,7 +169,10 @@ Game.updateInformation = function()
 {
 if ( SHADOW_ON )
     {
-    MAP.shadowTiles();
+    for (var a = 0 ; a < MAPS.length ; a++)
+        {
+        MAPS[ a ].shadowTiles();
+        }
     }
 };
 
@@ -155,12 +181,12 @@ Game.resetStuff = function()
 {
 window.clearInterval( TIMER_F );
 
-if ( MAP )
+for (var a = 0 ; a < MAPS.length ; a++)
     {
-    MAP.clear();
+    MAPS[ a ].clear();
     }
 
-MAP = null;
+MAPS.length = 0;
 
 GameMenu.clear();
 $( CANVAS ).css( 'display', 'none' );
@@ -179,11 +205,6 @@ createjs.Ticker.setPaused( false );
 };
 
 
-Game.getMap = function()
-{
-return MAP;
-};
-
 
 Game.getShadowOption = function()
 {
@@ -193,6 +214,11 @@ return SHADOW_ON;
 Game.setShadowOption = function( value )
 {
 SHADOW_ON = value;
+};
+
+Game.getActiveMap = function()
+{
+return MAPS[ ACTIVE_MAP ];
 };
 
 
