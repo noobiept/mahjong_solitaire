@@ -47,6 +47,8 @@ this.all_grids = [];
     // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
 this.selected_tile = null;
 
+this.mapInformation = new MapInformation( this );
+
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
 this.startingX = centerIn;
@@ -185,7 +187,8 @@ for (var a = 0 ; a < mapDescription.length ; a++)
     startingY += 6;
     }
 
-GameMenu.updateInformation( this );
+
+this.mapInformation.update();
 };
 
 
@@ -606,6 +609,7 @@ Map.prototype.clear = function()
 {
 this.removeAllTiles();
 this.removeAllGrids();
+this.mapInformation.clear();
 };
 
 

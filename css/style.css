@@ -36,13 +36,17 @@ body
     }
 
 
-
-#GameMenu-left > *, #GameMenu-right > *
+#GameMenu-left > *, .GameMenu-infoContainer > *, #GameMenu-right > *
     {
     display: inline-block;
     margin: 10px;
     }
 
+.GameMenu-infoContainer
+    {
+    display: inline-block;
+    margin-right: 50px;
+    }
 
 .button
     {

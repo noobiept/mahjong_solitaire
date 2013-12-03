@@ -159,7 +159,7 @@ else
             selectedTile = null;
 
             Game.updateInformation();
-            GameMenu.updateInformation( this.mapObject );
+            this.mapObject.mapInformation.update();
             }
 
         else

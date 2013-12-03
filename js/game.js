@@ -8,9 +8,6 @@ function Game()
     // current map information
 var CURRENT_MAP;
 
-var TIME;           // time passed in milliseconds
-var TIMER_F;        // return of window.setInterval()
-
 
     // has all the map objects (one for each player)
 var MAPS = [];
@@ -47,7 +44,7 @@ var SHADOW_ON = false;
             ]
     }
 
-    @param {Object} selectedMap
+    @param {Object=} selectedMap
     @param {Boolean=false} twoPlayers
  */
 
@@ -89,20 +86,35 @@ GameMenu.show();
 
 
 Game.updateInformation();
-Game.startTimer();
 };
 
 
 
 Game.finished = function()
 {
+for (var a = 0 ; a < MAPS.length ; a++)
+    {
+    HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].mapInformation.time );
+    }
+
 Game.resetStuff();
 
-HighScore.add( CURRENT_MAP.mapName, TIME );
 
 var endMessage = document.querySelector( '#Message' );
 
-$( endMessage ).text( 'Map Cleared in ' + timeToString( TIME ) );
+    // 1 player mode
+if ( MAPS.length == 1 )
+    {
+    $( endMessage ).text( 'Map Cleared in ' + timeToString( MAPS[ 0 ].mapInformation.time ) );
+    }
+
+    // more than 1 player, need to determine who won
+else
+    {
+        //HERE
+    $( endMessage ).text( 'Map Cleared!' );
+    }
+
 $( endMessage ).css( 'display', 'block' );
 
 
@@ -116,19 +128,6 @@ window.setTimeout( function()
 
 
 
-Game.startTimer = function()
-{
-var interval = 500;
-TIME = 0;
-
-TIMER_F = window.setInterval( function()
-    {
-    TIME += interval;
-
-    GameMenu.updateTimer( TIME );
-
-    }, interval );
-};
 
 
 Game.shadowTiles = function()
@@ -179,8 +178,6 @@ if ( SHADOW_ON )
 
 Game.resetStuff = function()
 {
-window.clearInterval( TIMER_F );
-
 for (var a = 0 ; a < MAPS.length ; a++)
     {
     MAPS[ a ].clear();

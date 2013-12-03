@@ -43,7 +43,6 @@ shadow.onclick = function()
     if ( shadowOn )
         {
         Game.setShadowOption( false );
-
         Game.unShadowTiles();
 
         $( shadowValue ).text( 'Off' );
@@ -52,7 +51,6 @@ shadow.onclick = function()
     else
         {
         Game.setShadowOption( true );
-
         Game.shadowTiles();
 
         $( shadowValue ).text( 'On' );
@@ -104,52 +102,6 @@ $( MESSAGE ).text( '' );
 
 
 
-
-GameMenu.updateInformation = function( mapObject )
-{
-if ( GameMenu.updateTilesLeft( mapObject ) <= 0 )
-    {
-    Game.finished();
-    }
-
-else
-    {
-    var pairsLeft = GameMenu.updatePairsLeft( mapObject );
-
-    if ( pairsLeft <= 0 )
-        {
-        Game.getActiveMap().shuffle();
-        GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
-        Game.updateInformation();
-        }
-    }
-};
-
-
-GameMenu.updateTilesLeft = function( mapObject )
-{
-var tilesLeft = mapObject.all_tiles.length;
-
-$( TILES_LEFT ).text( tilesLeft );
-
-return tilesLeft;
-};
-
-
-GameMenu.updatePairsLeft = function( mapObject )
-{
-var pairsLeft = mapObject.howManySelectablePairs();
-
-$( PAIRS_LEFT ).text( pairsLeft );
-
-return pairsLeft;
-};
-
-
-GameMenu.updateTimer = function( time )
-{
-$( TIMER ).text( timeToString( time ) );
-};
 
 
 GameMenu.showMessage = function( text )
