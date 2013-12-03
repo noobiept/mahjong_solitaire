@@ -130,7 +130,7 @@ if ( event.paused ) //HERE this one doesnt seem to work?..
     return;
     }
 
-if ( !this.isTileSelectable() )
+if ( !this.isTileSelectable() || !this.mapObject.isCurrentActive )
     {
     GameMenu.showMessage( 'Un-selectable tile.' );
     return;
@@ -160,6 +160,7 @@ else
 
             Game.updateInformation();
             this.mapObject.mapInformation.update();
+            Game.changePlayer();
             }
 
         else

@@ -84,8 +84,9 @@ else
 
 GameMenu.show();
 
-
 Game.updateInformation();
+
+Game.setActiveMap( 0 );
 };
 
 
@@ -126,6 +127,39 @@ window.setTimeout( function()
     }, 2000 );
 };
 
+
+
+Game.setActiveMap = function( position )
+{
+var previousMap = MAPS[ ACTIVE_MAP ];
+
+previousMap.mapInformation.stopTimer();
+previousMap.isCurrentActive = false;
+
+ACTIVE_MAP = position;
+
+MAPS[ position ].mapInformation.startTimer();
+MAPS[ position ].isCurrentActive = true;
+};
+
+
+Game.changePlayer = function()
+{
+    // only 1 player
+if ( MAPS.length == 1 )
+    {
+    return;
+    }
+
+var nextPlayer = ACTIVE_MAP + 1;
+
+if ( nextPlayer >= MAPS.length )
+    {
+    nextPlayer = 0;
+    }
+
+Game.setActiveMap( nextPlayer );
+};
 
 
 
@@ -184,6 +218,7 @@ for (var a = 0 ; a < MAPS.length ; a++)
     }
 
 MAPS.length = 0;
+ACTIVE_MAP = 0;
 
 GameMenu.clear();
 $( CANVAS ).css( 'display', 'none' );

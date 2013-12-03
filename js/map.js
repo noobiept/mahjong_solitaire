@@ -51,7 +51,10 @@ this.mapInformation = new MapInformation( this );
 
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
-this.startingX = centerIn;
+this.centerIn = centerIn;
+
+    // when there's more than 1 player, only one map is active at a time (can be played)
+this.isCurrentActive = false;
 
 this.buildMap( newMap, centerIn );
 }
@@ -344,7 +347,7 @@ this.removeAllGrids();
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
 
-this.buildMap( newMap, this.startingX );
+this.buildMap( newMap, this.centerIn );
 };
 
 

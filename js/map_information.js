@@ -2,8 +2,6 @@
 {
 function MapInformation( mapObject )
 {
-var informationObject = this;
-
     // add the html elements to the game menu
 var tilesLeft = document.createElement( 'div' );
 var pairsLeft = document.createElement( 'div' );
@@ -46,8 +44,16 @@ this.mapObject = mapObject;
     // time passed in milliseconds
 this.time = 0;
 
-var interval = 500;
+this.updateTimer();
+}
 
+
+
+MapInformation.prototype.startTimer = function()
+{
+var informationObject = this;
+
+var interval = 500;
 
     // value returned from window.setInterval()
 this.interval_f = window.setInterval( function()
@@ -57,9 +63,14 @@ this.interval_f = window.setInterval( function()
     informationObject.updateTimer();
 
     }, interval );
+};
 
-this.updateTimer();
-}
+
+MapInformation.prototype.stopTimer = function()
+{
+window.clearInterval( this.interval_f );
+};
+
 
 
 MapInformation.prototype.updateTimer = function()
@@ -113,7 +124,7 @@ else
 
 MapInformation.prototype.clear = function()
 {
-window.clearInterval( this.interval_f );
+this.stopTimer();
 
 var mainContainer = document.querySelector( '#GameMenu-MapInformation' );
 
