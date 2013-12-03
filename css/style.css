@@ -39,13 +39,20 @@ body
 #GameMenu-left > *, .GameMenu-infoContainer > *, #GameMenu-right > *
     {
     display: inline-block;
-    margin: 10px;
+    margin: 0 10px;
     }
 
 .GameMenu-infoContainer
     {
     display: inline-block;
     margin-right: 50px;
+    }
+
+.MapInformation-playerNumber
+    {
+    background-color: rgba(100, 100, 255, 0.5);
+    border-radius: 5px;
+    padding: 0 10px;
     }
 
 .button

@@ -13,8 +13,13 @@
  */
 
 
-function Map( mapInfo, centerIn )
+function Map( mapInfo, centerIn, playerNumber )
 {
+if ( typeof playerNumber == 'undefined' )
+    {
+    playerNumber = 1;
+    }
+
 this.columns = mapInfo.numberOfColumns;
 this.lines = mapInfo.numberOfLines;
 
@@ -47,11 +52,12 @@ this.all_grids = [];
     // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
 this.selected_tile = null;
 
-this.mapInformation = new MapInformation( this );
+this.mapInformation = new MapInformation( this, playerNumber );
 
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
 this.centerIn = centerIn;
+this.playerNumber = playerNumber;
 
     // when there's more than 1 player, only one map is active at a time (can be played)
 this.isCurrentActive = false;

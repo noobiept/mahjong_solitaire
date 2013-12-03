@@ -18,6 +18,10 @@ var ACTIVE_MAP = 0;
     // whether we shadow the un-selectable tiles or not
 var SHADOW_ON = false;
 
+    // a message to tell which player turn is
+    // only for 2 player mode
+var PLAYER_TURN = null;
+
 /**
     mapDescription:
         each array (inside the main one) corresponds to a grid (an array of 'grids')
@@ -72,8 +76,17 @@ CURRENT_MAP = selectedMap;
 
 if ( twoPlayers )
     {
-    MAPS.push( new Map( selectedMap, 'left' ) );
-    MAPS.push( new Map( selectedMap, 'right' ) );
+    MAPS.push( new Map( selectedMap, 'left', 1 ) );
+    MAPS.push( new Map( selectedMap, 'right', 2 ) );
+
+        // init the player turn message
+    PLAYER_TURN = new createjs.Text( '', '30px monospace', 'white' );
+
+    PLAYER_TURN.x = CANVAS.width / 2;
+    PLAYER_TURN.y = CANVAS.height / 2;
+    PLAYER_TURN.textAlign = 'center';
+
+    STAGE.addChild( PLAYER_TURN );
     }
 
 else
@@ -140,6 +153,22 @@ ACTIVE_MAP = position;
 
 MAPS[ position ].mapInformation.startTimer();
 MAPS[ position ].isCurrentActive = true;
+
+    // for 2 players mode only
+if ( MAPS.length > 1 )
+    {
+    var playerName = MAPS[ position ].playerNumber;
+
+    if ( playerName == 1 )
+        {
+        PLAYER_TURN.text = '<-- Player 1 Turn';
+        }
+
+    else
+        {
+        PLAYER_TURN.text = 'Player 2 Turn -->';
+        }
+    }
 };
 
 
@@ -210,6 +239,8 @@ if ( SHADOW_ON )
 };
 
 
+
+
 Game.resetStuff = function()
 {
 for (var a = 0 ; a < MAPS.length ; a++)
@@ -222,6 +253,9 @@ ACTIVE_MAP = 0;
 
 GameMenu.clear();
 $( CANVAS ).css( 'display', 'none' );
+
+STAGE.removeChild( PLAYER_TURN );
+PLAYER_TURN = null;
 };
 
 

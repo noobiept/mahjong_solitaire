@@ -1,13 +1,20 @@
 (function(window)
 {
-function MapInformation( mapObject )
+function MapInformation( mapObject, playerNumber )
 {
+if ( typeof playerNumber == 'undefined' )
+    {
+    playerNumber = 1;
+    }
+
     // add the html elements to the game menu
+var player = document.createElement( 'div' );
 var tilesLeft = document.createElement( 'div' );
 var pairsLeft = document.createElement( 'div' );
 var timer = document.createElement( 'div' );
 var container = document.createElement( 'div' );
 
+$( player ).text( 'Player ' + playerNumber );
 $( tilesLeft ).text( 'Tiles Left: ' );
 $( pairsLeft ).text( 'Pairs Left: ' );
 $( timer ).text( 'Timer: ' );
@@ -22,10 +29,12 @@ timer.appendChild( timerValue );
 
 
 container.className = 'GameMenu-infoContainer';
+player.className = 'MapInformation-playerNumber';
 tilesLeft.className = 'MapInformation-tilesLeft';
 pairsLeft.className = 'MapInformation-pairsLeft';
 timer.className = 'MapInformation-timer';
 
+container.appendChild( player );
 container.appendChild( tilesLeft );
 container.appendChild( pairsLeft );
 container.appendChild( timer );
