@@ -43,10 +43,10 @@ if ( !HIGH_SCORE[ mapName ] )
 
 HIGH_SCORE[ mapName ].push( score );
 
-    // have the better scores first
+    // have the better scores first (better means a lesser value (finished the map faster))
 HIGH_SCORE[ mapName ].sort( function( a, b )
     {
-    return b - a;
+    return a - b;
     });
 
     // if we pass the limit, remove one of the lesser scores

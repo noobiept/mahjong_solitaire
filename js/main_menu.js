@@ -131,7 +131,7 @@ else
         // header
     var tableRow = document.createElement( 'tr' );
 
-    var header = [ 'Position', 'Time' ];
+    var header = [ '', 'Time' ];
 
     var tableHeader;
 
