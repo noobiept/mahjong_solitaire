@@ -156,11 +156,15 @@ else
             this.mapObject.removeTile( selectedTile );
             this.mapObject.removeTile( this );
 
-            selectedTile = null;
+            this.mapObject.selected_tile = null;
 
             Game.updateInformation();
             this.mapObject.mapInformation.update();
-            Game.changePlayer();
+
+            if ( !Game.hasEnded() )
+                {
+                Game.changePlayer();
+                }
             }
 
         else

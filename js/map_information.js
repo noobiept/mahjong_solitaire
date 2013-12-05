@@ -110,6 +110,7 @@ return pairsLeft;
 
 
 
+
 MapInformation.prototype.update = function()
 {
 if ( this.updateTilesLeft() <= 0 )

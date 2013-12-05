@@ -22,6 +22,9 @@ var SHADOW_ON = false;
     // only for 2 player mode
 var PLAYER_TURN = null;
 
+    // tell if the game finished or not
+var GAME_FINISHED = false;
+
 /**
     mapDescription:
         each array (inside the main one) corresponds to a grid (an array of 'grids')
@@ -66,6 +69,7 @@ if ( twoPlayers !== true )
     }
 
 Game.resetStuff();
+GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
 
 CANVAS.width = $( window ).width();
 CANVAS.height = $( window ).height() - $( '#GameMenu' ).height();
@@ -106,12 +110,22 @@ Game.setActiveMap( 0 );
 
 Game.finished = function()
 {
+    // confirm that all players have finished the game, otherwise return and wait until the last player finish to proceed
+for (var a = 0 ; a < MAPS.length ; a++)
+    {
+        // see if there's still tiles left
+    if ( MAPS[ a ].all_tiles.length > 0 )
+        {
+        return;
+        }
+    }
+
+GAME_FINISHED = true;
+
 for (var a = 0 ; a < MAPS.length ; a++)
     {
     HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].mapInformation.time );
     }
-
-Game.resetStuff();
 
 
 var endMessage = document.querySelector( '#Message' );
@@ -125,19 +139,36 @@ if ( MAPS.length == 1 )
     // more than 1 player, need to determine who won
 else
     {
-        //HERE
-    $( endMessage ).text( 'Map Cleared!' );
+    var playerOneTime = MAPS[ 0 ].mapInformation.time;
+    var playerTwoTime = MAPS[ 1 ].mapInformation.time;
+
+    if ( playerOneTime < playerTwoTime )
+        {
+        $( endMessage ).text( 'Player 1 Wins! Time: ' + timeToString( playerOneTime ) );
+        }
+
+    else if ( playerTwoTime < playerOneTime )
+        {
+        $( endMessage ).text( 'Player 2 Wins! Time: ' + timeToString( playerTwoTime ) );
+        }
+
+    else
+        {
+        $( endMessage ).text( 'Its a draw! Time: ' + timeToString( playerOneTime ) );
+        }
     }
 
-$( endMessage ).css( 'display', 'block' );
 
+Game.resetStuff();
+
+$( endMessage ).css( 'display', 'block' );
 
 window.setTimeout( function()
     {
     $( endMessage ).css( 'display', 'none' );
 
     MainMenu.open();
-    }, 2000 );
+    }, 2500 );
 };
 
 
@@ -285,6 +316,12 @@ SHADOW_ON = value;
 Game.getActiveMap = function()
 {
 return MAPS[ ACTIVE_MAP ];
+};
+
+
+Game.hasEnded = function()
+{
+return GAME_FINISHED;
 };
 
 
