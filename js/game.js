@@ -206,7 +206,7 @@ if ( MAPS.length > 1 )
 Game.changePlayer = function()
 {
     // only 1 player
-if ( MAPS.length == 1 )
+if ( MAPS.length <= 1 )
     {
     return;
     }

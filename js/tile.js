@@ -159,6 +159,8 @@ else
             this.mapObject.selected_tile = null;
 
             Game.updateInformation();
+
+            this.mapObject.mapInformation.timesUpdateWasCalled = 0;
             this.mapObject.mapInformation.update();
 
             if ( !Game.hasEnded() )

@@ -47,6 +47,7 @@ this.tilesLeft_ui = tilesLeftValue;
 this.pairsLeft_ui = pairsLeftValue;
 this.timer_ui = timerValue;
 this.container_ui = container;
+this.timesUpdateWasCalled = 0;
 
 this.mapObject = mapObject;
 
@@ -124,6 +125,29 @@ else
 
     if ( pairsLeft <= 0 )
         {
+        this.timesUpdateWasCalled++;
+
+            // we're in an endless recursion, due to not being possible to get a valid map with pairs left (after .shuffle() is called)
+            // end the game
+        if (this.timesUpdateWasCalled > 1)
+            {
+            var endMessage = document.querySelector( '#Message' );
+
+            $( endMessage ).text( 'No More Possible Plays' );
+            $( endMessage ).css( 'display', 'block' );
+
+            Game.resetStuff();
+
+            window.setTimeout( function()
+                {
+                $( endMessage ).css( 'display', 'none' );
+
+                MainMenu.open();
+                }, 2500 );
+
+            return;
+            }
+
         Game.getActiveMap().shuffle();
         GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
         Game.updateInformation();

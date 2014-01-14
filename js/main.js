@@ -24,7 +24,12 @@
 
         - improve layout of main menu
 
-        - when there's for example 2 tiles left, and its one on top of the other, you get an impossible map, and it leads the code to keep calling MapInformation.update(). it determines that there's no pairs left, and then call Map.shuffle(), which will never get a map with a valid pair, so when MapInformation.update() is called again, it will see there's no pairs left, and goes on and on..
+        - more maps
+            - fish
+            - snake
+            - tree
+            - spiral
+            - door
  */
 
 
