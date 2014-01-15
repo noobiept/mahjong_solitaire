@@ -83,6 +83,7 @@ Map.prototype.buildMap = function( mapDescription, centerIn )
 {
 var mapObject = this;
 var grid;
+var a, b;
 
     // center the map horizontally
 var canvasWidth = CANVAS.width;
@@ -110,8 +111,8 @@ else
     }
 
 
-
-for (var a = 0 ; a < mapDescription.length ; a++)
+    // add the tiles, each grid at a time
+for (a = 0 ; a < mapDescription.length ; a++)
     {
     var gridDescription = mapDescription[ a ];
 
@@ -123,77 +124,80 @@ for (var a = 0 ; a < mapDescription.length ; a++)
         });
 
 
-        // get all the columns of each line
-        // key the line number, value an array with the columns
-        // example = { "10": [ { column: 2 }, ... ] }
-    var lines = {};
-
-    for (var b = 0 ; b < gridDescription.length ; b++)
+    for (b = 0 ; b < gridDescription.length ; b++)
         {
         var position = gridDescription[ b ];
 
-        var lineStr = position.line.toString();
-
-        if ( !lines[ lineStr ] )
-            {
-            lines[ lineStr ] = [];
-            }
-
-        lines[ lineStr ].push({
-                tileId   : position.tileId,
-                tileName : position.tileName,
-                column   : position.column
+        this.addTile({
+                tileId     : position.tileId,
+                tileName   : position.tileName,
+                column     : position.column,
+                line       : position.line,
+                gridObject : grid,
+                mapObject  : this,
+                scale      : mapObject.scale
             });
-        }
-
-        // now we need to sort the lines (bottom to top), and the columns (left to right)
-    var linesNumber = [];
-
-        // get all the lines numbers
-    $.each(lines, function(key, value)
-        {
-        linesNumber.push( parseInt( key ) );
-        });
-
-        // sort the lines (the higher numbers first)
-    linesNumber.sort(function(a, b)
-        {
-        return b - a;
-        });
-
-        // go each line at a time
-    for (var c = 0 ; c < linesNumber.length ; c++)
-        {
-        var line = linesNumber[ c ];
-
-            // get all the elements of the line
-        var columns = lines[ line.toString() ];
-
-            // sort first by the columns (left to right, so lower numbers first)
-        columns.sort(function(a, b)
-            {
-            return a.column - b.column;
-            });
-
-            // add the tiles, already sorted out
-        for (var d = 0 ; d < columns.length ; d++)
-            {
-            this.addTile({
-                    tileId     : columns[ d ].tileId,
-                    tileName   : columns[ d ].tileName,
-                    column     : columns[ d ].column,
-                    line       : line,
-                    gridObject : grid,
-                    mapObject  : this,
-                    scale      : mapObject.scale
-                });
-            }
         }
 
 
         // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
     startingX -= 6;
     startingY += 6;
+    }
+
+
+var line;
+var column;
+var element;
+
+    // we need to order the tiles z-index (which element is drawn on top of which)
+    // so that the tiles don't look out of place
+for (a = 0 ; a < this.all_grids.length ; a++)
+    {
+    grid = this.all_grids[ a ];
+
+    var numberOfLines = this.lines;
+    var numberOfColumns = this.columns;
+
+        // get last column/line, go diagonal up right
+    for (b = numberOfLines - 1 ; b >= 0 ; b--)
+        {
+        line = b;
+        column = 0;
+
+        while( line < numberOfLines && column < numberOfColumns )
+            {
+            element = grid.grid_array[ column ][ line ];
+
+            if ( element )
+                {
+                STAGE.addChild( element.container );
+                }
+
+            line++;
+            column++;
+            }
+        }
+
+        // get 2nd last line, and do all diagonals, in first column
+    for (b = 1 ; b < numberOfColumns ; b++)
+        {
+        line = 0;
+        column = b;
+
+        while( line < numberOfLines && column < numberOfColumns )
+            {
+            element = grid.grid_array[ column ][ line ];
+
+            if ( element )
+                {
+                STAGE.addChild( element.container );
+                }
+
+            line++;
+            column++;
+            }
+        }
     }
 
 

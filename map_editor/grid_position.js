@@ -90,6 +90,9 @@ else
         });
 
     this.tileObject = tile;
+
+        // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
+    STAGE.setChildIndex( this.tileObject.container, 0 );
     }
 
 Map.updateTilesLeft();

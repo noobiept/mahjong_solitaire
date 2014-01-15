@@ -25,7 +25,6 @@
         - improve layout of main menu
 
         - more maps
-            - fish
             - snake
             - tree
             - spiral
@@ -111,7 +110,8 @@ var manifest = [
 
             // maps
         { id: 'map_pyramid', src: BASE_URL + 'maps/pyramid.json' },
-        { id: 'map_tower', src: BASE_URL + 'maps/tower.json' }
+        { id: 'map_tower', src: BASE_URL + 'maps/tower.json' },
+        { id: 'map_fish', src: BASE_URL + 'maps/fish.json' }
     ];
 
 
@@ -132,7 +132,8 @@ PRELOAD.addEventListener( 'complete', function()
         // the order of the array needs to match the order of the html elements in the main menu
     MainMenu.addMaps([
             PRELOAD.getResult( 'map_pyramid' ),
-            PRELOAD.getResult( 'map_tower' )
+            PRELOAD.getResult( 'map_tower' ),
+            PRELOAD.getResult( 'map_fish' )
         ]);
     MainMenu.open();
     });

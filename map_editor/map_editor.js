@@ -2,6 +2,8 @@
     to doo:
 
         - i have to add +1 column otherwise when adding a tile to the last column it gives an error...
+
+        - add keyboard shortcuts to select the grids
  */
 
 var CANVAS;
@@ -13,7 +15,7 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
 
-CANVAS.width = 1000;
+CANVAS.width = 1600;
 CANVAS.height = 800;
 
 STAGE = new createjs.Stage( CANVAS );
