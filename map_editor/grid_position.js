@@ -66,8 +66,12 @@ this.container.x = x;
 this.container.y = y;
 };
 
+/**
+ *
+ * @param drawBelow {Boolean} If the tile is draw below all elements (z-index)
+ */
 
-GridPosition.prototype.onClick = function()
+GridPosition.prototype.onClick = function( drawBelow )
 {
 if ( this.hasTile )
     {
@@ -92,7 +96,10 @@ else
     this.tileObject = tile;
 
         // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
-    STAGE.setChildIndex( this.tileObject.container, 0 );
+    if ( drawBelow !== false )
+        {
+        STAGE.setChildIndex( this.tileObject.container, 0 );
+        }
     }
 
 Map.updateTilesLeft();

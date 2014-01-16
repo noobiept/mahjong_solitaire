@@ -113,7 +113,7 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
             if ( gridPosition.column == tile.column && gridPosition.line == tile.line )
                 {
-                gridPosition.onClick();
+                gridPosition.onClick( false );
 
                     // remove this GridPosition, since its already got an hit (so that the next search is faster)
                 gridPositionsCopy.splice( c, 1 );
