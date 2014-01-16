@@ -84,10 +84,10 @@ if ( twoPlayers )
     MAPS.push( new Map( selectedMap, 'right', 2 ) );
 
         // init the player turn message
-    PLAYER_TURN = new createjs.Text( '', '30px monospace', 'white' );
+    PLAYER_TURN = new createjs.Text( '', '30px monospace', 'red' );
 
-    PLAYER_TURN.x = CANVAS.width / 2;
-    PLAYER_TURN.y = CANVAS.height / 2;
+        // position just above the menu, in the left or right side of the window (depending on which turn it is)
+    PLAYER_TURN.y = CANVAS.height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
     PLAYER_TURN.textAlign = 'center';
 
     STAGE.addChild( PLAYER_TURN );
@@ -192,12 +192,16 @@ if ( MAPS.length > 1 )
 
     if ( playerName == 1 )
         {
-        PLAYER_TURN.text = '<-- Player 1 Turn';
+            // position centered in the left side of the map
+        PLAYER_TURN.x = CANVAS.width / 4;
+        PLAYER_TURN.text = 'Player 1 Turn';
         }
 
     else
         {
-        PLAYER_TURN.text = 'Player 2 Turn -->';
+            // centered in the right side of the map
+        PLAYER_TURN.x = CANVAS.width * 3 / 4;
+        PLAYER_TURN.text = 'Player 2 Turn';
         }
     }
 };

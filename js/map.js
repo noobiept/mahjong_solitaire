@@ -29,9 +29,23 @@ var canvasHeight = CANVAS.height;
 var tileWidth = Tile.getImageWidth();
 var tileHeight = Tile.getImageHeight();
 
+    // space available for this map (depends on how many maps are at the same time)
+var mapWidth;
+
+if ( centerIn == 'left' || centerIn == 'right' )
+    {
+        // there's going to be 2 maps, so each map occupies half of the space
+    mapWidth = canvasWidth / 2;
+    }
+
+else
+    {
+    mapWidth = canvasWidth;
+    }
+
     // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
     // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
-var scaleWidth = canvasWidth / ( this.columns / 2 * tileWidth );
+var scaleWidth = mapWidth / ( this.columns / 2 * tileWidth );
 var scaleHeight = canvasHeight / ( this.lines / 2 * tileHeight );
 
 if ( scaleWidth < scaleHeight )
