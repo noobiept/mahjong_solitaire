@@ -2,8 +2,6 @@
     to doo:
 
         - i have to add +1 column otherwise when adding a tile to the last column it gives an error...
-
-        - add keyboard shortcuts to select the grids
  */
 
 var CANVAS;
@@ -54,6 +52,30 @@ document.querySelector( '#newMap' ).onclick = function()
             numberOfGrids: parseInt( numberOfGrids ),
             mapName: ''
         });
+    };
+
+
+    // select the grid with the 1/2/3/etc keys
+    // press 'a' to see all grids
+document.onkeyup = function( event )
+    {
+    var key = event.keyCode;
+
+    var selectGrid = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+
+    for (var a = 0 ; a < selectGrid.length ; a++)
+        {
+        if ( key == EVENT_KEY[ selectGrid[ a ] ] )
+            {
+            Map.selectGrid( parseInt( selectGrid[ a ] ) );
+            return;
+            }
+        }
+
+    if ( key == EVENT_KEY[ 'a' ] )
+        {
+        Map.selectGrid( -1 );
+        }
     };
 
 

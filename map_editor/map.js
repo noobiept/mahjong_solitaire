@@ -129,6 +129,12 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 
 Map.selectGrid = function( gridPosition )
 {
+    // -1 is to show all grids, 0+ is to select a specific grid
+if ( gridPosition < -1 || gridPosition >= ALL_GRIDS.length )
+    {
+    return;
+    }
+
     // already selected
 if ( gridPosition == SELECTED_GRID )
     {
