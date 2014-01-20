@@ -13,8 +13,8 @@ window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
 
-CANVAS.width = 1600;
-CANVAS.height = 800;
+CANVAS.width = 1500;
+CANVAS.height = 850;
 
 STAGE = new createjs.Stage( CANVAS );
 
@@ -67,7 +67,7 @@ document.onkeyup = function( event )
         {
         if ( key == EVENT_KEY[ selectGrid[ a ] ] )
             {
-            Map.selectGrid( parseInt( selectGrid[ a ] ) );
+            Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
             return;
             }
         }

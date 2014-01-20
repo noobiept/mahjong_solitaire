@@ -29,6 +29,7 @@
             - tree
             - spiral
             - door
+            - star
  */
 
 
@@ -111,7 +112,8 @@ var manifest = [
             // maps
         { id: 'map_pyramid', src: BASE_URL + 'maps/pyramid.json' },
         { id: 'map_tower', src: BASE_URL + 'maps/tower.json' },
-        { id: 'map_fish', src: BASE_URL + 'maps/fish.json' }
+        { id: 'map_fish', src: BASE_URL + 'maps/fish.json' },
+        { id: 'map_crossroads', src: BASE_URL + 'maps/crossroads.json' }
     ];
 
 
@@ -133,7 +135,8 @@ PRELOAD.addEventListener( 'complete', function()
     MainMenu.addMaps([
             PRELOAD.getResult( 'map_pyramid' ),
             PRELOAD.getResult( 'map_tower' ),
-            PRELOAD.getResult( 'map_fish' )
+            PRELOAD.getResult( 'map_fish' ),
+            PRELOAD.getResult( 'map_crossroads' )
         ]);
     MainMenu.open();
     });
