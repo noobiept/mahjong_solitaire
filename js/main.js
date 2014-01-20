@@ -117,11 +117,8 @@ var manifest = [
     ];
 
 
-
 var loadingMessage = document.querySelector( '#Message' );
 
-
-PRELOAD.installPlugin( createjs.Sound );
 PRELOAD.addEventListener( 'progress', function( event )
     {
     $( loadingMessage ).text( 'Loading ' + ( event.progress * 100 | 0 ) + '%' );
@@ -129,7 +126,6 @@ PRELOAD.addEventListener( 'progress', function( event )
 PRELOAD.addEventListener( 'complete', function()
     {
     $( loadingMessage ).css( 'display', 'none' );
-
 
         // the order of the array needs to match the order of the html elements in the main menu
     MainMenu.addMaps([

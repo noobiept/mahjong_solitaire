@@ -1,0 +1,12 @@
+{
+    "resultingFolder": "mahjong_solitaire",
+    "basePath": "..",
+    "files":
+        [
+            "css/",
+            "images/",
+            "libraries/",
+            "maps/",
+            "manifest.json"
+        ]
+}

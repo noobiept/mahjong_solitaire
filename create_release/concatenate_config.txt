@@ -1,0 +1,14 @@
+{
+    "C:\\Users\\drk\\Dropbox\\projects\\mahjong_solitaire": [
+        "js/utilities.js", 
+        "js/high_score.js", 
+        "js/tile.js", 
+        "js/map_information.js", 
+        "js/map.js", 
+        "js/grid.js", 
+        "js/game.js", 
+        "js/game_menu.js", 
+        "js/main_menu.js", 
+        "js/main.js"
+    ]
+}

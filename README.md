@@ -2,7 +2,8 @@ Mahjong Solitaire
 =================
 
 
-Working on this..
+
+[Try it out here](http://nbpt.eu/games/mahjong_solitaire/)
 
 
 
