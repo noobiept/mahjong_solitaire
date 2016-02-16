@@ -125,11 +125,6 @@ else
 
 Tile.prototype.onClick = function( event )
 {
-if ( event.paused ) //HERE this one doesnt seem to work?..
-    {
-    return;
-    }
-
 if ( !this.isTileSelectable() || !this.mapObject.isCurrentActive )
     {
     GameMenu.showMessage( 'Un-selectable tile.' );
@@ -174,6 +169,11 @@ else
             selectedTile.unSelectTile();
             this.selectTile();
             }
+        }
+
+    else
+        {
+        selectedTile.unSelectTile();
         }
     }
 };

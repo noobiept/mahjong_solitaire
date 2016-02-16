@@ -532,8 +532,31 @@ for (var a = 0 ; a < selectableTiles.length ; a++)
         }
     }
 
-
 return count;
+};
+
+
+Map.prototype.getPair = function()
+{
+var tiles = this.getSelectableTiles();
+var first, second;
+
+for (var a = 0 ; a < tiles.length ; a++)
+    {
+    first = tiles[ a ];
+
+    for (var b = a + 1 ; b < tiles.length ; b++)
+        {
+        second = tiles[ b ];
+
+        if ( first.tileName == second.tileName )
+            {
+            return [ first, second ];
+            }
+        }
+    }
+
+return null;
 };
 
 
@@ -631,7 +654,6 @@ this.all_tiles.length = 0;
 };
 
 
-
 Map.prototype.clear = function()
 {
 this.removeAllTiles();
@@ -641,5 +663,4 @@ this.mapInformation.clear();
 
 
 window.Map = Map;
-
 }(window));

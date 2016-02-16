@@ -274,7 +274,14 @@ if ( SHADOW_ON )
 };
 
 
+Game.highlightRandomPair = function()
+{
+var pair = Game.getActiveMap().getPair();
 
+pair[ 0 ].selectTile();
+pair[ 1 ].selectTile();
+};
+    
 
 Game.resetStuff = function()
 {
@@ -304,7 +311,6 @@ Game.resume = function()
 {
 createjs.Ticker.setPaused( false );
 };
-
 
 
 Game.getShadowOption = function()
