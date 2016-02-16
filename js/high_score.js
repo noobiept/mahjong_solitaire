@@ -12,11 +12,9 @@ var HIGH_SCORE = {};
 var MAX_SCORES_SAVED = 5;
 
 
-HighScore.load = function()
+HighScore.load = function( score )
 {
-var score = localStorage.getObject( 'high_score' );
-
-if ( score !== null )
+if ( score )
     {
     HIGH_SCORE = score;
     }
@@ -25,7 +23,7 @@ if ( score !== null )
 
 HighScore.save = function()
 {
-localStorage.setObject( 'high_score', HIGH_SCORE );
+AppStorage.setData({ mahjong_high_score: HIGH_SCORE });
 };
 
 
@@ -75,11 +73,9 @@ HighScore.removeAll = function()
 {
 HIGH_SCORE.length = 0;
 
-localStorage.removeItem( 'high_score' );
+AppStorage.removeData( [ 'mahjong_high_score' ] );
 };
 
 
-
 window.HighScore = HighScore;
-
 }(window));

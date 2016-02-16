@@ -1,38 +1,3 @@
-/*
-    Dependencies:
-
-        - jquery : 2.0
-        - createjs
-            easeljs   : 0.7
-            preloadjs : 0.4
-            soundjs   : 0.5
-            tweenjs   : 0.5
-
-
-    links:
-
-        - http://en.wikipedia.org/wiki/Mahjong_solitaire
-        - http://en.wikipedia.org/wiki/Mahjong_tiles
-        - http://pt.wikipedia.org/wiki/Mahjong
-
-    Tiles images license:
-
-        - Creative Commons Attribution-Share Alike 3.0 Unported (from wikipedia links above)
-
-
-    to doo:
-
-        - improve layout of main menu
-
-        - more maps
-            - snake
-            - tree
-            - spiral
-            - door
-            - star
- */
-
-
 var CANVAS;
 
 var BASE_URL = '';
@@ -41,7 +6,14 @@ var BASE_URL = '';
 var STAGE;
 var PRELOAD;
 
+
 window.onload = function()
+{
+AppStorage.getData( [ 'mahjong_high_score' ], initApp );
+};
+
+
+function initApp( data )
 {
 CANVAS = document.querySelector( '#mainCanvas' );
 
@@ -49,7 +21,7 @@ STAGE = new createjs.Stage( CANVAS );
 
 MainMenu.init();
 GameMenu.init();
-HighScore.load();
+HighScore.load( data[ 'mahjong_high_score' ] );
 
 
 createjs.Ticker.setInterval( 50 );
@@ -137,6 +109,4 @@ PRELOAD.addEventListener( 'complete', function()
     MainMenu.open();
     });
 PRELOAD.loadManifest( manifest, true );
-};
-
-
+}
