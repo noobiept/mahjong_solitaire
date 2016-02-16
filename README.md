@@ -10,13 +10,10 @@ Mahjong Solitaire
 Dependencies
 ============
 
-- jquery : 2.0
+- jquery : 2.2
 - createJS
-    - easelJS : 0.7
-    - preloadJS : 0.4
-    - soundJS : 0.5
-    - tweenJS : 0.5
-
+    - easelJS : 0.8
+    - preloadJS : 0.6
 
 Links
 =====

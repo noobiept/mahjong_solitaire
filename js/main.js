@@ -23,8 +23,7 @@ MainMenu.init();
 GameMenu.init();
 HighScore.load( data[ 'mahjong_high_score' ] );
 
-
-createjs.Ticker.setInterval( 50 );
+createjs.Ticker.timingMode = createjs.Ticker.RAF;
 createjs.Ticker.on( 'tick', function( event )
     {
     if ( event.paused )
