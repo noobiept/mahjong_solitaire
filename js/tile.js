@@ -14,14 +14,16 @@ var TILE_HEIGHT = 45;
         column : Number,
         line   : Number,
         gridObject : Grid,
-        mapObject  : Map,
         drawShape  : Boolean,
+        onClick    : (tile: Tile) => any,
         scale      : Number
     }
  */
 
 function Tile( args )
 {
+var _this = this;
+
     // :: validate the arguments :: //
 
 if ( typeof args.tileId == 'undefined' )
@@ -33,12 +35,6 @@ if ( typeof args.tileId == 'undefined' )
 if ( typeof args.gridObject == 'undefined' )
     {
     console.log( 'Provide the .gridObject. Got:', args.gridObject );
-    return;
-    }
-
-if ( typeof args.mapObject == 'undefined' )
-    {
-    console.log( 'Provide the .mapObject. Got:', args.mapObject );
     return;
     }
 
@@ -64,7 +60,6 @@ if ( typeof args.scale == 'undefined' )
     }
 
 
-
 this.width = TILE_WIDTH * args.scale;
 this.height = TILE_HEIGHT * args.scale;
 
@@ -88,7 +83,10 @@ if ( args.drawShape !== false )
     container.scaleX = args.scale;
     container.scaleY = args.scale;
 
-    container.on( 'click', this.onClick, this );
+    container.on( 'click', function()
+        {
+        args.onClick( _this );
+        });
 
     STAGE.addChild( container );
     }
@@ -104,97 +102,16 @@ this.container = container;
 this.column = args.column;
 this.line = args.line;
 this.gridObject = args.gridObject;
-this.mapObject = args.mapObject;
 this.scale = args.scale;
-
-
-if ( args.drawShape !== false )
-    {
-    args.gridObject.addTile( this, args.column, args.line );
-
-    this.unSelectTile();
-    }
-
-else
-    {
-    args.gridObject.addTile( this, args.column, args.line, false );
-    }
 }
-
-
-
-Tile.prototype.onClick = function( event )
-{
-if ( !this.isTileSelectable() || !this.mapObject.isCurrentActive )
-    {
-    GameMenu.showMessage( 'Un-selectable tile.' );
-    return;
-    }
-
-var selectedTile = this.mapObject.selected_tile;
-
-    // no tile is selected, so we select the first one
-if ( !selectedTile )
-    {
-    this.selectTile();
-    }
-
-    // 2 tiles selected, check if its a valid match or not
-else
-    {
-        // can't select the same tile again
-    if ( selectedTile !== this )
-        {
-            // valid match
-        if ( selectedTile.tileName == this.tileName )
-            {
-            this.mapObject.removeTile( selectedTile );
-            this.mapObject.removeTile( this );
-
-            this.mapObject.selected_tile = null;
-
-            Game.updateInformation();
-
-            this.mapObject.mapInformation.timesUpdateWasCalled = 0;
-            this.mapObject.mapInformation.update();
-
-            if ( !Game.hasEnded() )
-                {
-                Game.changePlayer();
-                }
-            }
-
-        else
-            {
-            selectedTile.unSelectTile();
-            this.selectTile();
-            }
-        }
-
-    else
-        {
-        selectedTile.unSelectTile();
-        }
-    }
-};
 
 
 Tile.prototype.selectTile = function()
 {
-this.mapObject.selected_tile = this;
-
 var g = this.background.graphics;
 
 g.beginFill( 'rgba(255, 0, 0, 0.3)' );
 g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );    // seems to already consider the .scale ?..
-};
-
-
-Tile.prototype.unSelectTile = function()
-{
-this.mapObject.selected_tile = null;
-
-this.clearBackground();
 };
 
 
@@ -218,80 +135,11 @@ g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
 };
 
 
-
 Tile.prototype.moveTo = function( x, y )
 {
 this.container.x = x;
 this.container.y = y;
 };
-
-
-
-/*
-    to be able to select a tile, one of the sides (left or right) as to be free, and the tile can't have other tiles on top of it (in a grid above)
- */
-
-Tile.prototype.isTileSelectable = function()
-{
-var column = this.column;
-var line = this.line;
-var grid = this.gridObject;
-
-var isLeftFree = true;
-var isRightFree = true;
-
-if ( column > 0 )
-    {
-    if ( grid.grid_array[ column - 1 ][ line ] ||
-         grid.grid_array[ column - 1 ][ line + 1 ] )
-        {
-        isLeftFree = false;
-        }
-    }
-
-if ( column + 2 < grid.grid_array.length )
-    {
-    if ( grid.grid_array[ column + 2 ][ line ] ||
-            grid.grid_array[ column + 2 ][ line + 1 ] )
-        {
-        isRightFree = false;
-        }
-    }
-
-
-if ( !isLeftFree && !isRightFree )
-    {
-    return false;
-    }
-
-    // check grids above, if there's any tile on top of this one
-var gridAbove;
-var gridPosition = grid.position;
-
-while( true )
-    {
-    gridPosition++;
-
-    gridAbove = this.mapObject.all_grids[ gridPosition ];
-
-    if ( !gridAbove )
-        {
-        break;
-        }
-
-    if ( gridAbove.grid_array[ column ][ line ] ||
-         gridAbove.grid_array[ column ][ line + 1 ] ||
-         gridAbove.grid_array[ column + 1 ][ line ] ||
-         gridAbove.grid_array[ column + 1 ][ line + 1 ] )
-        {
-        return false;
-        }
-    }
-
-return true;
-};
-
-
 
 
 Tile.prototype.remove = function()
@@ -300,7 +148,6 @@ STAGE.removeChild( this.container );
 
 this.gridObject.removeTile( this.column, this.line );
 };
-
 
 
 Tile.getImageWidth = function()
@@ -316,5 +163,4 @@ return TILE_HEIGHT;
 
 
 window.Tile = Tile;
-
 }(window));
