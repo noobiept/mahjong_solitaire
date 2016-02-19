@@ -1,3 +1,5 @@
+/*global CANVAS, Tile, MapInformation, STAGE, Utilities, Grid, GameMenu, Game*/
+
 (function(window)
 {
 /*
@@ -792,7 +794,7 @@ if ( !isLeftFree && !isRightFree )
 var gridAbove;
 var gridPosition = grid.position;
 
-while( true )
+for ( ;; )
     {
     gridPosition++;
 

@@ -1,3 +1,5 @@
+/*global CANVAS*/
+
 var Utilities;
 (function(Utilities) {
 

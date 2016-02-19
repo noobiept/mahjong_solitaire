@@ -1,3 +1,5 @@
+/*global AppStorage, createjs, MainMenu, GameMenu, HighScore*/
+
 var CANVAS;
 
 var BASE_URL = '';

@@ -1,3 +1,5 @@
+/*global createjs, PRELOAD, STAGE*/
+
 (function(window)
 {
     // the original image dimensions, this can be scaled
@@ -28,14 +30,12 @@ var _this = this;
 
 if ( typeof args.tileId == 'undefined' )
     {
-    console.log( 'Provide the .tileId. Got:', args.tileId );
-    return;
+    throw new Error( 'Provide the .tileId. Got: ' + args.tileId );
     }
 
 if ( typeof args.gridObject == 'undefined' )
     {
-    console.log( 'Provide the .gridObject. Got:', args.gridObject );
-    return;
+    throw new Error( 'Provide the .gridObject. Got: ' + args.gridObject );
     }
 
 if ( typeof args.tileName == 'undefined' )

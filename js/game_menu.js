@@ -1,3 +1,5 @@
+/*global Game, MainMenu*/
+
 (function(window)
 {
 function GameMenu()
@@ -7,9 +9,6 @@ function GameMenu()
 
     // reference to html elements
 var GAME_MENU_CONTAINER;
-var TILES_LEFT;
-var PAIRS_LEFT;
-var TIMER;
 var MESSAGE;
 
     // the return of the window.setTimeout()
@@ -18,10 +17,6 @@ var MESSAGE_TIMEOUT = null;
 GameMenu.init = function()
 {
 var gameMenu = document.querySelector( '#GameMenu' );
-
-var tilesLeft = gameMenu.querySelector( '#GameMenu-tilesLeft span' );
-var pairsLeft = gameMenu.querySelector( '#GameMenu-pairsLeft span' );
-var timer = gameMenu.querySelector( '#GameMenu-timer span' );
 
 var shuffle = gameMenu.querySelector( '#GameMenu-shuffle' );
 var shadow = document.querySelector( '#GameMenu-shadow' );
@@ -72,20 +67,14 @@ quit.onclick = function()
     MainMenu.open();
     };
 
-$( timer ).text( Utilities.timeToString( 0 ) );
 
 GAME_MENU_CONTAINER = gameMenu;
-TILES_LEFT = tilesLeft;
-PAIRS_LEFT = pairsLeft;
-TIMER = timer;
 MESSAGE = gameMenu.querySelector( '#GameMenu-message' );
 };
 
 
 GameMenu.show = function()
 {
-$( TIMER ).text( Utilities.timeToString( 0 ) );
-
 $( GAME_MENU_CONTAINER ).css( 'display', 'inline-flex' );
 };
 

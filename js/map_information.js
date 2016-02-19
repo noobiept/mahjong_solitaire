@@ -1,3 +1,5 @@
+/*global Utilities, Game, MainMenu, GameMenu*/
+
 (function(window)
 {
 function MapInformation( mapObject, playerNumber )

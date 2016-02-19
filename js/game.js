@@ -1,3 +1,5 @@
+/*global CANVAS, Map, createjs, STAGE, GameMenu, HighScore, Utilities, MainMenu*/
+
 (function(window)
 {
 function Game()
@@ -91,9 +93,7 @@ else
 
 
 GameMenu.show();
-
 Game.updateInformation();
-
 Game.setActiveMap( 0 );
 };
 
@@ -110,8 +110,10 @@ Game.start( CURRENT_MAP, TWO_PLAYER_MODE );
 
 Game.finished = function()
 {
+var a;
+
     // confirm that all players have finished the game, otherwise return and wait until the last player finish to proceed
-for (var a = 0 ; a < MAPS.length ; a++)
+for (a = 0 ; a < MAPS.length ; a++)
     {
         // see if there's still tiles left
     if ( MAPS[ a ].all_tiles.length > 0 )
@@ -122,7 +124,7 @@ for (var a = 0 ; a < MAPS.length ; a++)
 
 GAME_FINISHED = true;
 
-for (var a = 0 ; a < MAPS.length ; a++)
+for (a = 0 ; a < MAPS.length ; a++)
     {
     HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].mapInformation.time );
     }

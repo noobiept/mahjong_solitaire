@@ -1,3 +1,5 @@
+/*global Game, HighScore, Utilities*/
+
 (function(window)
 {
 function MainMenu()
@@ -130,12 +132,11 @@ else
     {
         // header
     var tableRow = document.createElement( 'tr' );
-
     var header = [ '', 'Time' ];
-
     var tableHeader;
+    var a;
 
-    for (var a = 0 ; a < header.length ; a++)
+    for (a = 0 ; a < header.length ; a++)
         {
         tableHeader = document.createElement( 'th' );
 
@@ -148,7 +149,7 @@ else
 
     var position, time;
 
-    for (var a = 0 ; a < mapScores.length ; a++)
+    for (a = 0 ; a < mapScores.length ; a++)
         {
         tableRow = document.createElement( 'tr' );
         position = document.createElement( 'td' );
