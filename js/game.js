@@ -7,7 +7,7 @@ function Game()
 
     // current map information
 var CURRENT_MAP;
-
+var TWO_PLAYER_MODE;    // either 1 player or 2 player mode
 
     // has all the map objects (one for each player)
 var MAPS = [];
@@ -51,24 +51,15 @@ var GAME_FINISHED = false;
             ]
     }
 
-    @param {Object=} selectedMap
-    @param {Boolean=false} twoPlayers
+    @param {Object} selectedMap
+    @param {Boolean} twoPlayers
  */
 
 Game.start = function( selectedMap, twoPlayers )
 {
-if ( typeof selectedMap == 'undefined' )
-    {
-        // use the previous map -- assumes this isn't the first time its being called
-    selectedMap = CURRENT_MAP;
-    }
-
-if ( twoPlayers !== true )
-    {
-    twoPlayers = false;
-    }
-
 Game.resetStuff();
+
+TWO_PLAYER_MODE = twoPlayers;
 GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
 
 CANVAS.width = $( window ).width();
@@ -106,6 +97,15 @@ Game.updateInformation();
 Game.setActiveMap( 0 );
 };
 
+
+/**
+ * Restart the game in the same map and same player mode as before.
+ * Assumes `Game.start()` was already called at one point.
+ */
+Game.restart = function()
+{
+Game.start( CURRENT_MAP, TWO_PLAYER_MODE );
+};
 
 
 Game.finished = function()
@@ -278,8 +278,8 @@ Game.highlightRandomPair = function()
 {
 var pair = Game.getActiveMap().getPair();
 
-pair[ 0 ].selectTile();
-pair[ 1 ].selectTile();
+pair[ 0 ].highlightTile();
+pair[ 1 ].highlightTile();
 };
     
 

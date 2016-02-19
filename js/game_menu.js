@@ -26,9 +26,9 @@ var timer = gameMenu.querySelector( '#GameMenu-timer span' );
 var shuffle = gameMenu.querySelector( '#GameMenu-shuffle' );
 var shadow = document.querySelector( '#GameMenu-shadow' );
 var shadowValue = shadow.querySelector( 'span' );
+var help = document.getElementById( 'GameMenu-help' );
 var restart = gameMenu.querySelector( '#GameMenu-restart' );
 var quit = gameMenu.querySelector( '#GameMenu-quit' );
-
 
 shuffle.onclick = function()
     {
@@ -57,12 +57,15 @@ shadow.onclick = function()
         }
     };
 
+help.onclick = function()
+    {
+    Game.highlightRandomPair();
+    };
 
 restart.onclick = function()
     {
-    Game.start();
+    Game.restart();
     };
-
 
 quit.onclick = function()
     {
@@ -70,7 +73,6 @@ quit.onclick = function()
     };
 
 $( timer ).text( timeToString( 0 ) );
-
 
 GAME_MENU_CONTAINER = gameMenu;
 TILES_LEFT = tilesLeft;

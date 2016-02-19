@@ -115,6 +115,16 @@ g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );    // seems to alre
 };
 
 
+Tile.prototype.highlightTile = function()
+{
+var g = this.background.graphics;
+
+g.clear();
+g.beginFill( 'rgba(255, 215, 0, 0.3)' );
+g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
+};
+
+
 Tile.prototype.clearBackground = function()
 {
 var g = this.background.graphics;

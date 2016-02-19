@@ -31,7 +31,7 @@ startGame.onclick = function( event )
     {
     MainMenu.hide();
 
-    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ] );
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], false );
 
     event.stopPropagation();
     };
