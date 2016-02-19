@@ -85,7 +85,7 @@ window.clearInterval( this.interval_f );
 
 MapInformation.prototype.updateTimer = function()
 {
-$( this.timer_ui ).text( timeToString( this.time ) );
+$( this.timer_ui ).text( Utilities.timeToString( this.time ) );
 };
 
 

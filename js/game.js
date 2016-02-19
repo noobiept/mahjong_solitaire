@@ -133,7 +133,7 @@ var endMessage = document.querySelector( '#Message' );
     // 1 player mode
 if ( MAPS.length == 1 )
     {
-    $( endMessage ).text( 'Map Cleared in ' + timeToString( MAPS[ 0 ].mapInformation.time ) );
+    $( endMessage ).text( 'Map Cleared in ' + Utilities.timeToString( MAPS[ 0 ].mapInformation.time ) );
     }
 
     // more than 1 player, need to determine who won
@@ -144,17 +144,17 @@ else
 
     if ( playerOneTime < playerTwoTime )
         {
-        $( endMessage ).text( 'Player 1 Wins! Time: ' + timeToString( playerOneTime ) );
+        $( endMessage ).text( 'Player 1 Wins! Time: ' + Utilities.timeToString( playerOneTime ) );
         }
 
     else if ( playerTwoTime < playerOneTime )
         {
-        $( endMessage ).text( 'Player 2 Wins! Time: ' + timeToString( playerTwoTime ) );
+        $( endMessage ).text( 'Player 2 Wins! Time: ' + Utilities.timeToString( playerTwoTime ) );
         }
 
     else
         {
-        $( endMessage ).text( 'Its a draw! Time: ' + timeToString( playerOneTime ) );
+        $( endMessage ).text( 'Its a draw! Time: ' + Utilities.timeToString( playerOneTime ) );
         }
     }
 

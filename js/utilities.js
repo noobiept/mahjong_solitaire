@@ -1,5 +1,8 @@
+var Utilities;
+(function(Utilities) {
 
-var EVENT_KEY = {
+
+Utilities.EVENT_KEY = {
 
     backspace  : 8,
     tab        : 9,
@@ -68,169 +71,142 @@ var EVENT_KEY = {
 };
 
 
-function getRandomInt( min, max )
-{
-return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+Utilities.getRandomInt = function( min, max )
+    {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
 
-function getRandomFloat( min, max )
-{
-return Math.random() * (max - min) + min;
-}
+Utilities.getRandomFloat = function( min, max )
+    {
+    return Math.random() * (max - min) + min;
+    };
 
 
 /*
     Rounds a number to a specified decimal case
  */
-
-function round(num, dec)
-{
-return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
-}
+Utilities.round = function( num, dec )
+    {
+    return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
+    };
 
 
 /*
     Converts a time (in milliseconds) to a string (with the number of days/hours...)
  */
-
-function timeToString( dateMilliseconds )
-{
-    // :: convert to days/hours :: //
-
-    //in milliseconds
-var second = 1000;
-var minute = 60 * second;
-var hour   = 60 * minute;
-var day    = 24 * hour;
-
-var minutesLeft = 0;
-var hoursLeft = 0;
-var daysLeft = 0;
-var secondsLeft = 0;
-
-
-    //count the days
-while (dateMilliseconds > day)
+Utilities.timeToString = function( dateMilliseconds )
     {
-    daysLeft++;
+        // :: convert to days/hours :: //
 
-    dateMilliseconds -= day;
-    }
+        //in milliseconds
+    var second = 1000;
+    var minute = 60 * second;
+    var hour   = 60 * minute;
+    var day    = 24 * hour;
 
-    //count the hours
-while (dateMilliseconds > hour)
-    {
-    hoursLeft++;
-
-    dateMilliseconds -= hour;
-    }
-
-    //count the minutes
-while (dateMilliseconds > minute)
-    {
-    minutesLeft++;
-
-    dateMilliseconds -= minute;
-    }
-
-    //and the seconds
-secondsLeft = round( dateMilliseconds / 1000, 2).toFixed( 1 );
+    var minutesLeft = 0;
+    var hoursLeft = 0;
+    var daysLeft = 0;
+    var secondsLeft = 0;
 
 
-    // :: construct the string :: //
-
-var theDate = [ ["day", daysLeft], ["hour", hoursLeft], ["minute", minutesLeft], ["second", secondsLeft] ];
-
-var constructDate = function(dateTmp, numberOf)
-    {
-        // day to days, hour to hours...
-    if (numberOf !== 1)
+        //count the days
+    while (dateMilliseconds > day)
         {
-        dateTmp += "s";
+        daysLeft++;
+
+        dateMilliseconds -= day;
         }
 
-    return numberOf + " " + dateTmp + " ";
+        //count the hours
+    while (dateMilliseconds > hour)
+        {
+        hoursLeft++;
+
+        dateMilliseconds -= hour;
+        }
+
+        //count the minutes
+    while (dateMilliseconds > minute)
+        {
+        minutesLeft++;
+
+        dateMilliseconds -= minute;
+        }
+
+        //and the seconds
+    secondsLeft = Utilities.round( dateMilliseconds / 1000, 2).toFixed( 1 );
+
+
+        // :: construct the string :: //
+
+    var theDate = [ ["day", daysLeft], ["hour", hoursLeft], ["minute", minutesLeft], ["second", secondsLeft] ];
+
+    var constructDate = function(dateTmp, numberOf)
+        {
+            // day to days, hour to hours...
+        if (numberOf !== 1)
+            {
+            dateTmp += "s";
+            }
+
+        return numberOf + " " + dateTmp + " ";
+        };
+
+        // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
+    var totalUnits = 2;
+
+    var date = "";
+
+
+    var i;
+
+    for (i = 0 ; i < theDate.length ; i++)
+        {
+            // reached the limit of the units
+        if (totalUnits === 0)
+            {
+            break;
+            }
+
+            // only show when there's something relevant to be shown
+            // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
+        if ( theDate[ i ][ 1 ] !== 0 )
+            {
+            date += constructDate( theDate[ i ][ 0 ], theDate[ i ][ 1 ] );
+
+            totalUnits--;
+            }
+        }
+
+
+    return date;
     };
-
-    // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
-var totalUnits = 2;
-
-var date = "";
-
-
-var i;
-
-for (i = 0 ; i < theDate.length ; i++)
-    {
-        // reached the limit of the units
-    if (totalUnits === 0)
-        {
-        break;
-        }
-
-        // only show when there's something relevant to be shown
-        // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
-    if ( theDate[ i ][ 1 ] !== 0 )
-        {
-        date += constructDate( theDate[ i ][ 0 ], theDate[ i ][ 1 ] );
-
-        totalUnits--;
-        }
-    }
-
-
-return date;
-}
 
 
 /*
     Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
  */
+Utilities.centerElement = function( element )
+    {
+    var canvasWidth = CANVAS.width;
+    var canvasHeight = CANVAS.height;
 
-function centerElement( element )
-{
-var canvasWidth = CANVAS.width;
-var canvasHeight = CANVAS.height;
+        // the canvas may not be starting at 0,0 position, so we need to account for that
+    var canvasPosition = $( CANVAS ).position();
 
-    // the canvas may not be starting at 0,0 position, so we need to account for that
-var canvasPosition = $( CANVAS ).position();
+    var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
 
-var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
+    var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
 
-var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
-
-$( element ).css({
-    top  : top  + 'px',
-    left : left + 'px'
-    });
-}
-
+    $( element ).css({
+        top  : top  + 'px',
+        left : left + 'px'
+        });
+    };
 
 
-/*
- * Used for 'class' inheritance (search prototypal inheritance)
- */
-
-function OBJECT( o )
-{
-function F(){}
-
-F.prototype = o;
-
-return new F();
-}
+})(Utilities || (Utilities = {}));
 
 
-/*
- * Used for 'class' inheritance (search for parasitic combination inheritance)
- */
-
-function INHERIT_PROTOTYPE( derivedClass, baseClass )
-{
-var prototype = OBJECT( baseClass.prototype );
-
-prototype.constructor = derivedClass;
-
-derivedClass.prototype = prototype;
-}

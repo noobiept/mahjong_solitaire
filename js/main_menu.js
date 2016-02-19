@@ -155,7 +155,7 @@ else
         time = document.createElement( 'td' );
 
         $( position ).text( a + 1 );
-        $( time ).text( timeToString( mapScores[ a ] ) );
+        $( time ).text( Utilities.timeToString( mapScores[ a ] ) );
 
         tableRow.appendChild( position );
         tableRow.appendChild( time );

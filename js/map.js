@@ -287,7 +287,7 @@ while( allTiles.length > 0 )
         {
         var nextTileName = nextTile();
 
-        var position = getRandomInt( 0, selectableTiles.length - 1 );
+        var position = Utilities.getRandomInt( 0, selectableTiles.length - 1 );
 
         tile = selectableTiles.splice( position, 1 )[ 0 ];
 
@@ -449,7 +449,7 @@ return function()
 
     else
         {
-        var position = getRandomInt( 0, tilesNames.length - 1 );
+        var position = Utilities.getRandomInt( 0, tilesNames.length - 1 );
 
         tileName = tilesNames.splice( position, 1 )[ 0 ];
 

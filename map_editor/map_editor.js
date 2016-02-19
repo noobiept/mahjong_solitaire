@@ -65,14 +65,14 @@ document.onkeyup = function( event )
 
     for (var a = 0 ; a < selectGrid.length ; a++)
         {
-        if ( key == EVENT_KEY[ selectGrid[ a ] ] )
+        if ( key == Utilities.EVENT_KEY[ selectGrid[ a ] ] )
             {
             Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
             return;
             }
         }
 
-    if ( key == EVENT_KEY[ 'a' ] )
+    if ( key == Utilities.EVENT_KEY[ 'a' ] )
         {
         Map.selectGrid( -1 );
         }

@@ -72,7 +72,7 @@ quit.onclick = function()
     MainMenu.open();
     };
 
-$( timer ).text( timeToString( 0 ) );
+$( timer ).text( Utilities.timeToString( 0 ) );
 
 GAME_MENU_CONTAINER = gameMenu;
 TILES_LEFT = tilesLeft;
@@ -84,7 +84,7 @@ MESSAGE = gameMenu.querySelector( '#GameMenu-message' );
 
 GameMenu.show = function()
 {
-$( TIMER ).text( timeToString( 0 ) );
+$( TIMER ).text( Utilities.timeToString( 0 ) );
 
 $( GAME_MENU_CONTAINER ).css( 'display', 'inline-flex' );
 };
