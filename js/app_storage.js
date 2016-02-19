@@ -1,4 +1,5 @@
 /*global chrome*/
+'use strict';
 
 var AppStorage;
 (function(AppStorage) {

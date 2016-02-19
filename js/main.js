@@ -1,4 +1,5 @@
 /*global AppStorage, createjs, MainMenu, GameMenu, HighScore*/
+'use strict';
 
 var CANVAS;
 

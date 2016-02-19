@@ -1,4 +1,5 @@
 /*global createjs, PRELOAD, STAGE*/
+'use strict';
 
 (function(window)
 {
@@ -21,44 +22,42 @@ var TILE_HEIGHT = 45;
         scale      : Number
     }
  */
-
 function Tile( args )
 {
 var _this = this;
 
     // :: validate the arguments :: //
 
-if ( typeof args.tileId == 'undefined' )
+if ( typeof args.tileId === 'undefined' )
     {
     throw new Error( 'Provide the .tileId. Got: ' + args.tileId );
     }
 
-if ( typeof args.gridObject == 'undefined' )
+if ( typeof args.gridObject === 'undefined' )
     {
     throw new Error( 'Provide the .gridObject. Got: ' + args.gridObject );
     }
 
-if ( typeof args.tileName == 'undefined' )
+if ( typeof args.tileName === 'undefined' )
     {
         // if not provided, we assume its the same as the id
     args.tileName = args.tileId;
     }
 
-if ( typeof args.column == 'undefined' )
+if ( typeof args.column === 'undefined' )
     {
     args.column = 0;
     }
 
-if ( typeof args.line == 'undefined' )
+if ( typeof args.line === 'undefined' )
     {
     args.line = 0;
     }
 
-if ( typeof args.scale == 'undefined' )
+if ( typeof args.scale === 'undefined' )
     {
     args.scale = 1;
     }
-
 
 this.width = TILE_WIDTH * args.scale;
 this.height = TILE_HEIGHT * args.scale;

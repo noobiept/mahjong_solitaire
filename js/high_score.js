@@ -1,11 +1,9 @@
 /*global AppStorage*/
+'use strict';
 
-(function(window)
-{
-function HighScore()
-{
+var HighScore;
+(function(HighScore) {
 
-}
 
     // HIGH_SCORE = { mapName: [ time1, time2, ... ] }
 var HIGH_SCORE = {};
@@ -33,7 +31,6 @@ AppStorage.setData({ mahjong_high_score: HIGH_SCORE });
     @param {String} mapName
     @param {Number} score
  */
-
 HighScore.add = function( mapName, score )
 {
 if ( !HIGH_SCORE[ mapName ] )
@@ -79,5 +76,4 @@ AppStorage.removeData( [ 'mahjong_high_score' ] );
 };
 
 
-window.HighScore = HighScore;
-}(window));
+})(HighScore || (HighScore = {}));

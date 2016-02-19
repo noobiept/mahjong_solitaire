@@ -1,11 +1,9 @@
 /*global Game, MainMenu*/
+'use strict';
 
-(function(window)
-{
-function GameMenu()
-{
+var GameMenu;
+(function(GameMenu) {
 
-}
 
     // reference to html elements
 var GAME_MENU_CONTAINER;
@@ -13,6 +11,7 @@ var MESSAGE;
 
     // the return of the window.setTimeout()
 var MESSAGE_TIMEOUT = null;
+
 
 GameMenu.init = function()
 {
@@ -67,7 +66,6 @@ quit.onclick = function()
     MainMenu.open();
     };
 
-
 GAME_MENU_CONTAINER = gameMenu;
 MESSAGE = gameMenu.querySelector( '#GameMenu-message' );
 };
@@ -92,9 +90,6 @@ $( MESSAGE ).text( '' );
 };
 
 
-
-
-
 GameMenu.showMessage = function( text )
 {
     // a timeout is active, from a previous call. cancel it
@@ -114,7 +109,4 @@ MESSAGE_TIMEOUT = window.setTimeout( function()
 };
 
 
-
-window.GameMenu = GameMenu;
-
-}(window));
+})(GameMenu || (GameMenu = {}));

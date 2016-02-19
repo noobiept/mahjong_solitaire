@@ -1,10 +1,10 @@
 /*global Utilities, Game, MainMenu, GameMenu*/
+'use strict';
 
-(function(window)
-{
+
 function MapInformation( mapObject, playerNumber )
 {
-if ( typeof playerNumber == 'undefined' )
+if ( typeof playerNumber === 'undefined' )
     {
     playerNumber = 1;
     }
@@ -28,7 +28,6 @@ var timerValue = document.createElement( 'span' );
 tilesLeft.appendChild( tilesLeftValue );
 pairsLeft.appendChild( pairsLeftValue );
 timer.appendChild( timerValue );
-
 
 container.className = 'GameMenu-infoContainer';
 player.className = 'MapInformation-playerNumber';
@@ -60,7 +59,6 @@ this.updateTimer();
 }
 
 
-
 MapInformation.prototype.startTimer = function()
 {
 var informationObject = this;
@@ -84,12 +82,10 @@ window.clearInterval( this.interval_f );
 };
 
 
-
 MapInformation.prototype.updateTimer = function()
 {
 $( this.timer_ui ).text( Utilities.timeToString( this.time ) );
 };
-
 
 
 MapInformation.prototype.updateTilesLeft = function()
@@ -110,8 +106,6 @@ $( this.pairsLeft_ui ).text( pairsLeft );
 
 return pairsLeft;
 };
-
-
 
 
 MapInformation.prototype.update = function()
@@ -167,7 +161,3 @@ var mainContainer = document.querySelector( '#GameMenu-MapInformation' );
 
 mainContainer.removeChild( this.container_ui );
 };
-
-window.MapInformation = MapInformation;
-
-}(window));

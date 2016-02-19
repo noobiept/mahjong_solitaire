@@ -1,7 +1,7 @@
 /*global CANVAS, Tile, MapInformation, STAGE, Utilities, Grid, GameMenu, Game*/
+'use strict';
 
-(function(window)
-{
+
 /*
     Generates a map. Each map has 144 tiles.
 
@@ -13,11 +13,9 @@
         - flower tiles (4)
         - season tiles (4)
  */
-
-
 function Map( mapInfo, centerIn, playerNumber )
 {
-if ( typeof playerNumber == 'undefined' )
+if ( typeof playerNumber === 'undefined' )
     {
     playerNumber = 1;
     }
@@ -34,7 +32,7 @@ var tileHeight = Tile.getImageHeight();
     // space available for this map (depends on how many maps are at the same time)
 var mapWidth;
 
-if ( centerIn == 'left' || centerIn == 'right' )
+if ( centerIn === 'left' || centerIn === 'right' )
     {
         // there's going to be 2 maps, so each map occupies half of the space
     mapWidth = canvasWidth / 2;
@@ -94,7 +92,6 @@ this.buildMap( newMap, centerIn );
             ]
         ]
  */
-
 Map.prototype.buildMap = function( mapDescription, centerIn )
 {
 var mapObject = this;
@@ -110,12 +107,12 @@ var startingX = 0;
 var startingY = 10;
 
     // center the map in the left or right side of the canvas (when its 2 players mode), or in the center when its just one player
-if ( centerIn == 'left' )
+if ( centerIn === 'left' )
     {
     startingX = canvasWidth / 4 - mapWidth / 2;
     }
 
-else if ( centerIn == 'right' )
+else if ( centerIn === 'right' )
     {
     startingX = canvasWidth / 4 - mapWidth / 2 + canvasWidth / 2;
     }
@@ -224,13 +221,11 @@ this.mapInformation.update();
 };
 
 
-
 /*
     Determines the tile name for each position in the map, in a way so that the map is solvable
 
     Start with a complete map, and find the selectable tiles. Determine the tile names, and remove those tiles, find again the selectable tiles, and so on.
  */
-
 Map.prototype.determineTileNames = function( mapDescription, tilePairs )
 {
 var newMap = [];
@@ -311,7 +306,6 @@ return newMap;
 };
 
 
-
 Map.prototype.shuffle = function()
 {
 var allTiles = this.all_tiles;
@@ -355,7 +349,7 @@ for (a = 0 ; a < tileNames.length ; a++)
         {
         secondTile = tileNames[ b ];
 
-        if ( firstTile == secondTile )
+        if ( firstTile === secondTile )
             {
             tilePairs.push( firstTile );
 
@@ -379,10 +373,9 @@ this.buildMap( newMap, this.centerIn );
 };
 
 
-
 Map.prototype.getNextTile = function( tilesNames )
 {
-if ( typeof tilesNames == 'undefined' )
+if ( typeof tilesNames === 'undefined' )
     {
         // i'll get a pair of each one of the names here
         // so for example, there's 2 'bamboo1', each means we'll get 4 of them in the map (2 pairs)
@@ -460,14 +453,14 @@ return function()
 
 
         // the flower/season works a bit differently than the others, since they can match with each other, but have different images
-    if ( tileName == 'flower' )
+    if ( tileName === 'flower' )
         {
         tileId = tileName + flowerNumber;
 
         flowerNumber++;
         }
 
-    else if ( tileName == 'season' )
+    else if ( tileName === 'season' )
         {
         tileId = tileName + seasonNumber;
 
@@ -490,7 +483,6 @@ return function()
 /*
     Returns an array with the tiles that can be selected in the map
  */
-
 Map.prototype.getSelectableTiles = function()
 {
 var allTiles = this.all_tiles;
@@ -523,7 +515,7 @@ for (var a = 0 ; a < selectableTiles.length ; a++)
 
     for (var b = a + 1 ; b < selectableTiles.length ; b++)
         {
-        if ( first.tileName == selectableTiles[ b ].tileName )
+        if ( first.tileName === selectableTiles[ b ].tileName )
             {
             count++;
 
@@ -553,7 +545,7 @@ for (var a = 0 ; a < tiles.length ; a++)
         {
         second = tiles[ b ];
 
-        if ( first.tileName == second.tileName )
+        if ( first.tileName === second.tileName )
             {
             return [ first, second ];
             }
@@ -567,7 +559,6 @@ return null;
 /*
     shadows the un-selectable tiles in the map
  */
-
 Map.prototype.shadowTiles = function()
 {
 var allTiles = this.all_tiles;
@@ -602,7 +593,6 @@ for (var a = 0 ; a < allTiles.length ; a++)
 };
 
 
-
 Map.prototype.addTile = function( args )
 {
 var tile = new Tile( args );
@@ -634,7 +624,6 @@ tileObject.remove();
 };
 
 
-
 Map.prototype.addGrid = function( args )
 {
 var grid = new Grid( args.startingX, args.startingY, args.numberOfColumns, args.numberOfLines, this.all_grids.length );
@@ -657,6 +646,7 @@ Map.prototype.removeAllGrids = function()
 {
 this.all_grids.length = 0;
 };
+
 
 Map.prototype.removeAllTiles = function()
 {
@@ -720,7 +710,7 @@ else
     if ( selectedTile !== tile )
         {
             // valid match
-        if ( selectedTile.tileName == tile.tileName )
+        if ( selectedTile.tileName === tile.tileName )
             {
             this.removeTile( selectedTile );
             this.removeTile( tile );
@@ -816,7 +806,3 @@ for ( ;; )
 
 return true;
 };
-
-
-window.Map = Map;
-}(window));

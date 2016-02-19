@@ -1,4 +1,5 @@
 /*global CANVAS*/
+'use strict';
 
 var Utilities;
 (function(Utilities) {

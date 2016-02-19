@@ -1,11 +1,9 @@
 /*global Game, HighScore, Utilities*/
+'use strict';
 
-(function(window)
-{
-function MainMenu()
-{
+var MainMenu;
+(function(MainMenu) {
 
-}
 
 var MENU;
 var HIGH_SCORE;
@@ -16,7 +14,6 @@ var SELECTED_MAP = 0;
 
     // has reference for the html elements used to select the map in the main menu
 var MAPS_ELEMENTS = [];
-
 
 
 MainMenu.init = function()
@@ -57,7 +54,6 @@ highScore.onclick = function( event )
     };
 
 
-
 var selectMapContainer = MENU.querySelector( '#MainMenu-selectMap' );
 
 var maps = selectMapContainer.getElementsByTagName( 'div' );
@@ -80,12 +76,10 @@ MAPS_ELEMENTS = maps;
 /*
     add to the array the maps loaded from the preloadjs (only done once in the load of the game)
  */
-
 MainMenu.addMaps = function( maps )
 {
 MAPS_AVAILABLE = maps;
 };
-
 
 
 MainMenu.open = function()
@@ -98,12 +92,10 @@ $( MENU ).css( 'display', 'block' );
 };
 
 
-
 MainMenu.hide = function()
 {
 $( MENU ).css( 'display', 'none' );
 };
-
 
 
 MainMenu.openHighScore = function()
@@ -122,7 +114,7 @@ $( title ).text( 'High Score (' + mapName + ')' );
 var mapScores = HighScore.get( mapName );
 
 
-if ( !mapScores || mapScores.length == 0 )
+if ( !mapScores || mapScores.length === 0 )
     {
     table.innerHTML = 'No Score Yet.';
     }
@@ -165,7 +157,6 @@ else
         }
     }
 
-
 var back = HIGH_SCORE.querySelector( '#HighScore-back' );
 
 back.onclick = function()
@@ -182,18 +173,13 @@ $( HIGH_SCORE ).css( 'display', 'block' );
 };
 
 
-
 MainMenu.selectMap = function( position )
 {
 $( MAPS_ELEMENTS[ SELECTED_MAP ] ).removeClass( 'mapSelected' );
-
 $( MAPS_ELEMENTS[ position ] ).addClass( 'mapSelected' );
 
 SELECTED_MAP = position;
 };
 
 
-
-window.MainMenu = MainMenu;
-
-}(window));
+})(MainMenu || (MainMenu = {}));

@@ -1,5 +1,6 @@
-(function(window)
-{
+'use strict';
+
+
 function Grid( startingX, startingY, numberOfColumns, numberOfLines, position )
 {
 this.grid_array = [];
@@ -56,8 +57,3 @@ this.grid_array[ column ][ line + 1 ] = null;
 this.grid_array[ column + 1 ][ line ] = null;
 this.grid_array[ column + 1 ][ line + 1 ] = null;
 };
-
-
-window.Grid = Grid;
-
-}(window));

@@ -1,11 +1,10 @@
 /*global CANVAS, Map, createjs, STAGE, GameMenu, HighScore, Utilities, MainMenu*/
+'use strict';
 
-(function(window)
-{
-function Game()
-{
 
-}
+var Game;
+(function(Game) {
+
 
     // current map information
 var CURRENT_MAP;
@@ -56,7 +55,6 @@ var GAME_FINISHED = false;
     @param {Object} selectedMap
     @param {Boolean} twoPlayers
  */
-
 Game.start = function( selectedMap, twoPlayers )
 {
 Game.resetStuff();
@@ -133,7 +131,7 @@ for (a = 0 ; a < MAPS.length ; a++)
 var endMessage = document.querySelector( '#Message' );
 
     // 1 player mode
-if ( MAPS.length == 1 )
+if ( MAPS.length === 1 )
     {
     $( endMessage ).text( 'Map Cleared in ' + Utilities.timeToString( MAPS[ 0 ].mapInformation.time ) );
     }
@@ -160,7 +158,6 @@ else
         }
     }
 
-
 Game.resetStuff();
 
 $( endMessage ).css( 'display', 'block' );
@@ -172,7 +169,6 @@ window.setTimeout( function()
     MainMenu.open();
     }, 2500 );
 };
-
 
 
 Game.setActiveMap = function( position )
@@ -192,7 +188,7 @@ if ( MAPS.length > 1 )
     {
     var playerName = MAPS[ position ].playerNumber;
 
-    if ( playerName == 1 )
+    if ( playerName === 1 )
         {
             // position centered in the left side of the map
         PLAYER_TURN.x = CANVAS.width / 4;
@@ -226,8 +222,6 @@ if ( nextPlayer >= MAPS.length )
 
 Game.setActiveMap( nextPlayer );
 };
-
-
 
 
 Game.shadowTiles = function()
@@ -283,7 +277,7 @@ var pair = Game.getActiveMap().getPair();
 pair[ 0 ].highlightTile();
 pair[ 1 ].highlightTile();
 };
-    
+
 
 Game.resetStuff = function()
 {
@@ -320,10 +314,12 @@ Game.getShadowOption = function()
 return SHADOW_ON;
 };
 
+
 Game.setShadowOption = function( value )
 {
 SHADOW_ON = value;
 };
+
 
 Game.getActiveMap = function()
 {
@@ -337,6 +333,4 @@ return GAME_FINISHED;
 };
 
 
-window.Game = Game;
-
-}(window));
+})(Game || (Game = {}));
