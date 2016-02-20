@@ -72,12 +72,19 @@ var newMap = this.determineTileNames( mapInfo.mapDescription );
 
 this.centerIn = centerIn;
 this.playerNumber = playerNumber;
+this.score = 0;
 
     // when there's more than 1 player, only one map is active at a time (can be played)
 this.isCurrentActive = false;
+this.hasShadows = false;
 
 this.buildMap( newMap, centerIn );
 }
+
+Map.SHUFFLE_SCORE = -100;
+Map.HELP_SCORE = -100;
+Map.COMBINE_SCORE = 50;
+Map.SHADOW_SCORE = -20;
 
 
 /*
@@ -370,6 +377,7 @@ this.removeAllGrids();
 var newMap = this.determineTileNames( currentMap, tilePairs );
 
 this.buildMap( newMap, this.centerIn );
+this.addToScore( Map.SHUFFLE_SCORE );
 };
 
 
@@ -556,11 +564,26 @@ return null;
 };
 
 
+Map.prototype.highlightRandomPair = function()
+{
+var pair = this.getPair();
+
+if ( pair )
+    {
+    pair[ 0 ].highlightTile();
+    pair[ 1 ].highlightTile();
+
+    this.addToScore( Map.HELP_SCORE );
+    }
+};
+
+
 /*
     shadows the un-selectable tiles in the map
  */
 Map.prototype.shadowTiles = function()
 {
+this.hasShadows = true;
 var allTiles = this.all_tiles;
 
 for (var a = 0 ; a < allTiles.length ; a++)
@@ -582,6 +605,7 @@ for (var a = 0 ; a < allTiles.length ; a++)
 
 Map.prototype.unShadowTiles = function()
 {
+this.hasShadows = false;
 var allTiles = this.all_tiles;
 
 for (var a = 0 ; a < allTiles.length ; a++)
@@ -719,6 +743,7 @@ else
 
             Game.updateInformation();
 
+            this.addToScore( Map.COMBINE_SCORE + this.hasShadows * Map.SHADOW_SCORE );
             this.mapInformation.timesUpdateWasCalled = 0;
             this.mapInformation.update();
 
@@ -805,4 +830,12 @@ for ( ;; )
     }
 
 return true;
+};
+
+
+Map.prototype.addToScore = function( score )
+{
+this.score += score;
+
+this.mapInformation.updateScore( this.score );
 };

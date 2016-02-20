@@ -124,7 +124,7 @@ GAME_FINISHED = true;
 
 for (a = 0 ; a < MAPS.length ; a++)
     {
-    HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].mapInformation.time );
+    HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].score );
     }
 
 
@@ -133,28 +133,28 @@ var endMessage = document.querySelector( '#Message' );
     // 1 player mode
 if ( MAPS.length === 1 )
     {
-    $( endMessage ).text( 'Map Cleared in ' + Utilities.timeToString( MAPS[ 0 ].mapInformation.time ) );
+    $( endMessage ).text( 'Map Cleared! Score: ' + MAPS[ 0 ].score );
     }
 
     // more than 1 player, need to determine who won
 else
     {
-    var playerOneTime = MAPS[ 0 ].mapInformation.time;
-    var playerTwoTime = MAPS[ 1 ].mapInformation.time;
+    var playerOneScore = MAPS[ 0 ].score;
+    var playerTwoScore = MAPS[ 1 ].score;
 
-    if ( playerOneTime < playerTwoTime )
+    if ( playerOneScore < playerTwoScore )
         {
-        $( endMessage ).text( 'Player 1 Wins! Time: ' + Utilities.timeToString( playerOneTime ) );
+        $( endMessage ).text( 'Player 1 Wins! Score: ' + playerOneScore );
         }
 
-    else if ( playerTwoTime < playerOneTime )
+    else if ( playerTwoScore < playerOneScore )
         {
-        $( endMessage ).text( 'Player 2 Wins! Time: ' + Utilities.timeToString( playerTwoTime ) );
+        $( endMessage ).text( 'Player 2 Wins! Score: ' + playerTwoScore );
         }
 
     else
         {
-        $( endMessage ).text( 'Its a draw! Time: ' + Utilities.timeToString( playerOneTime ) );
+        $( endMessage ).text( 'Its a Draw! Score: ' + playerOneScore );
         }
     }
 
@@ -272,10 +272,7 @@ if ( SHADOW_ON )
 
 Game.highlightRandomPair = function()
 {
-var pair = Game.getActiveMap().getPair();
-
-pair[ 0 ].highlightTile();
-pair[ 1 ].highlightTile();
+Game.getActiveMap().highlightRandomPair();
 };
 
 

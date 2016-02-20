@@ -13,32 +13,32 @@ if ( typeof playerNumber === 'undefined' )
 var player = document.createElement( 'div' );
 var tilesLeft = document.createElement( 'div' );
 var pairsLeft = document.createElement( 'div' );
-var timer = document.createElement( 'div' );
+var score = document.createElement( 'div' );
 var container = document.createElement( 'div' );
 
 $( player ).text( 'Player ' + playerNumber );
 $( tilesLeft ).text( 'Tiles Left: ' );
 $( pairsLeft ).text( 'Pairs Left: ' );
-$( timer ).text( 'Timer: ' );
+$( score ).text( 'Score: ' );
 
 var tilesLeftValue = document.createElement( 'span' );
 var pairsLeftValue = document.createElement( 'span' );
-var timerValue = document.createElement( 'span' );
+var scoreValue = document.createElement( 'span' );
 
 tilesLeft.appendChild( tilesLeftValue );
 pairsLeft.appendChild( pairsLeftValue );
-timer.appendChild( timerValue );
+score.appendChild( scoreValue );
 
 container.className = 'GameMenu-infoContainer';
 player.className = 'MapInformation-playerNumber';
 tilesLeft.className = 'MapInformation-tilesLeft';
 pairsLeft.className = 'MapInformation-pairsLeft';
-timer.className = 'MapInformation-timer';
+score.className = 'MapInformation-timer';
 
 container.appendChild( player );
 container.appendChild( tilesLeft );
 container.appendChild( pairsLeft );
-container.appendChild( timer );
+container.appendChild( score );
 
 var mainContainer = document.querySelector( '#GameMenu-MapInformation' );
 
@@ -46,33 +46,24 @@ mainContainer.appendChild( container );
 
 this.tilesLeft_ui = tilesLeftValue;
 this.pairsLeft_ui = pairsLeftValue;
-this.timer_ui = timerValue;
+this.score_ui = scoreValue;
 this.container_ui = container;
 this.timesUpdateWasCalled = 0;
-
 this.mapObject = mapObject;
 
-    // time passed in milliseconds
-this.time = 0;
-
-this.updateTimer();
+this.updateScore( 0 );
 }
 
 
 MapInformation.prototype.startTimer = function()
 {
-var informationObject = this;
+var _this = this;
 
-var interval = 500;
-
-    // value returned from window.setInterval()
 this.interval_f = window.setInterval( function()
     {
-    informationObject.time += interval;
+    _this.mapObject.addToScore( -1 );
 
-    informationObject.updateTimer();
-
-    }, interval );
+    }, 1000 );
 };
 
 
@@ -82,9 +73,9 @@ window.clearInterval( this.interval_f );
 };
 
 
-MapInformation.prototype.updateTimer = function()
+MapInformation.prototype.updateScore = function( score )
 {
-$( this.timer_ui ).text( Utilities.timeToString( this.time ) );
+$( this.score_ui ).text( score );
 };
 
 

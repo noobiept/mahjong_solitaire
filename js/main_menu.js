@@ -124,7 +124,7 @@ else
     {
         // header
     var tableRow = document.createElement( 'tr' );
-    var header = [ '', 'Time' ];
+    var header = [ '', 'Score' ];
     var tableHeader;
     var a;
 
@@ -139,19 +139,19 @@ else
     table.appendChild( tableRow );
 
 
-    var position, time;
+    var position, score;
 
     for (a = 0 ; a < mapScores.length ; a++)
         {
         tableRow = document.createElement( 'tr' );
         position = document.createElement( 'td' );
-        time = document.createElement( 'td' );
+        score = document.createElement( 'td' );
 
         $( position ).text( a + 1 );
-        $( time ).text( Utilities.timeToString( mapScores[ a ] ) );
+        $( score ).text( mapScores[ a ] );
 
         tableRow.appendChild( position );
-        tableRow.appendChild( time );
+        tableRow.appendChild( score );
 
         table.appendChild( tableRow );
         }
