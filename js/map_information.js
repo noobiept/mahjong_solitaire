@@ -61,7 +61,7 @@ var _this = this;
 
 this.interval_f = window.setInterval( function()
     {
-    _this.mapObject.addToScore( -1 );
+    _this.mapObject.addTimerScore();
 
     }, 1000 );
 };

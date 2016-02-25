@@ -68,7 +68,8 @@ this.buildMap( newMap );
 Map.SHUFFLE_SCORE = -100;
 Map.HELP_SCORE = -100;
 Map.COMBINE_SCORE = 50;
-Map.SHADOW_SCORE = -20;
+Map.SHADOW_SCORE = -4;
+Map.TIMER_SCORE = -1;
 
 
 /*
@@ -706,7 +707,7 @@ else
 
             Game.updateInformation();
 
-            this.addToScore( Map.COMBINE_SCORE + this.hasShadows * Map.SHADOW_SCORE );
+            this.addToScore( Map.COMBINE_SCORE );
             this.mapInformation.timesUpdateWasCalled = 0;
             this.mapInformation.update();
 
@@ -801,4 +802,10 @@ Map.prototype.addToScore = function( score )
 this.score += score;
 
 this.mapInformation.updateScore( this.score );
+};
+
+
+Map.prototype.addTimerScore = function()
+{
+this.addToScore( Map.TIMER_SCORE + this.hasShadows * Map.SHADOW_SCORE );
 };
