@@ -13,7 +13,7 @@
         - flower tiles (4)
         - season tiles (4)
  */
-function Map( mapInfo, centerIn, playerNumber )
+function Map( mapInfo, dimensions, playerNumber )
 {
 if ( typeof playerNumber === 'undefined' )
     {
@@ -23,30 +23,14 @@ if ( typeof playerNumber === 'undefined' )
 this.columns = mapInfo.numberOfColumns;
 this.lines = mapInfo.numberOfLines;
 
-var canvasWidth = CANVAS.width;
-var canvasHeight = CANVAS.height;
 
 var tileWidth = Tile.getImageWidth();
 var tileHeight = Tile.getImageHeight();
 
-    // space available for this map (depends on how many maps are at the same time)
-var mapWidth;
-
-if ( centerIn === 'left' || centerIn === 'right' )
-    {
-        // there's going to be 2 maps, so each map occupies half of the space
-    mapWidth = canvasWidth / 2;
-    }
-
-else
-    {
-    mapWidth = canvasWidth;
-    }
-
     // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
     // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
-var scaleWidth = mapWidth / ( this.columns / 2 * tileWidth );
-var scaleHeight = canvasHeight / ( this.lines / 2 * tileHeight );
+var scaleWidth = dimensions.width / ( this.columns / 2 * tileWidth );
+var scaleHeight = dimensions.height / ( this.lines / 2 * tileHeight );
 
 if ( scaleWidth < scaleHeight )
     {
@@ -70,15 +54,15 @@ this.mapInformation = new MapInformation( this, playerNumber );
 
 var newMap = this.determineTileNames( mapInfo.mapDescription );
 
-this.centerIn = centerIn;
 this.playerNumber = playerNumber;
 this.score = 0;
 
     // when there's more than 1 player, only one map is active at a time (can be played)
 this.isCurrentActive = false;
 this.hasShadows = false;
+this.dimensions = dimensions;
 
-this.buildMap( newMap, centerIn );
+this.buildMap( newMap );
 }
 
 Map.SHUFFLE_SCORE = -100;
@@ -99,37 +83,16 @@ Map.SHADOW_SCORE = -20;
             ]
         ]
  */
-Map.prototype.buildMap = function( mapDescription, centerIn )
+Map.prototype.buildMap = function( mapDescription )
 {
 var mapObject = this;
 var grid;
 var a, b;
 
     // center the map horizontally
-var canvasWidth = CANVAS.width;
 var mapWidth = this.columns / 2 * Tile.getImageWidth() * this.scale;
-
-
-var startingX = 0;
-var startingY = 10;
-
-    // center the map in the left or right side of the canvas (when its 2 players mode), or in the center when its just one player
-if ( centerIn === 'left' )
-    {
-    startingX = canvasWidth / 4 - mapWidth / 2;
-    }
-
-else if ( centerIn === 'right' )
-    {
-    startingX = canvasWidth / 4 - mapWidth / 2 + canvasWidth / 2;
-    }
-
-    // center in the middle (default)
-else
-    {
-    startingX = canvasWidth / 2 - mapWidth / 2;
-    }
-
+var startingX = this.dimensions.x + this.dimensions.width / 2 - mapWidth / 2;
+var startingY = this.dimensions.y;
 
     // add the tiles, each grid at a time
 for (a = 0 ; a < mapDescription.length ; a++)
@@ -376,7 +339,7 @@ this.removeAllGrids();
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
 
-this.buildMap( newMap, this.centerIn );
+this.buildMap( newMap );
 this.addToScore( Map.SHUFFLE_SCORE );
 };
 

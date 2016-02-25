@@ -62,8 +62,11 @@ Game.resetStuff();
 TWO_PLAYER_MODE = twoPlayers;
 GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
 
-CANVAS.width = $( window ).width();
-CANVAS.height = $( window ).height() - $( '#GameMenu' ).height();
+var width = $( window ).width();
+var height = $( window ).height() - $( '#GameMenu' ).height();
+
+CANVAS.width = width;
+CANVAS.height = height;
 $( CANVAS ).css( 'display', 'block' );
 
 CURRENT_MAP = selectedMap;
@@ -71,14 +74,22 @@ CURRENT_MAP = selectedMap;
 
 if ( twoPlayers )
     {
-    MAPS.push( new Map( selectedMap, 'left', 1 ) );
-    MAPS.push( new Map( selectedMap, 'right', 2 ) );
+    var halfWidth = width / 2;
+
+    MAPS.push( new Map(
+        selectedMap,
+        { x: 0, y: 0, width: halfWidth, height: height },
+        1 ));
+    MAPS.push( new Map(
+        selectedMap,
+        { x: halfWidth, y: 0, width: halfWidth, height: height },
+        2 ));
 
         // init the player turn message
     PLAYER_TURN = new createjs.Text( '', '30px monospace', 'red' );
 
         // position just above the menu, in the left or right side of the window (depending on which turn it is)
-    PLAYER_TURN.y = CANVAS.height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
+    PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
     PLAYER_TURN.textAlign = 'center';
 
     STAGE.addChild( PLAYER_TURN );
@@ -86,7 +97,7 @@ if ( twoPlayers )
 
 else
     {
-    MAPS.push( new Map( selectedMap ) );
+    MAPS.push( new Map( selectedMap, { x: 0, y: 0, width: width, height: height } ) );
     }
 
 
