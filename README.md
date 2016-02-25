@@ -10,6 +10,7 @@ Dependencies
 - createJS
     - easelJS : 0.8
     - preloadJS : 0.6
+    - soundJS : 0.6
 
 Links
 =====
@@ -33,3 +34,8 @@ Tiles (144 pieces)
 - dragon tiles   -- 12 tiles -- (red/green/white) x4
 - flower tiles   --  4 tiles -- (plum/orchid/chrysanthemum/bamboo)
 - season tiles   --  4 tiles -- (spring/summer/autumn/winter)
+
+Music
+=====
+
+- [http://opengameart.org/content/jaoan](http://opengameart.org/content/jaoan) -- Public Domain

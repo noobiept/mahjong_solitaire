@@ -29,6 +29,7 @@ grunt.initConfig({
                 expand: true,
                 cwd: root,
                 src: [
+                    'audio/**',
                     'images/**',
                     'libraries/**',
                     'maps/**',
