@@ -61,16 +61,13 @@ Game.resetStuff();
 
 TWO_PLAYER_MODE = twoPlayers;
 GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
-
-var width = $( window ).width();
-var height = $( window ).height() - $( '#GameMenu' ).height();
-
-CANVAS.width = width;
-CANVAS.height = height;
-$( CANVAS ).css( 'display', 'block' );
-
 CURRENT_MAP = selectedMap;
 
+$( CANVAS ).css( 'display', 'block' );
+Game.resize();
+
+var width = CANVAS.width;
+var height = CANVAS.height;
 
 if ( twoPlayers )
     {
@@ -99,7 +96,6 @@ else
     {
     MAPS.push( new Map( selectedMap, { x: 0, y: 0, width: width, height: height } ) );
     }
-
 
 GameMenu.show();
 Game.updateInformation();
@@ -338,6 +334,26 @@ return MAPS[ ACTIVE_MAP ];
 Game.hasEnded = function()
 {
 return GAME_FINISHED;
+};
+
+
+Game.resize = function()
+{
+if ( CURRENT_MAP )
+    {
+    var width = $( window ).outerWidth( true );
+    var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
+
+    CANVAS.width = width;
+    CANVAS.height = height;
+
+    var mapHeight = CURRENT_MAP.numberOfLines / 2 * Tile.getImageHeight();
+    var heightScale = height / mapHeight;
+
+        // have the same scale, so that it doesn't distort the images
+    STAGE.scaleX = heightScale;
+    STAGE.scaleY = heightScale;
+    }
 };
 
 

@@ -18,8 +18,7 @@ var TILE_HEIGHT = 45;
         line   : Number,
         gridObject : Grid,
         drawShape  : Boolean,
-        onClick    : (tile: Tile) => any,
-        scale      : Number
+        onClick    : (tile: Tile) => any
     }
  */
 function Tile( args )
@@ -54,14 +53,8 @@ if ( typeof args.line === 'undefined' )
     args.line = 0;
     }
 
-if ( typeof args.scale === 'undefined' )
-    {
-    args.scale = 1;
-    }
-
-this.width = TILE_WIDTH * args.scale;
-this.height = TILE_HEIGHT * args.scale;
-
+this.width = TILE_WIDTH;
+this.height = TILE_HEIGHT;
 
     // :: draw the shape :: //
 var shape, background, container;
@@ -75,12 +68,8 @@ if ( args.drawShape !== false )
     background = new createjs.Shape();
 
     container = new createjs.Container();
-
     container.addChild( shape );
     container.addChild( background );
-
-    container.scaleX = args.scale;
-    container.scaleY = args.scale;
 
     container.on( 'click', function()
         {
@@ -101,7 +90,6 @@ this.container = container;
 this.column = args.column;
 this.line = args.line;
 this.gridObject = args.gridObject;
-this.scale = args.scale;
 }
 
 
@@ -110,7 +98,7 @@ Tile.prototype.selectTile = function()
 var g = this.background.graphics;
 
 g.beginFill( 'rgba(255, 0, 0, 0.3)' );
-g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );    // seems to already consider the .scale ?..
+g.drawRoundRect( 3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5 );
 };
 
 

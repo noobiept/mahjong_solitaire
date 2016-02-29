@@ -23,26 +23,6 @@ if ( typeof playerNumber === 'undefined' )
 this.columns = mapInfo.numberOfColumns;
 this.lines = mapInfo.numberOfLines;
 
-
-var tileWidth = Tile.getImageWidth();
-var tileHeight = Tile.getImageHeight();
-
-    // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
-    // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
-var scaleWidth = dimensions.width / ( this.columns / 2 * tileWidth );
-var scaleHeight = dimensions.height / ( this.lines / 2 * tileHeight );
-
-if ( scaleWidth < scaleHeight )
-    {
-    this.scale = scaleWidth;
-    }
-
-else
-    {
-    this.scale = scaleHeight;
-    }
-
-
     // contain all grids/tiles of this map
 this.all_tiles = [];
 this.all_grids = [];
@@ -91,7 +71,7 @@ var grid;
 var a, b;
 
     // center the map horizontally
-var mapWidth = this.columns / 2 * Tile.getImageWidth() * this.scale;
+var mapWidth = this.columns / 2 * Tile.getImageWidth();
 var startingX = this.dimensions.x + this.dimensions.width / 2 - mapWidth / 2;
 var startingY = this.dimensions.y;
 
@@ -118,7 +98,6 @@ for (a = 0 ; a < mapDescription.length ; a++)
                 column     : position.column,
                 line       : position.line,
                 gridObject : grid,
-                scale      : mapObject.scale,
                 onClick    : function( tile )
                     {
                     mapObject.onTileClick( tile );
