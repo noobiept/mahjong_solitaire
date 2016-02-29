@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 
 import json
 import os.path
+
 
 def home( request ):
 
@@ -43,5 +44,4 @@ def loadMap( request ):
         print( error )
         return HttpResponseBadRequest( "Couldn't find the map:", error )
 
-
-    return HttpResponse( json.dumps( content ), mimetype= 'application/json' )
+    return JsonResponse( json.loads( content ) )

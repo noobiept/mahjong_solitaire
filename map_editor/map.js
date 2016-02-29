@@ -30,9 +30,6 @@ else
 
 var columns = mapInfo.numberOfColumns;
 var lines = mapInfo.numberOfLines;
-
-var startingX = 100;
-var startingY = 0;
 var grid;
 
 var gridsContainer = document.querySelector( '#Grids-container' );
@@ -60,14 +57,16 @@ for (var a = 0 ; a < numberOfGrids ; a++)
 
     gridsContainer.appendChild( gridElement );
 
-    startingX -= 6;
-    startingY += 6;
     }
 
 
     // no grid selected initially
 SELECTED_GRID = -1;
 
+var startingX = 100;
+var startingY = 0;
+var tileWidth = Tile.getImageWidth();
+var tileHeight = Tile.getImageHeight();
 
 for (var a = 0 ; a < numberOfGrids ; a++)
     {
@@ -77,11 +76,15 @@ for (var a = 0 ; a < numberOfGrids ; a++)
         {
         for (var c = 0 ; c < lines ; c++)
             {
-            new GridPosition( b, c, grid, 1.5, true );
+            var gridPosition = new GridPosition( b, c, grid, 1.5, true );
+
+            gridPosition.moveTo( startingX + tileWidth * b, startingY + tileHeight * c );
             }
         }
-    }
 
+    startingX -= 6;
+    startingY += 6;
+    }
 
 Map.selectGrid( SELECTED_GRID );
 
@@ -228,17 +231,16 @@ var allTiles = Map.getAllTiles();
 
 var numberOfColumns = grid.numberOfColumns;
 var numberOfLines = grid.numberOfLines;
-
+var a;
 var mapDescription = [];
 
     // init mapDescription
-for (var a = 0 ; a < allGrids.length ; a++)
+for (a = 0 ; a < allGrids.length ; a++)
     {
     mapDescription[ a ] = [];
     }
 
-
-for (var a = 0 ; a < allTiles.length ; a++)
+for (a = 0 ; a < allTiles.length ; a++)
     {
     var tile = allTiles[ a ];
 
@@ -250,7 +252,6 @@ for (var a = 0 ; a < allTiles.length ; a++)
         });
     }
 
-
 var mapDefinition = {
     mapName         : mapName,
     numberOfColumns : numberOfColumns,
@@ -261,7 +262,6 @@ var mapDefinition = {
 $.ajax({
     type  : 'post',
     url   : '/save_map/',
-    async : false,
     data  : { data: JSON.stringify( mapDefinition ) },
     success: function( jqXHR, textStatus )
         {
@@ -272,7 +272,7 @@ $.ajax({
         console.log( jqXHR, textStatus, errorThrown );
         }
     });
-}
+};
 
 
 Map.load = function( mapName )
@@ -299,16 +299,11 @@ if ( typeof mapName == 'undefined' )
 $.ajax({
     type  : 'post',
     url   : '/load_map/',
-    async : false,
     data  : { mapName: mapName },
     dataType : 'json',
-
-    success: function( jqXHR, textStatus )
+    success: function( mapInfo, textStatus )
         {
-        var mapInfo = JSON.parse( jqXHR );
-
         Map.constructGrid( mapInfo );
-
         Map.constructMap( mapInfo );
         },
 
@@ -356,7 +351,7 @@ TILES_LEFT++;
 
 Map.addGrid = function( args )
 {
-var grid = new Grid( args.startingX, args.startingY, args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
+var grid = new Grid( args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
 
 ALL_GRIDS.push( grid );
 

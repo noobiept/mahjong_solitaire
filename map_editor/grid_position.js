@@ -32,7 +32,6 @@ if ( hidden !== true )
     STAGE.addChild( container );
     }
 
-
 this.container = container;
 this.width = width;
 this.height = height;
@@ -42,10 +41,6 @@ this.column = column;
 this.line = line;
 this.gridObject = gridObject;
 this.scale = scale;
-
-
-this.moveTo( gridObject.startingX + column * this.width, gridObject.startingY + line * this.height );
-
 
 var gridPosition = gridObject.position;
 
@@ -94,6 +89,9 @@ else
         });
 
     this.tileObject = tile;
+
+    tile.container.x = this.container.x;
+    tile.container.y = this.container.y;
 
         // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
     if ( drawBelow !== false )
