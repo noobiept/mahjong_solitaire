@@ -72,9 +72,6 @@ if ( twoPlayers )
 
         // init the player turn message
     PLAYER_TURN = new createjs.Text( '', '30px monospace', 'red' );
-
-        // position just above the menu, in the left or right side of the window (depending on which turn it is)
-    PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
     PLAYER_TURN.textAlign = 'center';
 
     STAGE.addChild( PLAYER_TURN );
@@ -86,9 +83,9 @@ else
     }
 
 GameMenu.show();
+Game.resize();
 Game.updateInformation();
 Game.setActiveMap( 0 );
-Game.resize();
 };
 
 
@@ -328,20 +325,42 @@ return GAME_FINISHED;
 
 Game.resize = function()
 {
+var width = $( window ).outerWidth( true );
+var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
+
+CANVAS.width = width;
+CANVAS.height = height;
+
+
 if ( MAPS.length === 1 )
     {
-    var width = $( window ).outerWidth( true );
-    var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
-
-    CANVAS.width = width;
-    CANVAS.height = height;
-
     MAPS[ 0 ].scaleMap({
             x: 0,
             y: 0,
             width: width,
             height: height
         });
+    }
+
+else if ( MAPS.length === 2 )
+    {
+    var halfWidth = width / 2;
+
+    MAPS[ 0 ].scaleMap({
+            x: 0,
+            y: 0,
+            width: halfWidth,
+            height: height
+        });
+    MAPS[ 1 ].scaleMap({
+            x: halfWidth,
+            y: 0,
+            width: halfWidth,
+            height: height
+        });
+
+        // position just above the menu, in the left or right side of the window (depending on which turn it is)
+    PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
     }
 };
 

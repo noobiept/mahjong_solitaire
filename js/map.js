@@ -297,6 +297,7 @@ var newMap = this.determineTileNames( currentMap, tilePairs );
 
 this.buildMap( newMap );
 this.addToScore( Map.SHUFFLE_SCORE );
+Game.resize();
 };
 
 
