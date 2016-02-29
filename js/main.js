@@ -22,6 +22,7 @@ STAGE = new createjs.Stage( CANVAS );
 
 MainMenu.init();
 GameMenu.init();
+Message.init();
 HighScore.load( data[ 'mahjong_high_score' ] );
 
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -92,16 +93,13 @@ var manifest = [
         { id: 'music', src: 'audio/Jaoan.ogg' }
     ];
 
-
-var loadingMessage = document.querySelector( '#Message' );
-
 PRELOAD.addEventListener( 'progress', function( event )
     {
-    $( loadingMessage ).text( 'Loading ' + ( event.progress * 100 | 0 ) + '%' );
+    Message.show( 'Loading ' + ( event.progress * 100 | 0 ) + '%', false );
     });
 PRELOAD.addEventListener( 'complete', function()
     {
-    $( loadingMessage ).css( 'display', 'none' );
+    Message.hide();
 
         // the order of the array needs to match the order of the html elements in the main menu
     MainMenu.addMaps([

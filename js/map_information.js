@@ -118,17 +118,12 @@ else
             // end the game
         if (this.timesUpdateWasCalled > 1)
             {
-            var endMessage = document.querySelector( '#Message' );
-
-            $( endMessage ).text( 'No More Possible Plays' );
-            $( endMessage ).css( 'display', 'block' );
-
+            Message.show( 'No More Possible Plays' );
             Game.resetStuff();
 
             window.setTimeout( function()
                 {
-                $( endMessage ).css( 'display', 'none' );
-
+                Message.hide();
                 MainMenu.open();
                 }, 2500 );
 

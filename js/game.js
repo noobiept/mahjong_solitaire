@@ -120,13 +120,10 @@ for (a = 0 ; a < MAPS.length ; a++)
     HighScore.add( CURRENT_MAP.mapName, MAPS[ a ].score );
     }
 
-
-var endMessage = document.querySelector( '#Message' );
-
     // 1 player mode
 if ( MAPS.length === 1 )
     {
-    $( endMessage ).text( 'Map Cleared! Score: ' + MAPS[ 0 ].score );
+    Message.show( 'Map Cleared! Score: ' + MAPS[ 0 ].score );
     }
 
     // more than 1 player, need to determine who won
@@ -137,28 +134,25 @@ else
 
     if ( playerOneScore < playerTwoScore )
         {
-        $( endMessage ).text( 'Player 1 Wins! Score: ' + playerOneScore );
+        Message.show( 'Player 1 Wins! Score: ' + playerOneScore );
         }
 
     else if ( playerTwoScore < playerOneScore )
         {
-        $( endMessage ).text( 'Player 2 Wins! Score: ' + playerTwoScore );
+        Message.show( 'Player 2 Wins! Score: ' + playerTwoScore );
         }
 
     else
         {
-        $( endMessage ).text( 'Its a Draw! Score: ' + playerOneScore );
+        Message.show( 'Its a Draw! Score: ' + playerOneScore );
         }
     }
 
 Game.resetStuff();
 
-$( endMessage ).css( 'display', 'block' );
-
 window.setTimeout( function()
     {
-    $( endMessage ).css( 'display', 'none' );
-
+    Message.hide();
     MainMenu.open();
     }, 2500 );
 };

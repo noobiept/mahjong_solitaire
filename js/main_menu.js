@@ -88,7 +88,7 @@ Game.resetStuff();
 
 MainMenu.selectMap( SELECTED_MAP );
 
-$( MENU ).css( 'display', 'block' );
+$( MENU ).css( 'display', 'flex' );
 };
 
 
@@ -169,7 +169,7 @@ back.onclick = function()
     MainMenu.open();
     };
 
-$( HIGH_SCORE ).css( 'display', 'block' );
+$( HIGH_SCORE ).css( 'display', 'flex' );
 };
 
 
