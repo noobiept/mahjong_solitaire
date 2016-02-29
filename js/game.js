@@ -64,23 +64,11 @@ GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an iss
 CURRENT_MAP = selectedMap;
 
 $( CANVAS ).css( 'display', 'block' );
-Game.resize();
-
-var width = CANVAS.width;
-var height = CANVAS.height;
 
 if ( twoPlayers )
     {
-    var halfWidth = width / 2;
-
-    MAPS.push( new Map(
-        selectedMap,
-        { x: 0, y: 0, width: halfWidth, height: height },
-        1 ));
-    MAPS.push( new Map(
-        selectedMap,
-        { x: halfWidth, y: 0, width: halfWidth, height: height },
-        2 ));
+    MAPS.push( new Map( selectedMap, 1 ));
+    MAPS.push( new Map( selectedMap, 2 ));
 
         // init the player turn message
     PLAYER_TURN = new createjs.Text( '', '30px monospace', 'red' );
@@ -94,12 +82,13 @@ if ( twoPlayers )
 
 else
     {
-    MAPS.push( new Map( selectedMap, { x: 0, y: 0, width: width, height: height } ) );
+    MAPS.push( new Map( selectedMap ) );
     }
 
 GameMenu.show();
 Game.updateInformation();
 Game.setActiveMap( 0 );
+Game.resize();
 };
 
 
@@ -339,7 +328,7 @@ return GAME_FINISHED;
 
 Game.resize = function()
 {
-if ( CURRENT_MAP )
+if ( MAPS.length === 1 )
     {
     var width = $( window ).outerWidth( true );
     var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
@@ -347,12 +336,12 @@ if ( CURRENT_MAP )
     CANVAS.width = width;
     CANVAS.height = height;
 
-    var mapHeight = CURRENT_MAP.numberOfLines / 2 * Tile.getImageHeight();
-    var heightScale = height / mapHeight;
-
-        // have the same scale, so that it doesn't distort the images
-    STAGE.scaleX = heightScale;
-    STAGE.scaleY = heightScale;
+    MAPS[ 0 ].scaleMap({
+            x: 0,
+            y: 0,
+            width: width,
+            height: height
+        });
     }
 };
 

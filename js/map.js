@@ -13,7 +13,7 @@
         - flower tiles (4)
         - season tiles (4)
  */
-function Map( mapInfo, dimensions, playerNumber )
+function Map( mapInfo, playerNumber )
 {
 if ( typeof playerNumber === 'undefined' )
     {
@@ -40,8 +40,6 @@ this.score = 0;
     // when there's more than 1 player, only one map is active at a time (can be played)
 this.isCurrentActive = false;
 this.hasShadows = false;
-this.dimensions = dimensions;
-
 this.buildMap( newMap );
 }
 
@@ -70,19 +68,12 @@ var mapObject = this;
 var grid;
 var a, b;
 
-    // center the map horizontally
-var mapWidth = this.columns / 2 * Tile.getImageWidth();
-var startingX = this.dimensions.x + this.dimensions.width / 2 - mapWidth / 2;
-var startingY = this.dimensions.y;
-
     // add the tiles, each grid at a time
 for (a = 0 ; a < mapDescription.length ; a++)
     {
     var gridDescription = mapDescription[ a ];
 
     grid = this.addGrid({
-            startingX       : startingX,
-            startingY       : startingY,
             numberOfColumns : this.columns,
             numberOfLines   : this.lines
         });
@@ -104,13 +95,7 @@ for (a = 0 ; a < mapDescription.length ; a++)
                     }
             });
         }
-
-
-        // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
-    startingX -= 6;
-    startingY += 6;
     }
-
 
 var line;
 var column;
@@ -182,8 +167,6 @@ var newMap = [];
 var grid;
 var gridDescription;
 var tilePosition;
-var startingX = 20;
-var startingY = 20;
 
     // construct the map
 for (var a = 0 ; a < mapDescription.length ; a++)
@@ -191,8 +174,6 @@ for (var a = 0 ; a < mapDescription.length ; a++)
     gridDescription = mapDescription[ a ];
 
     grid = this.addGrid({
-            startingX       : startingX,
-            startingY       : startingY,
             numberOfColumns : this.columns,
             numberOfLines   : this.lines
         });
@@ -208,15 +189,10 @@ for (var a = 0 ; a < mapDescription.length ; a++)
                 tileId     : '', // doesn't matter, since we aren't drawing the shape
                 column     : tilePosition.column,
                 line       : tilePosition.line,
-                gridObject : grid,
-                drawShape  : false
+                gridObject : grid
             });
         }
-
-    startingX -= 6;
-    startingY += 6;
     }
-
 
     // determine the selectable tiles
 var allTiles = this.all_tiles;
@@ -593,7 +569,7 @@ tileObject.remove();
 
 Map.prototype.addGrid = function( args )
 {
-var grid = new Grid( args.startingX, args.startingY, args.numberOfColumns, args.numberOfLines, this.all_grids.length );
+var grid = new Grid( args.numberOfColumns, args.numberOfLines, this.all_grids.length );
 
 this.all_grids.push( grid );
 
@@ -787,4 +763,38 @@ this.mapInformation.updateScore( this.score );
 Map.prototype.addTimerScore = function()
 {
 this.addToScore( Map.TIMER_SCORE + this.hasShadows * Map.SHADOW_SCORE );
+};
+
+
+Map.prototype.scaleMap = function( dimensions )
+{
+var tileWidth = Tile.getImageWidth();
+var tileHeight = Tile.getImageHeight();
+
+    // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
+    // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
+var scaleWidth = dimensions.width / ( this.columns / 2 * tileWidth );
+var scaleHeight = dimensions.height / ( this.lines / 2 * tileHeight );
+var scale = scaleHeight;
+
+if ( scaleWidth < scaleHeight )
+    {
+    scale = scaleWidth;
+    }
+
+    // center the map horizontally
+var mapWidth = this.columns / 2 * Tile.getImageWidth() * scale;
+var startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
+var startingY = dimensions.y;
+
+for (var a = 0 ; a < this.all_grids.length ; a++)
+    {
+    var grid = this.all_grids[ a ];
+
+    grid.positionElements( startingX, startingY, scale );
+
+        // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
+    startingX -= 6 * scale;
+    startingY += 6 * scale;
+    }
 };
