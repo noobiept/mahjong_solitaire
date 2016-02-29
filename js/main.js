@@ -110,7 +110,7 @@ PRELOAD.addEventListener( 'complete', function()
         ]);
     MainMenu.open();
 
-    createjs.Sound.play( 'music', { loop: true } );
+    createjs.Sound.play( 'music', { loop: -1 } );
     });
 PRELOAD.loadManifest( manifest, true );
 }

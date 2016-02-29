@@ -355,6 +355,16 @@ else if ( MAPS.length === 2 )
 
         // position just above the menu, in the left or right side of the window (depending on which turn it is)
     PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
+
+    if ( ACTIVE_MAP === 0 )
+        {
+        PLAYER_TURN.x = width / 4;
+        }
+
+    else
+        {
+        PLAYER_TURN.x = width * 3 / 4;
+        }
     }
 };
 
