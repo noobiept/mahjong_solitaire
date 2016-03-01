@@ -30,7 +30,7 @@ grunt.initConfig({
                 cwd: root,
                 src: [
                     'audio/**',
-                    'images/**',
+                    'images/*.png',
                     'libraries/**',
                     'maps/**',
                     'background.js',

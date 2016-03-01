@@ -1,4 +1,4 @@
-/*global Game, HighScore, Utilities*/
+/*global Game, HighScore*/
 'use strict';
 
 var MainMenu;

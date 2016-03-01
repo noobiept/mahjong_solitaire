@@ -1,4 +1,4 @@
-/*global CANVAS, Tile, MapInformation, STAGE, Utilities, Grid, GameMenu, Game*/
+/*global Tile, MapInformation, STAGE, Utilities, Grid, GameMenu, Game*/
 'use strict';
 
 

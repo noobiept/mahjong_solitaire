@@ -1,4 +1,4 @@
-/*global Utilities, Game, MainMenu, GameMenu*/
+/*global Game, MainMenu, GameMenu, Message*/
 'use strict';
 
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var Message;
 (function(Message) {
 
@@ -10,6 +12,7 @@ Message.init = function()
 HTML_ELEMENT = document.getElementById( 'Message' );
 
 Message.center();
+HTML_ELEMENT.style.display = 'block';
 };
 
 

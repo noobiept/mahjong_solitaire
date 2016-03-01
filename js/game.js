@@ -1,4 +1,4 @@
-/*global CANVAS, Map, createjs, STAGE, GameMenu, HighScore, Utilities, MainMenu*/
+/*global CANVAS, Map, createjs, STAGE, GameMenu, HighScore, MainMenu, Message*/
 'use strict';
 
 
@@ -132,12 +132,12 @@ else
     var playerOneScore = MAPS[ 0 ].score;
     var playerTwoScore = MAPS[ 1 ].score;
 
-    if ( playerOneScore < playerTwoScore )
+    if ( playerOneScore > playerTwoScore )
         {
         Message.show( 'Player 1 Wins! Score: ' + playerOneScore );
         }
 
-    else if ( playerTwoScore < playerOneScore )
+    else if ( playerTwoScore > playerOneScore )
         {
         Message.show( 'Player 2 Wins! Score: ' + playerTwoScore );
         }

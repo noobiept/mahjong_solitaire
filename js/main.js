@@ -1,4 +1,4 @@
-/*global AppStorage, createjs, MainMenu, GameMenu, HighScore*/
+/*global AppStorage, createjs, MainMenu, GameMenu, HighScore, Message, Game*/
 'use strict';
 
 var CANVAS;
