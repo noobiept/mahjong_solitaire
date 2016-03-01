@@ -6,10 +6,10 @@
     // the value is another array with the GridPosition
 var ALL_POSITIONS = [];
 
-function GridPosition( column, line, gridObject, scale, hidden )
+function GridPosition( column, line, gridObject, hidden )
 {
-var width = Tile.getImageWidth() / 2 * scale;
-var height = Tile.getImageHeight() / 2 * scale;
+var width = Tile.getImageWidth() / 2;
+var height = Tile.getImageHeight() / 2;
 
 var container = new createjs.Container();
 
@@ -40,7 +40,6 @@ this.tileObject = null;
 this.column = column;
 this.line = line;
 this.gridObject = gridObject;
-this.scale = scale;
 
 var gridPosition = gridObject.position;
 
@@ -84,12 +83,13 @@ else
             tileId: 'bamboo1',
             column: this.column,
             line: this.line,
-            gridObject: this.gridObject,
-            scale: this.scale
+            gridObject: this.gridObject
         });
 
     this.tileObject = tile;
 
+    tile.container.scaleX = 2;
+    tile.container.scaleY = 2;
     tile.container.x = this.container.x;
     tile.container.y = this.container.y;
 

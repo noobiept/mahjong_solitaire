@@ -88,6 +88,7 @@ var manifest = [
         { id: 'map_tower', src: 'maps/tower.json' },
         { id: 'map_fish', src: 'maps/fish.json' },
         { id: 'map_crossroads', src: 'maps/crossroads.json' },
+        { id: 'map_cross', src: 'maps/cross.json' },
 
             // audio
         { id: 'music', src: 'audio/Jaoan.ogg' }
@@ -106,7 +107,8 @@ PRELOAD.addEventListener( 'complete', function()
             PRELOAD.getResult( 'map_pyramid' ),
             PRELOAD.getResult( 'map_tower' ),
             PRELOAD.getResult( 'map_fish' ),
-            PRELOAD.getResult( 'map_crossroads' )
+            PRELOAD.getResult( 'map_crossroads' ),
+            PRELOAD.getResult( 'map_cross' )
         ]);
     MainMenu.open();
 

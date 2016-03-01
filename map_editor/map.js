@@ -31,14 +31,20 @@ else
 var columns = mapInfo.numberOfColumns;
 var lines = mapInfo.numberOfLines;
 var grid;
+var canvas = document.getElementById( 'canvas' );
+var tileWidth = Tile.getImageWidth();
+var tileHeight = Tile.getImageHeight();
+var startingX = 100;
+var startingY = 0;
+
+canvas.width = columns * tileWidth + startingX;
+canvas.height = lines * tileHeight + startingY;
 
 var gridsContainer = document.querySelector( '#Grids-container' );
 
 for (var a = 0 ; a < numberOfGrids ; a++)
     {
     Map.addGrid({
-            startingX       : startingX,
-            startingY       : startingY,
             numberOfColumns : columns + 1,
             numberOfLines   : lines
         });
@@ -63,10 +69,6 @@ for (var a = 0 ; a < numberOfGrids ; a++)
     // no grid selected initially
 SELECTED_GRID = -1;
 
-var startingX = 100;
-var startingY = 0;
-var tileWidth = Tile.getImageWidth();
-var tileHeight = Tile.getImageHeight();
 
 for (var a = 0 ; a < numberOfGrids ; a++)
     {
@@ -76,7 +78,7 @@ for (var a = 0 ; a < numberOfGrids ; a++)
         {
         for (var c = 0 ; c < lines ; c++)
             {
-            var gridPosition = new GridPosition( b, c, grid, 1.5, true );
+            var gridPosition = new GridPosition( b, c, grid, true );
 
             gridPosition.moveTo( startingX + tileWidth * b, startingY + tileHeight * c );
             }
