@@ -76,4 +76,10 @@ AppStorage.removeData( [ 'mahjong_high_score' ] );
 };
 
 
+HighScore.getMaxScoresSaved = function()
+{
+return MAX_SCORES_SAVED;
+};
+
+
 })(HighScore || (HighScore = {}));

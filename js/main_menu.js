@@ -101,20 +101,10 @@ $( MENU ).css( 'display', 'none' );
 MainMenu.openHighScore = function()
 {
 var table = HIGH_SCORE.querySelector( '#HighScore-table' );
+var scores = HighScore.getAll();
+var keys = Object.keys( scores );
 
-var mapName = MAPS_AVAILABLE[ SELECTED_MAP ].mapName;
-
-    // set the title
-var title = HIGH_SCORE.querySelector( '#HighScore-title' );
-
-$( title ).text( 'High Score (' + mapName + ')' );
-
-
-    // get the scores of the selected map
-var mapScores = HighScore.get( mapName );
-
-
-if ( !mapScores || mapScores.length === 0 )
+if ( keys.length === 0 )
     {
     table.innerHTML = 'No Score Yet.';
     }
@@ -124,34 +114,51 @@ else
     {
         // header
     var tableRow = document.createElement( 'tr' );
-    var header = [ '', 'Score' ];
+    var headers = [ '' ].concat( keys );
     var tableHeader;
-    var a;
+    var a, b;
+    var positionElement, scoreElement;
+    var score;
+    var mapScoreList;
+    var maxScores = HighScore.getMaxScoresSaved();
 
-    for (a = 0 ; a < header.length ; a++)
+    for (a = 0 ; a < headers.length ; a++)
         {
         tableHeader = document.createElement( 'th' );
 
-        $( tableHeader ).text( header[ a ] );
+        $( tableHeader ).text( headers[ a ] );
         tableRow.appendChild( tableHeader );
         }
 
     table.appendChild( tableRow );
 
 
-    var position, score;
-
-    for (a = 0 ; a < mapScores.length ; a++)
+    for (a = 0 ; a < maxScores ; a++)
         {
         tableRow = document.createElement( 'tr' );
-        position = document.createElement( 'td' );
-        score = document.createElement( 'td' );
+        positionElement = document.createElement( 'td' );
 
-        $( position ).text( a + 1 );
-        $( score ).text( mapScores[ a ] );
+        positionElement.innerHTML = a + 1;
+        tableRow.appendChild( positionElement );
 
-        tableRow.appendChild( position );
-        tableRow.appendChild( score );
+        for (b = 0 ; b < keys.length ; b++)
+            {
+            mapScoreList = scores[ keys[ b ] ];
+            score = mapScoreList[ a ];
+            scoreElement = document.createElement( 'td' );
+
+            if ( !score )
+                {
+                scoreElement.innerHTML = '-';
+                }
+
+            else
+                {
+                scoreElement.innerHTML = score;
+                }
+
+            tableRow.appendChild( scoreElement );
+            }
 
         table.appendChild( tableRow );
         }
