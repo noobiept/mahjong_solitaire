@@ -23,6 +23,7 @@ body
 .button
     {
     cursor: pointer;
+    color: white;
     padding: 5px 25px;
     }
 
@@ -55,6 +56,12 @@ body
     align-content: center;
     align-self: center;
     height: 100%;
+    }
+
+#MainMenu-donate
+    {
+    display: block;
+    text-decoration: none;
     }
 
     /* Select Map */
