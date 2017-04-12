@@ -232,7 +232,7 @@ return newMap;
 };
 
 
-Map.prototype.shuffle = function()
+Map.prototype.shuffle = function( addToScore= true )
 {
 var allTiles = this.all_tiles;
 var a;
@@ -295,8 +295,12 @@ this.removeAllGrids();
     // re-make the map, with the current tiles
 var newMap = this.determineTileNames( currentMap, tilePairs );
 
+if ( addToScore )
+    {
+    this.addToScore( Map.SHUFFLE_SCORE );
+    }
+
 this.buildMap( newMap );
-this.addToScore( Map.SHUFFLE_SCORE );
 Game.resize();
 };
 

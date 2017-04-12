@@ -130,7 +130,7 @@ else
             return;
             }
 
-        Game.getActiveMap().shuffle();
+        Game.getActiveMap().shuffle( false );
         GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
         Game.updateInformation();
         }
