@@ -1,3 +1,8 @@
+/*global Tile, updateMenuValues, GridPosition, Grid, STAGE*/
+/*eslint no-console: 0, no-unused-vars: 0*/
+'use strict';
+
+
 (function(window)
 {
 var ALL_GRIDS = [];
@@ -38,7 +43,7 @@ canvas.height = lines * tileHeight + startingY;
 
 var gridsContainer = document.querySelector( '#Grids-container' );
 
-for (var a = 0 ; a < numberOfGrids ; a++)
+for (let a = 0 ; a < numberOfGrids ; a++)
     {
     Map.addGrid({
             numberOfColumns : columns + 1,
@@ -58,7 +63,6 @@ for (var a = 0 ; a < numberOfGrids ; a++)
         };
 
     gridsContainer.appendChild( gridElement );
-
     }
 
 
@@ -66,7 +70,7 @@ for (var a = 0 ; a < numberOfGrids ; a++)
 SELECTED_GRID = -1;
 
 
-for (var a = 0 ; a < numberOfGrids ; a++)
+for (let a = 0 ; a < numberOfGrids ; a++)
     {
     grid = Map.getGrid( a );
 
@@ -111,7 +115,7 @@ for (var a = 0 ; a < mapDescription.length ; a++)
             {
             var gridPosition = gridPositionsCopy[ c ];
 
-            if ( gridPosition.column == tile.column && gridPosition.line == tile.line )
+            if ( gridPosition.column === tile.column && gridPosition.line === tile.line )
                 {
                 gridPosition.onClick( false );
 
@@ -134,12 +138,11 @@ if ( gridPosition < -1 || gridPosition >= ALL_GRIDS.length )
     }
 
     // already selected
-if ( gridPosition == SELECTED_GRID )
+if ( gridPosition === SELECTED_GRID )
     {
     return;
     }
 
-var a;
 var previousGridPositions;
 var allTiles = Map.getAllTiles();
 var allGridPositions = GridPosition.getAll();
@@ -150,14 +153,14 @@ if ( gridPosition < 0 )
     previousGridPositions = GridPosition.getGrid( SELECTED_GRID );
 
             // hide previous grid
-    for (a = 0 ; a < previousGridPositions.length ; a++)
+    for (let a = 0 ; a < previousGridPositions.length ; a++)
         {
         previousGridPositions[ a ].hide();
         }
 
         // show all the tiles
         // add the tiles starting on the bottom grid, and going up (so that the z-index is correct (the tiles on top grids, are above the tiles on grids below))
-    for (a = 0 ; a < allGridPositions.length ; a++)
+    for (let a = 0 ; a < allGridPositions.length ; a++)
         {
         var individualGrid = allGridPositions[ a ];
 
@@ -183,7 +186,7 @@ else
     if ( SELECTED_GRID < 0 )
         {
             // hide all tiles
-        for (a = 0 ; a < allTiles.length ; a++)
+        for (let a = 0 ; a < allTiles.length ; a++)
             {
             STAGE.removeChild( allTiles[ a ].container );
             }
@@ -204,7 +207,7 @@ else
         // show next one
     var gridPositions = GridPosition.getGrid( gridPosition );
 
-    for (a = 0 ; a < gridPositions.length ; a++)
+    for (let a = 0 ; a < gridPositions.length ; a++)
         {
         gridPositions[ a ].show();
         }
@@ -275,7 +278,7 @@ Map.load = function( mapName )
 Map.clear();
 
     // try to load the latest map (that was loaded in the previous session)
-if ( typeof mapName == 'undefined' )
+if ( typeof mapName === 'undefined' )
     {
     var previousMap = localStorage.getItem( 'previousMap' );
 
