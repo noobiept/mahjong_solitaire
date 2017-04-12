@@ -2,6 +2,8 @@
 'use strict';
 
 
+class Map
+{
 /*
     Generates a map. Each map has 144 tiles.
 
@@ -13,41 +15,35 @@
         - flower tiles (4)
         - season tiles (4)
  */
-function Map( mapInfo, playerNumber )
-{
-if ( typeof playerNumber === 'undefined' )
+constructor( mapInfo, playerNumber )
     {
-    playerNumber = 1;
+    if ( typeof playerNumber === 'undefined' )
+        {
+        playerNumber = 1;
+        }
+
+    this.columns = mapInfo.numberOfColumns;
+    this.lines = mapInfo.numberOfLines;
+
+        // contain all grids/tiles of this map
+    this.all_tiles = [];
+    this.all_grids = [];
+
+        // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
+    this.selected_tile = null;
+
+    this.mapInformation = new MapInformation( this, playerNumber );
+
+    var newMap = this.determineTileNames( mapInfo.mapDescription );
+
+    this.playerNumber = playerNumber;
+    this.score = 0;
+
+        // when there's more than 1 player, only one map is active at a time (can be played)
+    this.isCurrentActive = false;
+    this.hasShadows = false;
+    this.buildMap( newMap );
     }
-
-this.columns = mapInfo.numberOfColumns;
-this.lines = mapInfo.numberOfLines;
-
-    // contain all grids/tiles of this map
-this.all_tiles = [];
-this.all_grids = [];
-
-    // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
-this.selected_tile = null;
-
-this.mapInformation = new MapInformation( this, playerNumber );
-
-var newMap = this.determineTileNames( mapInfo.mapDescription );
-
-this.playerNumber = playerNumber;
-this.score = 0;
-
-    // when there's more than 1 player, only one map is active at a time (can be played)
-this.isCurrentActive = false;
-this.hasShadows = false;
-this.buildMap( newMap );
-}
-
-Map.SHUFFLE_SCORE = -100;
-Map.HELP_SCORE = -100;
-Map.COMBINE_SCORE = 50;
-Map.SHADOW_SCORE = -4;
-Map.TIMER_SCORE = -1;
 
 
 /*
@@ -62,98 +58,97 @@ Map.TIMER_SCORE = -1;
             ]
         ]
  */
-Map.prototype.buildMap = function( mapDescription )
-{
-var mapObject = this;
-var grid;
-var a, b;
-
-    // add the tiles, each grid at a time
-for (a = 0 ; a < mapDescription.length ; a++)
+buildMap( mapDescription )
     {
-    var gridDescription = mapDescription[ a ];
+    var mapObject = this;
+    var grid;
+    var a, b;
 
-    grid = this.addGrid({
-            numberOfColumns : this.columns,
-            numberOfLines   : this.lines
-        });
-
-
-    for (b = 0 ; b < gridDescription.length ; b++)
+        // add the tiles, each grid at a time
+    for (a = 0 ; a < mapDescription.length ; a++)
         {
-        var position = gridDescription[ b ];
+        var gridDescription = mapDescription[ a ];
 
-        this.addTile({
-                tileId     : position.tileId,
-                tileName   : position.tileName,
-                column     : position.column,
-                line       : position.line,
-                gridObject : grid,
-                onClick    : function( tile )
-                    {
-                    mapObject.onTileClick( tile );
-                    }
+        grid = this.addGrid({
+                numberOfColumns : this.columns,
+                numberOfLines   : this.lines
             });
-        }
-    }
 
-var line;
-var column;
-var element;
 
-    // we need to order the tiles z-index (which element is drawn on top of which)
-    // so that the tiles don't look out of place
-for (a = 0 ; a < this.all_grids.length ; a++)
-    {
-    grid = this.all_grids[ a ];
-
-    var numberOfLines = this.lines;
-    var numberOfColumns = this.columns;
-
-        // get last column/line, go diagonal up right
-    for (b = numberOfLines - 1 ; b >= 0 ; b--)
-        {
-        line = b;
-        column = 0;
-
-        while( line < numberOfLines && column < numberOfColumns )
+        for (b = 0 ; b < gridDescription.length ; b++)
             {
-            element = grid.grid_array[ column ][ line ];
+            var position = gridDescription[ b ];
 
-            if ( element )
-                {
-                STAGE.addChild( element.container );
-                }
-
-            line++;
-            column++;
+            this.addTile({
+                    tileId     : position.tileId,
+                    tileName   : position.tileName,
+                    column     : position.column,
+                    line       : position.line,
+                    gridObject : grid,
+                    onClick    : function( tile )
+                        {
+                        mapObject.onTileClick( tile );
+                        }
+                });
             }
         }
 
-        // get 2nd last line, and do all diagonals, in first column
-    for (b = 1 ; b < numberOfColumns ; b++)
+    var line;
+    var column;
+    var element;
+
+        // we need to order the tiles z-index (which element is drawn on top of which)
+        // so that the tiles don't look out of place
+    for (a = 0 ; a < this.all_grids.length ; a++)
         {
-        line = 0;
-        column = b;
+        grid = this.all_grids[ a ];
 
-        while( line < numberOfLines && column < numberOfColumns )
+        var numberOfLines = this.lines;
+        var numberOfColumns = this.columns;
+
+            // get last column/line, go diagonal up right
+        for (b = numberOfLines - 1 ; b >= 0 ; b--)
             {
-            element = grid.grid_array[ column ][ line ];
+            line = b;
+            column = 0;
 
-            if ( element )
+            while( line < numberOfLines && column < numberOfColumns )
                 {
-                STAGE.addChild( element.container );
-                }
+                element = grid.grid_array[ column ][ line ];
 
-            line++;
-            column++;
+                if ( element )
+                    {
+                    STAGE.addChild( element.container );
+                    }
+
+                line++;
+                column++;
+                }
+            }
+
+            // get 2nd last line, and do all diagonals, in first column
+        for (b = 1 ; b < numberOfColumns ; b++)
+            {
+            line = 0;
+            column = b;
+
+            while( line < numberOfLines && column < numberOfColumns )
+                {
+                element = grid.grid_array[ column ][ line ];
+
+                if ( element )
+                    {
+                    STAGE.addChild( element.container );
+                    }
+
+                line++;
+                column++;
+                }
             }
         }
+
+    this.mapInformation.update();
     }
-
-
-this.mapInformation.update();
-};
 
 
 /*
@@ -161,645 +156,652 @@ this.mapInformation.update();
 
     Start with a complete map, and find the selectable tiles. Determine the tile names, and remove those tiles, find again the selectable tiles, and so on.
  */
-Map.prototype.determineTileNames = function( mapDescription, tilePairs )
-{
-var newMap = [];
-var grid;
-var gridDescription;
-var tilePosition;
-
-    // construct the map
-for (var a = 0 ; a < mapDescription.length ; a++)
+determineTileNames( mapDescription, tilePairs )
     {
-    gridDescription = mapDescription[ a ];
+    var newMap = [];
+    var grid;
+    var gridDescription;
+    var tilePosition;
 
-    grid = this.addGrid({
-            numberOfColumns : this.columns,
-            numberOfLines   : this.lines
-        });
-
-        // initialize the grid's array
-    newMap[ a ] = [];
-
-    for (var b = 0 ; b < gridDescription.length ; b++)
+        // construct the map
+    for (var a = 0 ; a < mapDescription.length ; a++)
         {
-        tilePosition = gridDescription[ b ];
+        gridDescription = mapDescription[ a ];
 
-        this.addTile({
-                tileId     : '', // doesn't matter, since we aren't drawing the shape
-                column     : tilePosition.column,
-                line       : tilePosition.line,
-                gridObject : grid
-            });
-        }
-    }
-
-    // determine the selectable tiles
-var allTiles = this.all_tiles;
-var selectableTiles = [];
-var tile;
-var nextTile = this.getNextTile( tilePairs );
-
-
-    // while we haven't cleared the map
-while( allTiles.length > 0 )
-    {
-    selectableTiles = this.getSelectableTiles();
-
-    while( selectableTiles.length > 0 )
-        {
-        var nextTileName = nextTile();
-
-        var position = Utilities.getRandomInt( 0, selectableTiles.length - 1 );
-
-        tile = selectableTiles.splice( position, 1 )[ 0 ];
-
-        newMap[ tile.gridObject.position ].push({
-                column   : tile.column,
-                line     : tile.line,
-                tileId   : nextTileName.tileId,
-                tileName : nextTileName.tileName
+        grid = this.addGrid({
+                numberOfColumns : this.columns,
+                numberOfLines   : this.lines
             });
 
-        this.removeTile( tile );
-        }
-    }
+            // initialize the grid's array
+        newMap[ a ] = [];
 
-    // clear the grids
-this.removeAllGrids();
-
-return newMap;
-};
-
-
-Map.prototype.shuffle = function( addToScore= true )
-{
-var allTiles = this.all_tiles;
-var a;
-
-var numberOfGrids = this.all_grids.length;
-var currentMap = [];
-
-for (a = 0 ; a < numberOfGrids ; a++)
-    {
-    currentMap[ a ] = [];
-    }
-
-
-var tile;
-var tileNames = [];
-
-    // get the current positions and tile names
-for (a = 0 ; a < allTiles.length ; a++)
-    {
-    tile = allTiles[ a ];
-
-    currentMap[ tile.gridObject.position ].push({
-            column: tile.column,
-            line: tile.line
-        });
-
-    tileNames.push( tile.tileName );
-    }
-
-
-    // remove the pairs, since the .getNextTile() already takes care of that (only have one for each pair)
-var tilePairs = [];
-var firstTile, secondTile;
-
-for (a = 0 ; a < tileNames.length ; a++)
-    {
-    firstTile = tileNames[ a ];
-
-    for (var b = a + 1 ; b < tileNames.length ; b++)
-        {
-        secondTile = tileNames[ b ];
-
-        if ( firstTile === secondTile )
+        for (var b = 0 ; b < gridDescription.length ; b++)
             {
-            tilePairs.push( firstTile );
+            tilePosition = gridDescription[ b ];
 
-            tileNames.splice( b, 1 );
-            tileNames.splice( a, 1 );
-
-            a--;
-            break;
+            this.addTile({
+                    tileId     : '', // doesn't matter, since we aren't drawing the shape
+                    column     : tilePosition.column,
+                    line       : tilePosition.line,
+                    gridObject : grid
+                });
             }
         }
+
+        // determine the selectable tiles
+    var allTiles = this.all_tiles;
+    var selectableTiles = [];
+    var tile;
+    var nextTile = this.getNextTile( tilePairs );
+
+
+        // while we haven't cleared the map
+    while( allTiles.length > 0 )
+        {
+        selectableTiles = this.getSelectableTiles();
+
+        while( selectableTiles.length > 0 )
+            {
+            var nextTileName = nextTile();
+
+            var position = Utilities.getRandomInt( 0, selectableTiles.length - 1 );
+
+            tile = selectableTiles.splice( position, 1 )[ 0 ];
+
+            newMap[ tile.gridObject.position ].push({
+                    column   : tile.column,
+                    line     : tile.line,
+                    tileId   : nextTileName.tileId,
+                    tileName : nextTileName.tileName
+                });
+
+            this.removeTile( tile );
+            }
+        }
+
+        // clear the grids
+    this.removeAllGrids();
+
+    return newMap;
     }
 
-    // clear the current map
-this.removeAllTiles();
-this.removeAllGrids();
 
-    // re-make the map, with the current tiles
-var newMap = this.determineTileNames( currentMap, tilePairs );
-
-if ( addToScore )
+shuffle( addToScore= true )
     {
-    this.addToScore( Map.SHUFFLE_SCORE );
+    var allTiles = this.all_tiles;
+    var a;
+
+    var numberOfGrids = this.all_grids.length;
+    var currentMap = [];
+
+    for (a = 0 ; a < numberOfGrids ; a++)
+        {
+        currentMap[ a ] = [];
+        }
+
+
+    var tile;
+    var tileNames = [];
+
+        // get the current positions and tile names
+    for (a = 0 ; a < allTiles.length ; a++)
+        {
+        tile = allTiles[ a ];
+
+        currentMap[ tile.gridObject.position ].push({
+                column: tile.column,
+                line: tile.line
+            });
+
+        tileNames.push( tile.tileName );
+        }
+
+
+        // remove the pairs, since the .getNextTile() already takes care of that (only have one for each pair)
+    var tilePairs = [];
+    var firstTile, secondTile;
+
+    for (a = 0 ; a < tileNames.length ; a++)
+        {
+        firstTile = tileNames[ a ];
+
+        for (var b = a + 1 ; b < tileNames.length ; b++)
+            {
+            secondTile = tileNames[ b ];
+
+            if ( firstTile === secondTile )
+                {
+                tilePairs.push( firstTile );
+
+                tileNames.splice( b, 1 );
+                tileNames.splice( a, 1 );
+
+                a--;
+                break;
+                }
+            }
+        }
+
+        // clear the current map
+    this.removeAllTiles();
+    this.removeAllGrids();
+
+        // re-make the map, with the current tiles
+    var newMap = this.determineTileNames( currentMap, tilePairs );
+
+    if ( addToScore )
+        {
+        this.addToScore( Map.SHUFFLE_SCORE );
+        }
+
+    this.buildMap( newMap );
+    Game.resize();
     }
 
-this.buildMap( newMap );
-Game.resize();
-};
 
-
-Map.prototype.getNextTile = function( tilesNames )
-{
-if ( typeof tilesNames === 'undefined' )
+getNextTile( tilesNames )
     {
-        // i'll get a pair of each one of the names here
-        // so for example, there's 2 'bamboo1', each means we'll get 4 of them in the map (2 pairs)
-    tilesNames = [
-        'bamboo1', 'bamboo1',
-        'bamboo2', 'bamboo2',
-        'bamboo3', 'bamboo3',
-        'bamboo4', 'bamboo4',
-        'bamboo5', 'bamboo5',
-        'bamboo6', 'bamboo6',
-        'bamboo7', 'bamboo7',
-        'bamboo8', 'bamboo8',
-        'bamboo9', 'bamboo9',
+    if ( typeof tilesNames === 'undefined' )
+        {
+            // i'll get a pair of each one of the names here
+            // so for example, there's 2 'bamboo1', each means we'll get 4 of them in the map (2 pairs)
+        tilesNames = [
+            'bamboo1', 'bamboo1',
+            'bamboo2', 'bamboo2',
+            'bamboo3', 'bamboo3',
+            'bamboo4', 'bamboo4',
+            'bamboo5', 'bamboo5',
+            'bamboo6', 'bamboo6',
+            'bamboo7', 'bamboo7',
+            'bamboo8', 'bamboo8',
+            'bamboo9', 'bamboo9',
 
-        'character1', 'character1',
-        'character2', 'character2',
-        'character3', 'character3',
-        'character4', 'character4',
-        'character5', 'character5',
-        'character6', 'character6',
-        'character7', 'character7',
-        'character8', 'character8',
-        'character9', 'character9',
+            'character1', 'character1',
+            'character2', 'character2',
+            'character3', 'character3',
+            'character4', 'character4',
+            'character5', 'character5',
+            'character6', 'character6',
+            'character7', 'character7',
+            'character8', 'character8',
+            'character9', 'character9',
 
-        'circle1', 'circle1',
-        'circle2', 'circle2',
-        'circle3', 'circle3',
-        'circle4', 'circle4',
-        'circle5', 'circle5',
-        'circle6', 'circle6',
-        'circle7', 'circle7',
-        'circle8', 'circle8',
-        'circle9', 'circle9',
+            'circle1', 'circle1',
+            'circle2', 'circle2',
+            'circle3', 'circle3',
+            'circle4', 'circle4',
+            'circle5', 'circle5',
+            'circle6', 'circle6',
+            'circle7', 'circle7',
+            'circle8', 'circle8',
+            'circle9', 'circle9',
 
-        'wind1', 'wind1',
-        'wind2', 'wind2',
-        'wind3', 'wind3',
-        'wind4', 'wind4',
+            'wind1', 'wind1',
+            'wind2', 'wind2',
+            'wind3', 'wind3',
+            'wind4', 'wind4',
 
-        'dragon1', 'dragon1',
-        'dragon1', 'dragon1',
-        'dragon1', 'dragon1',
+            'dragon1', 'dragon1',
+            'dragon1', 'dragon1',
+            'dragon1', 'dragon1',
 
-        'flower', 'flower',
-        'season', 'season'
-        ];
+            'flower', 'flower',
+            'season', 'season'
+            ];
+        }
+
+
+    var previousTile = null;
+    var flowerNumber = 1;
+    var seasonNumber = 1;
+
+    return function()
+        {
+        var tileName;
+        var tileId;
+
+            // we need to return the same tile 2 times (a pair), so check if its time to return the 2nd, otherwise get a new pair from the 'tileNames' array
+        if ( previousTile )
+            {
+            tileName = previousTile;
+
+            previousTile = null;
+            }
+
+        else
+            {
+            var position = Utilities.getRandomInt( 0, tilesNames.length - 1 );
+
+            tileName = tilesNames.splice( position, 1 )[ 0 ];
+
+            previousTile = tileName;
+            }
+
+
+            // the flower/season works a bit differently than the others, since they can match with each other, but have different images
+        if ( tileName === 'flower' )
+            {
+            tileId = tileName + flowerNumber;
+
+            flowerNumber++;
+            }
+
+        else if ( tileName === 'season' )
+            {
+            tileId = tileName + seasonNumber;
+
+            seasonNumber++;
+            }
+
+        else
+            {
+            tileId = tileName;
+            }
+
+        return {
+            tileId   : tileId,
+            tileName : tileName
+            };
+        }
     }
-
-
-var previousTile = null;
-var flowerNumber = 1;
-var seasonNumber = 1;
-
-return function()
-    {
-    var tileName;
-    var tileId;
-
-        // we need to return the same tile 2 times (a pair), so check if its time to return the 2nd, otherwise get a new pair from the 'tileNames' array
-    if ( previousTile )
-        {
-        tileName = previousTile;
-
-        previousTile = null;
-        }
-
-    else
-        {
-        var position = Utilities.getRandomInt( 0, tilesNames.length - 1 );
-
-        tileName = tilesNames.splice( position, 1 )[ 0 ];
-
-        previousTile = tileName;
-        }
-
-
-        // the flower/season works a bit differently than the others, since they can match with each other, but have different images
-    if ( tileName === 'flower' )
-        {
-        tileId = tileName + flowerNumber;
-
-        flowerNumber++;
-        }
-
-    else if ( tileName === 'season' )
-        {
-        tileId = tileName + seasonNumber;
-
-        seasonNumber++;
-        }
-
-    else
-        {
-        tileId = tileName;
-        }
-
-    return {
-        tileId   : tileId,
-        tileName : tileName
-        };
-    }
-};
 
 
 /*
     Returns an array with the tiles that can be selected in the map
  */
-Map.prototype.getSelectableTiles = function()
-{
-var allTiles = this.all_tiles;
-var tile;
-var selectableTiles = [];
-
-for (var a = 0 ; a < allTiles.length ; a++)
+getSelectableTiles()
     {
-    tile = allTiles[ a ];
+    var allTiles = this.all_tiles;
+    var tile;
+    var selectableTiles = [];
 
-    if ( this.isTileSelectable( tile ) )
+    for (var a = 0 ; a < allTiles.length ; a++)
         {
-        selectableTiles.push( tile );
-        }
-    }
+        tile = allTiles[ a ];
 
-return selectableTiles;
-};
-
-
-Map.prototype.howManySelectablePairs = function()
-{
-var selectableTiles = this.getSelectableTiles();
-var count = 0;
-var first;
-
-for (var a = 0 ; a < selectableTiles.length ; a++)
-    {
-    first = selectableTiles[ a ];
-
-    for (var b = a + 1 ; b < selectableTiles.length ; b++)
-        {
-        if ( first.tileName === selectableTiles[ b ].tileName )
+        if ( this.isTileSelectable( tile ) )
             {
-            count++;
-
-            selectableTiles.splice( b, 1 );
-            selectableTiles.splice( a, 1 );
-
-            a--;
-            break;
+            selectableTiles.push( tile );
             }
         }
+
+    return selectableTiles;
     }
 
-return count;
-};
 
-
-Map.prototype.getPair = function()
-{
-var tiles = this.getSelectableTiles();
-var first, second;
-
-for (var a = 0 ; a < tiles.length ; a++)
+howManySelectablePairs()
     {
-    first = tiles[ a ];
+    var selectableTiles = this.getSelectableTiles();
+    var count = 0;
+    var first;
 
-    for (var b = a + 1 ; b < tiles.length ; b++)
+    for (var a = 0 ; a < selectableTiles.length ; a++)
         {
-        second = tiles[ b ];
+        first = selectableTiles[ a ];
 
-        if ( first.tileName === second.tileName )
+        for (var b = a + 1 ; b < selectableTiles.length ; b++)
             {
-            return [ first, second ];
+            if ( first.tileName === selectableTiles[ b ].tileName )
+                {
+                count++;
+
+                selectableTiles.splice( b, 1 );
+                selectableTiles.splice( a, 1 );
+
+                a--;
+                break;
+                }
             }
         }
+
+    return count;
     }
 
-return null;
-};
 
-
-Map.prototype.highlightRandomPair = function()
-{
-var pair = this.getPair();
-
-if ( pair )
+getPair()
     {
-    pair[ 0 ].highlightTile();
-    pair[ 1 ].highlightTile();
+    var tiles = this.getSelectableTiles();
+    var first, second;
 
-    this.addToScore( Map.HELP_SCORE );
+    for (var a = 0 ; a < tiles.length ; a++)
+        {
+        first = tiles[ a ];
+
+        for (var b = a + 1 ; b < tiles.length ; b++)
+            {
+            second = tiles[ b ];
+
+            if ( first.tileName === second.tileName )
+                {
+                return [ first, second ];
+                }
+            }
+        }
+
+    return null;
     }
-};
+
+
+highlightRandomPair()
+    {
+    var pair = this.getPair();
+
+    if ( pair )
+        {
+        pair[ 0 ].highlightTile();
+        pair[ 1 ].highlightTile();
+
+        this.addToScore( Map.HELP_SCORE );
+        }
+    }
 
 
 /*
     shadows the un-selectable tiles in the map
  */
-Map.prototype.shadowTiles = function()
-{
-this.hasShadows = true;
-var allTiles = this.all_tiles;
-
-for (var a = 0 ; a < allTiles.length ; a++)
+shadowTiles()
     {
-    var tile = allTiles[ a ];
+    this.hasShadows = true;
+    var allTiles = this.all_tiles;
 
-    if ( !this.isTileSelectable( tile ) )
+    for (var a = 0 ; a < allTiles.length ; a++)
         {
-        tile.shadow();
+        var tile = allTiles[ a ];
+
+        if ( !this.isTileSelectable( tile ) )
+            {
+            tile.shadow();
+            }
+
+        else
+            {
+            tile.clearBackground();
+            }
+        }
+    }
+
+
+unShadowTiles()
+    {
+    this.hasShadows = false;
+    var allTiles = this.all_tiles;
+
+    for (var a = 0 ; a < allTiles.length ; a++)
+        {
+        var tile = allTiles[ a ];
+
+        tile.clearBackground();
+        }
+    }
+
+
+addTile( args )
+    {
+    var tile = new Tile( args );
+
+    if ( args.drawShape !== false )
+        {
+        args.gridObject.addTile( tile, args.column, args.line );
+        this.unSelectTile( tile );
         }
 
     else
         {
-        tile.clearBackground();
+        args.gridObject.addTile( tile, args.column, args.line, false );
         }
+
+    this.all_tiles.push( tile );
+
+    return tile;
     }
-};
 
 
-Map.prototype.unShadowTiles = function()
-{
-this.hasShadows = false;
-var allTiles = this.all_tiles;
-
-for (var a = 0 ; a < allTiles.length ; a++)
+removeTile( tileObject )
     {
-    var tile = allTiles[ a ];
+    var position = this.all_tiles.indexOf( tileObject );
+
+    this.all_tiles.splice( position, 1 );
+
+    tileObject.remove();
+    }
+
+
+addGrid( args )
+    {
+    var grid = new Grid( args.numberOfColumns, args.numberOfLines, this.all_grids.length );
+
+    this.all_grids.push( grid );
+
+    return grid;
+    }
+
+
+removeGrid( gridObject )
+    {
+    var position = this.all_grids.indexOf( gridObject );
+
+    this.all_grids.splice( position, 1 );
+    }
+
+
+removeAllGrids()
+    {
+    this.all_grids.length = 0;
+    }
+
+
+removeAllTiles()
+    {
+    for (var a = 0 ; a < this.all_tiles.length ; a++)
+        {
+        this.all_tiles[ a ].remove();
+        }
+
+    this.all_tiles.length = 0;
+    }
+
+
+clear()
+    {
+    this.removeAllTiles();
+    this.removeAllGrids();
+    this.mapInformation.clear();
+    }
+
+
+selectTile( tile )
+    {
+    this.selected_tile = tile;
+
+    tile.selectTile();
+    }
+
+
+unSelectTile( tile )
+    {
+    this.selected_tile = null;
 
     tile.clearBackground();
     }
-};
-
-
-Map.prototype.addTile = function( args )
-{
-var tile = new Tile( args );
-
-if ( args.drawShape !== false )
-    {
-    args.gridObject.addTile( tile, args.column, args.line );
-    this.unSelectTile( tile );
-    }
-
-else
-    {
-    args.gridObject.addTile( tile, args.column, args.line, false );
-    }
-
-this.all_tiles.push( tile );
-
-return tile;
-};
-
-
-Map.prototype.removeTile = function( tileObject )
-{
-var position = this.all_tiles.indexOf( tileObject );
-
-this.all_tiles.splice( position, 1 );
-
-tileObject.remove();
-};
-
-
-Map.prototype.addGrid = function( args )
-{
-var grid = new Grid( args.numberOfColumns, args.numberOfLines, this.all_grids.length );
-
-this.all_grids.push( grid );
-
-return grid;
-};
-
-
-Map.prototype.removeGrid = function( gridObject )
-{
-var position = this.all_grids.indexOf( gridObject );
-
-this.all_grids.splice( position, 1 );
-};
-
-
-Map.prototype.removeAllGrids = function()
-{
-this.all_grids.length = 0;
-};
-
-
-Map.prototype.removeAllTiles = function()
-{
-for (var a = 0 ; a < this.all_tiles.length ; a++)
-    {
-    this.all_tiles[ a ].remove();
-    }
-
-this.all_tiles.length = 0;
-};
-
-
-Map.prototype.clear = function()
-{
-this.removeAllTiles();
-this.removeAllGrids();
-this.mapInformation.clear();
-};
-
-
-Map.prototype.selectTile = function( tile )
-{
-this.selected_tile = tile;
-
-tile.selectTile();
-};
-
-
-Map.prototype.unSelectTile = function( tile )
-{
-this.selected_tile = null;
-
-tile.clearBackground();
-};
 
 
 /**
  * A tile has been clicked on, see if we can select it, or combine it with a previously selected tile.
  * Clicking on the selected tile de-selects it.
  */
-Map.prototype.onTileClick = function( tile )
-{
-if ( !this.isTileSelectable( tile ) || !this.isCurrentActive )
+onTileClick( tile )
     {
-    Message.show( 'Un-selectable tile.', true, 1000 );
-    return;
-    }
-
-var selectedTile = this.selected_tile;
-
-    // no tile is selected, so we select the first one
-if ( !selectedTile )
-    {
-    this.selectTile( tile );
-    }
-
-    // 2 tiles selected, check if its a valid match or not
-else
-    {
-        // different tile selected, see if we can combine them
-    if ( selectedTile !== tile )
+    if ( !this.isTileSelectable( tile ) || !this.isCurrentActive )
         {
-            // valid match
-        if ( selectedTile.tileName === tile.tileName )
+        Message.show( 'Un-selectable tile.', true, 1000 );
+        return;
+        }
+
+    var selectedTile = this.selected_tile;
+
+        // no tile is selected, so we select the first one
+    if ( !selectedTile )
+        {
+        this.selectTile( tile );
+        }
+
+        // 2 tiles selected, check if its a valid match or not
+    else
+        {
+            // different tile selected, see if we can combine them
+        if ( selectedTile !== tile )
             {
-            this.removeTile( selectedTile );
-            this.removeTile( tile );
-
-            this.selected_tile = null;
-
-            Game.updateInformation();
-
-            this.addToScore( Map.COMBINE_SCORE );
-            this.mapInformation.timesUpdateWasCalled = 0;
-            this.mapInformation.update();
-
-            if ( !Game.hasEnded() )
+                // valid match
+            if ( selectedTile.tileName === tile.tileName )
                 {
-                Game.changePlayer();
+                this.removeTile( selectedTile );
+                this.removeTile( tile );
+
+                this.selected_tile = null;
+
+                Game.updateInformation();
+
+                this.addToScore( Map.COMBINE_SCORE );
+                this.mapInformation.timesUpdateWasCalled = 0;
+                this.mapInformation.update();
+
+                if ( !Game.hasEnded() )
+                    {
+                    Game.changePlayer();
+                    }
+                }
+
+            else
+                {
+                this.unSelectTile( selectedTile );
+                this.selectTile( tile );
                 }
             }
 
+            // same tile selected, so we un-select it
         else
             {
             this.unSelectTile( selectedTile );
-            this.selectTile( tile );
             }
         }
-
-        // same tile selected, so we un-select it
-    else
-        {
-        this.unSelectTile( selectedTile );
-        }
     }
-};
 
 
 /**
  * To be able to select a tile, one of the sides (left or right) has to be free, and the tile can't have other tiles on top of it (in a grid above).
  */
-Map.prototype.isTileSelectable = function( tile )
-{
-var column = tile.column;
-var line = tile.line;
-var grid = tile.gridObject;
-
-var isLeftFree = true;
-var isRightFree = true;
-
-if ( column > 0 )
+isTileSelectable( tile )
     {
-    if ( grid.grid_array[ column - 1 ][ line ] ||
-         grid.grid_array[ column - 1 ][ line + 1 ] )
+    var column = tile.column;
+    var line = tile.line;
+    var grid = tile.gridObject;
+
+    var isLeftFree = true;
+    var isRightFree = true;
+
+    if ( column > 0 )
         {
-        isLeftFree = false;
-        }
-    }
-
-if ( column + 2 < grid.grid_array.length )
-    {
-    if ( grid.grid_array[ column + 2 ][ line ] ||
-            grid.grid_array[ column + 2 ][ line + 1 ] )
-        {
-        isRightFree = false;
-        }
-    }
-
-
-if ( !isLeftFree && !isRightFree )
-    {
-    return false;
-    }
-
-    // check grids above, if there's any tile on top of this one
-var gridAbove;
-var gridPosition = grid.position;
-
-for ( ;; )
-    {
-    gridPosition++;
-
-    gridAbove = this.all_grids[ gridPosition ];
-
-    if ( !gridAbove )
-        {
-        break;
+        if ( grid.grid_array[ column - 1 ][ line ] ||
+            grid.grid_array[ column - 1 ][ line + 1 ] )
+            {
+            isLeftFree = false;
+            }
         }
 
-    if ( gridAbove.grid_array[ column ][ line ] ||
-         gridAbove.grid_array[ column ][ line + 1 ] ||
-         gridAbove.grid_array[ column + 1 ][ line ] ||
-         gridAbove.grid_array[ column + 1 ][ line + 1 ] )
+    if ( column + 2 < grid.grid_array.length )
+        {
+        if ( grid.grid_array[ column + 2 ][ line ] ||
+                grid.grid_array[ column + 2 ][ line + 1 ] )
+            {
+            isRightFree = false;
+            }
+        }
+
+
+    if ( !isLeftFree && !isRightFree )
         {
         return false;
         }
+
+        // check grids above, if there's any tile on top of this one
+    var gridAbove;
+    var gridPosition = grid.position;
+
+    for ( ;; )
+        {
+        gridPosition++;
+
+        gridAbove = this.all_grids[ gridPosition ];
+
+        if ( !gridAbove )
+            {
+            break;
+            }
+
+        if ( gridAbove.grid_array[ column ][ line ] ||
+            gridAbove.grid_array[ column ][ line + 1 ] ||
+            gridAbove.grid_array[ column + 1 ][ line ] ||
+            gridAbove.grid_array[ column + 1 ][ line + 1 ] )
+            {
+            return false;
+            }
+        }
+
+    return true;
     }
 
-return true;
-};
 
-
-Map.prototype.addToScore = function( score )
-{
-this.score += score;
-
-this.mapInformation.updateScore( this.score );
-};
-
-
-Map.prototype.addTimerScore = function()
-{
-this.addToScore( Map.TIMER_SCORE + this.hasShadows * Map.SHADOW_SCORE );
-};
-
-
-Map.prototype.scaleMap = function( dimensions )
-{
-var tileWidth = Tile.getImageWidth();
-var tileHeight = Tile.getImageHeight();
-
-    // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
-    // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
-var scaleWidth = dimensions.width / ( this.columns / 2 * tileWidth );
-var scaleHeight = dimensions.height / ( this.lines / 2 * tileHeight );
-var scale = scaleHeight;
-
-if ( scaleWidth < scaleHeight )
+addToScore( score )
     {
-    scale = scaleWidth;
+    this.score += score;
+
+    this.mapInformation.updateScore( this.score );
     }
 
-    // center the map horizontally
-var mapWidth = this.columns / 2 * Tile.getImageWidth() * scale;
-var startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
-var startingY = dimensions.y;
 
-for (var a = 0 ; a < this.all_grids.length ; a++)
+addTimerScore()
     {
-    var grid = this.all_grids[ a ];
-
-    grid.positionElements( startingX, startingY, scale );
-
-        // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
-    startingX -= 6 * scale;
-    startingY += 6 * scale;
+    this.addToScore( Map.TIMER_SCORE + this.hasShadows * Map.SHADOW_SCORE );
     }
-};
+
+
+scaleMap( dimensions )
+    {
+    var tileWidth = Tile.getImageWidth();
+    var tileHeight = Tile.getImageHeight();
+
+        // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
+        // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
+    var scaleWidth = dimensions.width / ( this.columns / 2 * tileWidth );
+    var scaleHeight = dimensions.height / ( this.lines / 2 * tileHeight );
+    var scale = scaleHeight;
+
+    if ( scaleWidth < scaleHeight )
+        {
+        scale = scaleWidth;
+        }
+
+        // center the map horizontally
+    var mapWidth = this.columns / 2 * Tile.getImageWidth() * scale;
+    var startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
+    var startingY = dimensions.y;
+
+    for (var a = 0 ; a < this.all_grids.length ; a++)
+        {
+        var grid = this.all_grids[ a ];
+
+        grid.positionElements( startingX, startingY, scale );
+
+            // so that its possible to tell the tiles below (so they aren't all stack on the same spot)
+        startingX -= 6 * scale;
+        startingY += 6 * scale;
+        }
+    }
+}
+
+Map.SHUFFLE_SCORE = -100;
+Map.HELP_SCORE = -100;
+Map.COMBINE_SCORE = 50;
+Map.SHADOW_SCORE = -4;
+Map.TIMER_SCORE = -1;
