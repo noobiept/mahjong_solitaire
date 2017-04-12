@@ -1,4 +1,4 @@
-/*global Tile, updateMenuValues, GridPosition, Grid, STAGE*/
+/*global Tile, updateMenuValues, GridPosition, Grid, STAGE, CANVAS*/
 /*eslint no-console: 0, no-unused-vars: 0*/
 'use strict';
 
@@ -32,14 +32,13 @@ else
 var columns = mapInfo.numberOfColumns;
 var lines = mapInfo.numberOfLines;
 var grid;
-var canvas = document.getElementById( 'canvas' );
 var tileWidth = Tile.getImageWidth();
 var tileHeight = Tile.getImageHeight();
 var startingX = 100;
 var startingY = 0;
 
-canvas.width = columns * tileWidth + startingX;
-canvas.height = lines * tileHeight + startingY;
+CANVAS.width = columns * tileWidth + startingX;
+CANVAS.height = lines * tileHeight + startingY;
 
 var gridsContainer = document.querySelector( '#Grids-container' );
 

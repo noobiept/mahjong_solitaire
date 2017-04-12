@@ -2,15 +2,15 @@
 /*global Tile, createjs, STAGE*/
 'use strict';
 
-/*
-    Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square
- */
 
     // position in array corresponds to position in the grid
     // the value is another array with the GridPosition
 var ALL_POSITIONS = [];
 
 
+/**
+ * Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square.
+ */
 class GridPosition
 {
 constructor( column, line, gridObject, hidden )

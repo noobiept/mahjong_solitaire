@@ -2,6 +2,7 @@
 /*global createjs, Utilities*/
 'use strict';
 
+
 var CANVAS;
 var STAGE;
 var PRELOAD;
@@ -10,7 +11,6 @@ var PRELOAD;
 window.onload = function()
 {
 CANVAS = document.querySelector( '#canvas' );
-
 CANVAS.width = 1500;
 CANVAS.height = 850;
 
@@ -20,7 +20,6 @@ createjs.Ticker.addEventListener('tick', function()
     {
     STAGE.update();
     });
-
 
 document.querySelector( '#saveMap' ).onclick = Map.save;
 document.querySelector( '#loadMap' ).onclick = function()
@@ -34,7 +33,6 @@ document.querySelector( '#Grids-seeAll').onclick = function()
     {
     Map.selectGrid( -1 );
     };
-
 
 document.querySelector( '#newMap' ).onclick = function()
     {
@@ -52,39 +50,15 @@ document.querySelector( '#newMap' ).onclick = function()
         });
     };
 
+document.onkeyup = keyboardShortcuts;
 
-    // select the grid with the 1/2/3/etc keys
-    // press 'a' to see all grids
-document.onkeyup = function( event )
-    {
-    var key = event.keyCode;
-
-    var selectGrid = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
-
-    for (var a = 0 ; a < selectGrid.length ; a++)
-        {
-        if ( key === Utilities.EVENT_KEY[ selectGrid[ a ] ] )
-            {
-            Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
-            return;
-            }
-        }
-
-    if ( key === Utilities.EVENT_KEY[ 'a' ] )
-        {
-        Map.selectGrid( -1 );
-        }
-    };
-
-
-PRELOAD = new createjs.LoadQueue();
 
 var manifest = [
         { id: 'bamboo1', src: '/static/images/bamboo1.png' }
     ];
 
+PRELOAD = new createjs.LoadQueue();
 PRELOAD.loadManifest( manifest, true );
-
 PRELOAD.addEventListener( 'complete', function()
     {
     Map.load();
@@ -92,8 +66,35 @@ PRELOAD.addEventListener( 'complete', function()
 };
 
 
-/*
-    the number of grids/columns/lines value in the menu's input element
+/**
+ * - 1, 2, ..., 9: Select a specific grid.
+ * - a: See all the grids.
+ *
+ * @param {KeyboardEvent} event
+ */
+function keyboardShortcuts( event )
+{
+var key = event.keyCode;
+var selectGrid = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+
+for (var a = 0 ; a < selectGrid.length ; a++)
+    {
+    if ( key === Utilities.EVENT_KEY[ selectGrid[ a ] ] )
+        {
+        Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
+        return;
+        }
+    }
+
+if ( key === Utilities.EVENT_KEY[ 'a' ] )
+    {
+    Map.selectGrid( -1 );
+    }
+}
+
+
+/**
+ * Update the number of grids/columns/lines value in the menu's input elements.
  */
 function updateMenuValues( mapInfo )
 {
