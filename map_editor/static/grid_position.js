@@ -6,6 +6,7 @@
     // the value is another array with the GridPosition
 var ALL_POSITIONS = [];
 
+
 function GridPosition( column, line, gridObject, hidden )
 {
 var width = Tile.getImageWidth() / 2;
@@ -60,11 +61,11 @@ this.container.x = x;
 this.container.y = y;
 };
 
+
 /**
  *
  * @param drawBelow {Boolean} If the tile is draw below all elements (z-index)
  */
-
 GridPosition.prototype.onClick = function( drawBelow )
 {
 if ( this.hasTile )
@@ -143,7 +144,6 @@ ALL_POSITIONS[ this.gridPosition ].splice( position, 1 );
 };
 
 
-
 GridPosition.removeAll = function()
 {
 for (var a = 0 ; a < ALL_POSITIONS.length ; a++)
@@ -164,11 +164,9 @@ ALL_POSITIONS.length = 0;
 };
 
 
-
 /*
     Get all the GridPosition elements from a selected grid
  */
-
 GridPosition.getGrid = function( gridPosition )
 {
 return ALL_POSITIONS[ gridPosition ];

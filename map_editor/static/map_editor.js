@@ -1,9 +1,3 @@
-/*
-    to doo:
-
-        - i have to add +1 column otherwise when adding a tile to the last column it gives an error...
- */
-
 var CANVAS;
 var STAGE;
 var PRELOAD;
@@ -94,14 +88,9 @@ PRELOAD.addEventListener( 'complete', function()
 };
 
 
-
-
-
-
 /*
     the number of grids/columns/lines value in the menu's input element
  */
-
 function updateMenuValues( mapInfo )
 {
 var numberOfGrids = Map.getAllGrids().length;
@@ -121,13 +110,9 @@ Map.updateTilesLeft();
 }
 
 
-
-
-
 /*
  * For jquery ajax to work (server only)
  */
-
 jQuery(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
         var cookieValue = null;

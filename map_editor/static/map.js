@@ -5,13 +5,9 @@ var ALL_TILES = [];
 
     // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
 var SELECTED_GRID = -1;
-
 var TILES_LEFT = 144;
 
-function Map()
-{
-
-}
+var Map = {};
 
 
 Map.constructGrid = function( mapInfo )
@@ -94,7 +90,6 @@ updateMenuValues( mapInfo );
 };
 
 
-
 Map.constructMap = function( mapInfo )
 {
 var mapDescription = mapInfo.mapDescription;
@@ -128,8 +123,6 @@ for (var a = 0 ; a < mapDescription.length ; a++)
         }
     }
 };
-
-
 
 
 Map.selectGrid = function( gridPosition )
@@ -320,8 +313,6 @@ localStorage.setItem( 'previousMap', mapName );
 };
 
 
-
-
 Map.addTile = function( args )
 {
 args.mapObject = Map;
@@ -350,7 +341,6 @@ TILES_LEFT++;
 };
 
 
-
 Map.addGrid = function( args )
 {
 var grid = new Grid( args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
@@ -367,7 +357,6 @@ var position = ALL_GRIDS.indexOf( gridObject );
 
 ALL_GRIDS.splice( position, 1 );
 };
-
 
 
 Map.getGrid = function( position )
@@ -393,6 +382,7 @@ Map.removeAllGrids = function()
 ALL_GRIDS.length = 0;
 };
 
+
 Map.removeAllTiles = function()
 {
 for (var a = 0 ; a < ALL_TILES.length ; a++)
@@ -402,7 +392,6 @@ for (var a = 0 ; a < ALL_TILES.length ; a++)
 
 ALL_TILES.length = 0;
 };
-
 
 
 Map.clear = function()
@@ -416,7 +405,6 @@ document.querySelector( '#Grids-container' ).innerHTML = '';
 };
 
 
-
 Map.updateTilesLeft = function()
 {
 $( '#TilesLeft' ).text( 'Tiles Left: ' + TILES_LEFT );
@@ -424,5 +412,4 @@ $( '#TilesLeft' ).text( 'Tiles Left: ' + TILES_LEFT );
 
 
 window.Map = Map;
-
 }(window));
