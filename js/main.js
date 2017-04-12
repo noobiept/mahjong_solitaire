@@ -37,6 +37,8 @@ createjs.Ticker.on( 'tick', function( event )
     });
 
 PRELOAD = new createjs.LoadQueue();
+PRELOAD.setMaxConnections( 10 );
+PRELOAD.maintainScriptOrder = false;
 PRELOAD.installPlugin( createjs.Sound );
 
 var manifest = [
