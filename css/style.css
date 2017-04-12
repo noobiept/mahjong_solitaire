@@ -76,12 +76,6 @@ body
     height: 100%;
     }
 
-#MainMenu-donate
-    {
-    display: block;
-    text-decoration: none;
-    }
-
     /* Select Map */
 
 #MainMenu-selectMap
