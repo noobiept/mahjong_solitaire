@@ -1,31 +1,23 @@
-Mahjong Solitaire
-=================
+# [Try it out here!](http://nbpt.eu/games/mahjong_solitaire/) #
 
-[Try it out here](http://nbpt.eu/games/mahjong_solitaire/)
+Mahjong solitaire game, with two players mode (turn based).
 
-Dependencies
-============
+There's also a map editor (requires python/django) that you can use to create your own maps.
 
-- jquery : 2.2
-- createJS
-    - easelJS : 0.8
-    - preloadJS : 0.6
-    - soundJS : 0.6
 
-Links
-=====
+# Links #
 
 - [http://en.wikipedia.org/wiki/Mahjong_solitaire](http://en.wikipedia.org/wiki/Mahjong_solitaire)
 - [http://en.wikipedia.org/wiki/Mahjong_tiles](http://en.wikipedia.org/wiki/Mahjong_tiles)
 - [http://en.wikipedia.org/wiki/Mahjong](http://en.wikipedia.org/wiki/Mahjong)
 
-Tiles images license
-====================
+
+# Tiles images license #
 
 - Creative Commons Attribution-Share Alike 3.0 Unported (from wikipedia links above)
 
-Tiles (144 pieces)
-==================
+
+# Tiles (144 pieces) #
 
 - circle suit    -- 36 tiles -- (1 to 9) x4
 - bamboo suit    -- 36 tiles -- (1 to 9) x4
@@ -35,7 +27,7 @@ Tiles (144 pieces)
 - flower tiles   --  4 tiles -- (plum/orchid/chrysanthemum/bamboo)
 - season tiles   --  4 tiles -- (spring/summer/autumn/winter)
 
-Music
-=====
+
+# Music #
 
 - [http://opengameart.org/content/jaoan](http://opengameart.org/content/jaoan) -- Public Domain
