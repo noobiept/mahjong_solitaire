@@ -1,7 +1,10 @@
+/*global module*/
+'use strict';
+
 module.exports = function( grunt )
 {
-var root = '../';
-var dest = '../release/<%= pkg.name %> <%= pkg.version %>/';
+var root = './';
+var dest = './release/<%= pkg.name %> <%= pkg.version %>/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
@@ -10,7 +13,10 @@ grunt.initConfig({
             options: {
                 configFile: root + '.eslintrc.js'
             },
-            target: [ root + 'js/**' ]
+            target: [
+                root + 'js/**',
+                root + 'map_editor/static/**'
+            ]
         },
 
             // delete the destination folder
@@ -33,8 +39,7 @@ grunt.initConfig({
                     'images/*.png',
                     'libraries/**',
                     'maps/**',
-                    'background.js',
-                    'manifest.json'
+                    'package.json'
                 ],
                 dest: dest
             }
