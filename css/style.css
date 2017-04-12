@@ -45,6 +45,24 @@ body
     right: 0;   /* center aligned */
     }
 
+#AudioControl
+    {
+    position: fixed;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    }
+
+.inactive
+    {
+    text-decoration: line-through;
+    }
+
+.hidden
+    {
+    display: none;
+    }
+
     /* ::: Main Menu ::: */
 
 #MainMenu, #HighScore

@@ -1,4 +1,4 @@
-/*global AppStorage, createjs, MainMenu, GameMenu, HighScore, Message, Game*/
+/*global AppStorage, createjs, MainMenu, GameMenu, HighScore, Message, Game, Sound*/
 'use strict';
 
 var CANVAS;
@@ -113,8 +113,7 @@ PRELOAD.addEventListener( 'complete', function()
             PRELOAD.getResult( 'map_cross' )
         ]);
     MainMenu.open();
-
-    createjs.Sound.play( 'music', { loop: -1 } );
+    Sound.init();
     });
 PRELOAD.loadManifest( manifest, true );
 }
