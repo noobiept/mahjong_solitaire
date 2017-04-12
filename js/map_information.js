@@ -1,4 +1,4 @@
-/*global Game, MainMenu, GameMenu, Message*/
+/*global Game, MainMenu, Message*/
 'use strict';
 
 
@@ -131,7 +131,7 @@ else
             }
 
         Game.getActiveMap().shuffle( false );
-        GameMenu.showMessage( 'No More Pairs Left (shuffling)' );
+        Message.show( 'No More Pairs Left (shuffling)', true, 1000 );
         Game.updateInformation();
         }
     }

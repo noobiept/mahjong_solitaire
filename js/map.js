@@ -1,4 +1,4 @@
-/*global Tile, MapInformation, STAGE, Utilities, Grid, GameMenu, Game*/
+/*global Tile, MapInformation, STAGE, Utilities, Grid, Message, Game*/
 'use strict';
 
 
@@ -639,7 +639,7 @@ Map.prototype.onTileClick = function( tile )
 {
 if ( !this.isTileSelectable( tile ) || !this.isCurrentActive )
     {
-    GameMenu.showMessage( 'Un-selectable tile.' );
+    Message.show( 'Un-selectable tile.', true, 1000 );
     return;
     }
 

@@ -7,10 +7,6 @@ var GameMenu;
 
     // reference to html elements
 var GAME_MENU_CONTAINER;
-var MESSAGE;
-
-    // the return of the window.setTimeout()
-var MESSAGE_TIMEOUT = null;
 
 
 GameMenu.init = function()
@@ -67,7 +63,6 @@ quit.onclick = function()
     };
 
 GAME_MENU_CONTAINER = gameMenu;
-MESSAGE = gameMenu.querySelector( '#GameMenu-message' );
 };
 
 
@@ -81,31 +76,6 @@ GameMenu.clear = function()
 {
     // hide the html elements
 $( GAME_MENU_CONTAINER ).css( 'display', 'none' );
-
-    // cancel the message timeout, if its active
-window.clearTimeout( MESSAGE_TIMEOUT );
-MESSAGE_TIMEOUT = null;
-
-$( MESSAGE ).text( '' );
-};
-
-
-GameMenu.showMessage = function( text )
-{
-    // a timeout is active, from a previous call. cancel it
-if ( MESSAGE_TIMEOUT !== null )
-    {
-    window.clearTimeout( MESSAGE_TIMEOUT );
-    }
-
-$( MESSAGE ).text( text );
-
-MESSAGE_TIMEOUT = window.setTimeout( function()
-    {
-    $( MESSAGE ).text( '' );
-    MESSAGE_TIMEOUT = null;
-
-    }, 2000 );
 };
 
 
