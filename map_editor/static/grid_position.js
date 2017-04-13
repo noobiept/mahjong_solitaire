@@ -15,6 +15,7 @@ class GridPosition
 {
 constructor( column, line, gridObject, hidden )
     {
+    var _this = this;
     var width = Tile.getImageWidth() / 2;
     var height = Tile.getImageHeight() / 2;
 
@@ -30,7 +31,10 @@ constructor( column, line, gridObject, hidden )
     g.drawRoundRect( 0, 0, 10, 10, 3 );
 
     container.addChild( background );
-    container.on( 'click', this.onClick, this );
+    container.on( 'click', function()
+        {
+        _this.onClick();
+        });
 
     if ( hidden !== true )
         {
@@ -67,9 +71,9 @@ moveTo( x, y )
 
 
 /**
- * @param {bool} drawBelow If the tile is draw below all elements (z-index)
+ * @param {Boolean} drawBelow If the tile is draw below all elements (z-index)
  */
-onClick( drawBelow )
+onClick( drawBelow= true )
     {
     if ( this.hasTile )
         {
