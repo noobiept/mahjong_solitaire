@@ -20,7 +20,6 @@ CANVAS = document.querySelector( '#mainCanvas' );
 
 STAGE = new createjs.Stage( CANVAS );
 
-MainMenu.init();
 GameMenu.init();
 Message.init();
 HighScore.load( data[ 'mahjong_high_score' ] );
@@ -105,12 +104,12 @@ PRELOAD.addEventListener( 'complete', function()
     Message.hide();
 
         // the order of the array needs to match the order of the html elements in the main menu
-    MainMenu.addMaps([
-            PRELOAD.getResult( 'map_pyramid' ),
-            PRELOAD.getResult( 'map_tower' ),
-            PRELOAD.getResult( 'map_fish' ),
-            PRELOAD.getResult( 'map_crossroads' ),
-            PRELOAD.getResult( 'map_cross' )
+    MainMenu.init([
+            { name: 'Pyramid',  info: PRELOAD.getResult( 'map_pyramid' ) },
+            { name: 'Tower', info: PRELOAD.getResult( 'map_tower' ) },
+            { name: 'Fish', info: PRELOAD.getResult( 'map_fish' ) },
+            { name: 'Crossroads', info: PRELOAD.getResult( 'map_crossroads' ) },
+            { name: 'Cross', info: PRELOAD.getResult( 'map_cross' ) }
         ]);
     MainMenu.open();
     Sound.init();

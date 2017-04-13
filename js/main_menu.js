@@ -16,7 +16,7 @@ var SELECTED_MAP = 0;
 var MAPS_ELEMENTS = [];
 
 
-MainMenu.init = function()
+MainMenu.init = function( maps )
 {
 MENU = document.querySelector( '#MainMenu' );
 HIGH_SCORE = document.querySelector( '#HighScore' );
@@ -29,8 +29,7 @@ var highScore = MENU.querySelector( '#MainMenu-highScore' );
 startGame.onclick = function( event )
     {
     MainMenu.hide();
-
-    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], false );
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, false );
 
     event.stopPropagation();
     };
@@ -38,8 +37,7 @@ startGame.onclick = function( event )
 twoPlayers.onclick = function( event )
     {
     MainMenu.hide();
-
-    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], true );
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, true );
 
     event.stopPropagation();
     };
@@ -47,38 +45,31 @@ twoPlayers.onclick = function( event )
 highScore.onclick = function( event )
     {
     MainMenu.hide();
-
     MainMenu.openHighScore();
 
     event.stopPropagation();
     };
 
 
-var selectMapContainer = MENU.querySelector( '#MainMenu-selectMap' );
-
-var maps = selectMapContainer.getElementsByTagName( 'div' );
+var selectMapContainer = document.getElementById( 'MainMenu-selectMap' );
 
 for (var a = 0 ; a < maps.length ; a++)
     {
-    maps[ a ].mapPosition = a;
-
-    maps[ a ].onclick = function()
+    var item = document.createElement( 'div' );
+    item.className = 'button';
+    item.innerText = maps[ a ].name;
+    item.setAttribute( 'data-position', a );
+    item.onclick = function()
         {
             // this points to the html element
-        MainMenu.selectMap( this.mapPosition );
+        MainMenu.selectMap( parseInt( this.getAttribute( 'data-position' ), 10 ) );
         }
+
+    selectMapContainer.appendChild( item );
     }
 
-MAPS_ELEMENTS = maps;
-};
-
-
-/*
-    add to the array the maps loaded from the preloadjs (only done once in the load of the game)
- */
-MainMenu.addMaps = function( maps )
-{
 MAPS_AVAILABLE = maps;
+MAPS_ELEMENTS = selectMapContainer.children;
 };
 
 
