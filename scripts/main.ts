@@ -1,11 +1,11 @@
-/*global AppStorage, createjs, MainMenu, GameMenu, HighScore, Message, Game, Sound*/
-'use strict';
+import * as AppStorage from './app_storage.js';
+
 
 var CANVAS;
 
     // createjs
-var STAGE;
-var PRELOAD;
+var STAGE: createjs.Stage;
+var PRELOAD: createjs.LoadQueue;
 
 
 window.onload = function()
