@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
         "target": "es2017",
+        "strict": true
     },
     "include": [
-        "js/**/*.js"
+        "scripts/**/*.ts"
     ]
 }
