@@ -258,7 +258,7 @@ var mapDefinition = {
 
 $.ajax({
     type  : 'post',
-    url   : '/save_map/',
+    url   : '/save_map',
     data  : { data: JSON.stringify( mapDefinition ) },
     success: function( jqXHR, textStatus )
         {
@@ -272,7 +272,7 @@ $.ajax({
 };
 
 
-Map.load = function( mapName )
+Map.load = async function( mapName )
 {
 Map.clear();
 
@@ -293,25 +293,26 @@ if ( typeof mapName === 'undefined' )
         }
     }
 
-$.ajax({
-    type  : 'post',
-    url   : '/load_map/',
-    data  : { mapName: mapName },
-    dataType : 'json',
-    success: function( mapInfo, textStatus )
-        {
+    try {
+        const response = await fetch( '/load_map', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ mapName: mapName })
+        } );
+        const mapInfo = await response.json();
+
         Map.constructGrid( mapInfo );
         Map.constructMap( mapInfo );
-        },
 
-    error: function( jqXHR, textStatus, errorThrown )
-        {
-        console.log( jqXHR, textStatus, errorThrown );
-        }
-    });
+        localStorage.setItem( 'previousMap', mapName );
+    }
 
-
-localStorage.setItem( 'previousMap', mapName );
+    catch( error ) {
+        console.log( error );
+    }
 };
 
 
