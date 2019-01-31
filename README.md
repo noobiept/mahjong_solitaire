@@ -9,6 +9,14 @@ There's also a map editor (requires python/django) that you can use to create yo
 - `npm run build`: Run the build script.
 
 
+# Map editor #
+
+## Keyboard Shortcuts ##
+
+- `1, 2, 3, ..., 9`: Select the corresponding grid.
+- `a`: Show all the grids.
+
+
 # Links #
 
 - [http://en.wikipedia.org/wiki/Mahjong_solitaire](http://en.wikipedia.org/wiki/Mahjong_solitaire)

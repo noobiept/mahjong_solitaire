@@ -2,8 +2,6 @@ syntax: glob
 .vscode/
 release/
 node_modules/
-*.sqlite3
-*.pyc
 *.svg
 *.psd
 info.txt
