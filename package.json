@@ -12,9 +12,11 @@
         "grunt-contrib-cssmin": "~3.0.0",
         "grunt-eslint": "~21.0.0",
         "grunt-processhtml": "~0.4.2",
+        "http-server": "^0.11.1",
         "terser": "~3.14.1"
     },
     "scripts": {
+        "dev": "http-server -p 8000",
         "mapEditor": "node map_editor/server.js",
         "build": "grunt"
     }
