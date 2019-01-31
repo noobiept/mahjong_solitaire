@@ -1,9 +1,3 @@
-/*global createjs, PRELOAD, STAGE*/
-'use strict';
-
-
-(function(window)
-{
     // the original image dimensions, this can be scaled
 var TILE_WIDTH = 36;
 var TILE_HEIGHT = 45;
@@ -22,7 +16,7 @@ var TILE_HEIGHT = 45;
         onClick    : (tile: Tile) => any
     }
  */
-class Tile
+export default class Tile
 {
 constructor( args )
     {
@@ -161,7 +155,3 @@ static getImageHeight()
     return TILE_HEIGHT;
     }
 }
-
-
-window.Tile = Tile;
-}(window));

@@ -1,8 +1,4 @@
-/*exported Grid*/
-'use strict';
-
-
-class Grid
+export default class Grid
 {
 /**
  * @param {number} numberOfColumns

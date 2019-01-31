@@ -7,7 +7,7 @@ import * as Sound from './sound.js';
 import * as Game from './game.js';
 
 
-var CANVAS: HTMLCanvasElement;
+export var CANVAS: HTMLCanvasElement;
 
     // createjs
 var STAGE: createjs.Stage;

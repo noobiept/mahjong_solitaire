@@ -1,11 +1,7 @@
-/*global CANVAS*/
-'use strict';
-
-var Utilities;
-(function(Utilities) {
+import { CANVAS } from './main.js';
 
 
-Utilities.EVENT_KEY = {
+export const EVENT_KEY = {
 
     backspace  : 8,
     tab        : 9,
@@ -74,31 +70,31 @@ Utilities.EVENT_KEY = {
 };
 
 
-Utilities.getRandomInt = function( min, max )
+export function getRandomInt( min: number, max: number )
     {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
+    }
 
 
-Utilities.getRandomFloat = function( min, max )
+export function getRandomFloat( min: number, max: number )
     {
     return Math.random() * (max - min) + min;
-    };
+    }
 
 
-/*
-    Rounds a number to a specified decimal case
+/**
+ * Rounds a number to a specified decimal case.
  */
-Utilities.round = function( num, dec )
+export function round( num: number, dec: number )
     {
     return Math.round( num * Math.pow(10,dec) ) / Math.pow( 10,dec );
-    };
+    }
 
 
-/*
-    Converts a time (in milliseconds) to a string (with the number of days/hours...)
+/**
+ * Converts a time (in milliseconds) to a string (with the number of days/hours...).
  */
-Utilities.timeToString = function( dateMilliseconds )
+export function timeToString( dateMilliseconds: number )
     {
         // :: convert to days/hours :: //
 
@@ -112,7 +108,6 @@ Utilities.timeToString = function( dateMilliseconds )
     var hoursLeft = 0;
     var daysLeft = 0;
     var secondsLeft = 0;
-
 
         //count the days
     while (dateMilliseconds > day)
@@ -139,14 +134,14 @@ Utilities.timeToString = function( dateMilliseconds )
         }
 
         //and the seconds
-    secondsLeft = Utilities.round( dateMilliseconds / 1000, 2).toFixed( 1 );
+    secondsLeft = round( dateMilliseconds / 1000, 2).toFixed( 1 );
 
 
         // :: construct the string :: //
 
     var theDate = [ ["day", daysLeft], ["hour", hoursLeft], ["minute", minutesLeft], ["second", secondsLeft] ];
 
-    var constructDate = function(dateTmp, numberOf)
+    var constructDate = function(dateTmp: string, numberOf: number)
         {
             // day to days, hour to hours...
         if (numberOf !== 1)
@@ -161,8 +156,6 @@ Utilities.timeToString = function( dateMilliseconds )
     var totalUnits = 2;
 
     var date = "";
-
-
     var i;
 
     for (i = 0 ; i < theDate.length ; i++)
@@ -183,15 +176,14 @@ Utilities.timeToString = function( dateMilliseconds )
             }
         }
 
-
     return date;
-    };
+    }
 
 
-/*
-    Centers an html element in the middle of the game canvas (assumes html element has its css position: absolute;
+/**
+ * Centers an html element in the middle of the game canvas (assumes html element has its css 'position: absolute;').
  */
-Utilities.centerElement = function( element )
+export function centerElement( element: HTMLElement )
     {
     var canvasWidth = CANVAS.width;
     var canvasHeight = CANVAS.height;
@@ -199,17 +191,12 @@ Utilities.centerElement = function( element )
         // the canvas may not be starting at 0,0 position, so we need to account for that
     var canvasPosition = $( CANVAS ).position();
 
-    var left = canvasWidth / 2 - $( element ).width() / 2 + canvasPosition.left;
+    var left = canvasWidth / 2 - $( element ).width()! / 2 + canvasPosition.left;
 
-    var top = canvasHeight / 2 - $( element ).height() / 2 + canvasPosition.top;
+    var top = canvasHeight / 2 - $( element ).height()! / 2 + canvasPosition.top;
 
     $( element ).css({
         top  : top  + 'px',
         left : left + 'px'
         });
-    };
-
-
-})(Utilities || (Utilities = {}));
-
-
+    }

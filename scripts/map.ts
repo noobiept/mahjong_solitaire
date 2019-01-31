@@ -1,9 +1,11 @@
-/*global Tile, MapInformation, STAGE, Utilities, Grid, Message, Game*/
-'use strict';
-
-
-class Map
+export default class Map
 {
+static SHUFFLE_SCORE = -100;
+static HELP_SCORE = -100;
+static COMBINE_SCORE = 50;
+static SHADOW_SCORE = -4;
+static TIMER_SCORE = -1;
+
 /*
     Generates a map. Each map has 144 tiles.
 
@@ -799,9 +801,3 @@ scaleMap( dimensions )
         }
     }
 }
-
-Map.SHUFFLE_SCORE = -100;
-Map.HELP_SCORE = -100;
-Map.COMBINE_SCORE = 50;
-Map.SHADOW_SCORE = -4;
-Map.TIMER_SCORE = -1;

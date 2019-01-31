@@ -3,7 +3,7 @@ export function init()
 var musicInstance = createjs.Sound.play( 'music', { loop: -1 } );
 
     // initialize the music control element
-var audioControl = document.getElementById( 'AudioControl' );
+var audioControl = document.getElementById( 'AudioControl' )!;
 audioControl.onclick = function()
     {
     musicInstance.muted = !musicInstance.muted;

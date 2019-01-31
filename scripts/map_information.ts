@@ -1,9 +1,4 @@
-/*exported MapInformation*/
-/*global Game, MainMenu, Message*/
-'use strict';
-
-
-class MapInformation
+export default class MapInformation
 {
 constructor( mapObject, playerNumber )
     {
