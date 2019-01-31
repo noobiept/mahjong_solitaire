@@ -1,10 +1,3 @@
-/*global AppStorage*/
-'use strict';
-
-var HighScore;
-(function(HighScore) {
-
-
     // HIGH_SCORE = { mapName: [ time1, time2, ... ] }
 var HIGH_SCORE = {};
 
@@ -12,26 +5,22 @@ var HIGH_SCORE = {};
 var MAX_SCORES_SAVED = 5;
 
 
-HighScore.load = function( score )
+export function load( score )
 {
 if ( score )
     {
     HIGH_SCORE = score;
     }
-};
+}
 
 
-HighScore.save = function()
+export function save()
 {
 AppStorage.setData({ mahjong_high_score: HIGH_SCORE });
-};
+}
 
 
-/**
-    @param {String} mapName
-    @param {Number} score
- */
-HighScore.add = function( mapName, score )
+export function add( mapName, score: number )
 {
 if ( !HIGH_SCORE[ mapName ] )
     {
@@ -53,33 +42,30 @@ if ( HIGH_SCORE[ mapName ].length > MAX_SCORES_SAVED )
     }
 
 HighScore.save();
-};
+}
 
 
-HighScore.getAll = function()
+export function getAll()
 {
 return HIGH_SCORE;
-};
+}
 
 
-HighScore.get = function( mapName )
+export function get( mapName )
 {
 return HIGH_SCORE[ mapName ];
-};
+}
 
 
-HighScore.removeAll = function()
+export function removeAll()
 {
 HIGH_SCORE.length = 0;
 
 AppStorage.removeData( [ 'mahjong_high_score' ] );
-};
+}
 
 
-HighScore.getMaxScoresSaved = function()
+export function getMaxScoresSaved()
 {
 return MAX_SCORES_SAVED;
-};
-
-
-})(HighScore || (HighScore = {}));
+}

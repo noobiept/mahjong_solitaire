@@ -1,10 +1,3 @@
-/*global Game, HighScore*/
-'use strict';
-
-var MainMenu;
-(function(MainMenu) {
-
-
 var MENU;
 var HIGH_SCORE;
 
@@ -16,7 +9,7 @@ var SELECTED_MAP = 0;
 var MAPS_ELEMENTS = [];
 
 
-MainMenu.init = function( maps )
+export function init( maps )
 {
 MENU = document.querySelector( '#MainMenu' );
 HIGH_SCORE = document.querySelector( '#HighScore' );
@@ -70,26 +63,26 @@ for (var a = 0 ; a < maps.length ; a++)
 
 MAPS_AVAILABLE = maps;
 MAPS_ELEMENTS = selectMapContainer.children;
-};
+}
 
 
-MainMenu.open = function()
+export function open()
 {
 Game.resetStuff();
 
 MainMenu.selectMap( SELECTED_MAP );
 
 $( MENU ).css( 'display', 'flex' );
-};
+}
 
 
-MainMenu.hide = function()
+export function hide()
 {
 $( MENU ).css( 'display', 'none' );
-};
+}
 
 
-MainMenu.openHighScore = function()
+export function openHighScore()
 {
 var table = HIGH_SCORE.querySelector( '#HighScore-table' );
 var scores = HighScore.getAll();
@@ -168,16 +161,13 @@ back.onclick = function()
     };
 
 $( HIGH_SCORE ).css( 'display', 'flex' );
-};
+}
 
 
-MainMenu.selectMap = function( position )
+export function selectMap( position )
 {
 $( MAPS_ELEMENTS[ SELECTED_MAP ] ).removeClass( 'mapSelected' );
 $( MAPS_ELEMENTS[ position ] ).addClass( 'mapSelected' );
 
 SELECTED_MAP = position;
-};
-
-
-})(MainMenu || (MainMenu = {}));
+}

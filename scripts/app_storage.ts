@@ -100,7 +100,7 @@ export function getData( keys, callback )
         {
         get_localStorage( keys, callback );
         }
-    };
+    }
 
 
 /**
@@ -117,7 +117,7 @@ export function setData( items, callback )
         {
         set_localStorage( items, callback );
         }
-    };
+    }
 
 
 /**
@@ -134,4 +134,4 @@ export function removeData( items, callback )
         {
         remove_localStorage( items, callback );
         }
-    };
+    }

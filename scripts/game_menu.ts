@@ -1,15 +1,8 @@
-/*global Game, MainMenu*/
-'use strict';
-
-var GameMenu;
-(function(GameMenu) {
-
-
     // reference to html elements
 var GAME_MENU_CONTAINER;
 
 
-GameMenu.init = function()
+export function init()
 {
 var gameMenu = document.querySelector( '#GameMenu' );
 
@@ -63,20 +56,17 @@ quit.onclick = function()
     };
 
 GAME_MENU_CONTAINER = gameMenu;
-};
+}
 
 
-GameMenu.show = function()
+export function show()
 {
 $( GAME_MENU_CONTAINER ).css( 'display', 'inline-flex' );
-};
+}
 
 
-GameMenu.clear = function()
+export function clear()
 {
     // hide the html elements
 $( GAME_MENU_CONTAINER ).css( 'display', 'none' );
-};
-
-
-})(GameMenu || (GameMenu = {}));
+}

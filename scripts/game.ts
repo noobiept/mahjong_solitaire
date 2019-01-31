@@ -1,11 +1,3 @@
-/*global CANVAS, Map, createjs, STAGE, GameMenu, HighScore, MainMenu, Message*/
-'use strict';
-
-
-var Game;
-(function(Game) {
-
-
     // current map information
 var CURRENT_MAP;
 var TWO_PLAYER_MODE;    // either 1 player or 2 player mode
@@ -55,7 +47,7 @@ var GAME_FINISHED = false;
     @param {Object} selectedMap
     @param {Boolean} twoPlayers
  */
-Game.start = function( selectedMap, twoPlayers )
+export function start( selectedMap, twoPlayers )
 {
 Game.resetStuff();
 
@@ -86,20 +78,20 @@ GameMenu.show();
 Game.resize();
 Game.updateInformation();
 Game.setActiveMap( 0 );
-};
+}
 
 
 /**
  * Restart the game in the same map and same player mode as before.
  * Assumes `Game.start()` was already called at one point.
  */
-Game.restart = function()
+export function restart()
 {
 Game.start( CURRENT_MAP, TWO_PLAYER_MODE );
-};
+}
 
 
-Game.finished = function()
+export function finished()
 {
 var a;
 
@@ -155,10 +147,10 @@ window.setTimeout( function()
     Message.hide();
     MainMenu.open();
     }, 2500 );
-};
+}
 
 
-Game.setActiveMap = function( position )
+export function setActiveMap( position )
 {
 var previousMap = MAPS[ ACTIVE_MAP ];
 
@@ -189,10 +181,10 @@ if ( MAPS.length > 1 )
         PLAYER_TURN.text = 'Player 2 Turn';
         }
     }
-};
+}
 
 
-Game.changePlayer = function()
+export function changePlayer()
 {
     // only 1 player
 if ( MAPS.length <= 1 )
@@ -208,10 +200,10 @@ if ( nextPlayer >= MAPS.length )
     }
 
 Game.setActiveMap( nextPlayer );
-};
+}
 
 
-Game.shadowTiles = function()
+export function shadowTiles()
 {
 for (var a = 0 ; a < MAPS.length ; a++)
     {
@@ -225,10 +217,10 @@ for (var a = 0 ; a < MAPS.length ; a++)
         selectedTile.selectTile();
         }
     }
-};
+}
 
 
-Game.unShadowTiles = function()
+export function unShadowTiles()
 {
 for (var a = 0 ; a < MAPS.length ; a++)
     {
@@ -242,10 +234,10 @@ for (var a = 0 ; a < MAPS.length ; a++)
         selectedTile.selectTile();
         }
     }
-};
+}
 
 
-Game.updateInformation = function()
+export function updateInformation()
 {
 if ( SHADOW_ON )
     {
@@ -254,16 +246,16 @@ if ( SHADOW_ON )
         MAPS[ a ].shadowTiles();
         }
     }
-};
+}
 
 
-Game.highlightRandomPair = function()
+export function highlightRandomPair()
 {
 Game.getActiveMap().highlightRandomPair();
-};
+}
 
 
-Game.resetStuff = function()
+export function resetStuff()
 {
 for (var a = 0 ; a < MAPS.length ; a++)
     {
@@ -278,46 +270,46 @@ $( CANVAS ).css( 'display', 'none' );
 
 STAGE.removeChild( PLAYER_TURN );
 PLAYER_TURN = null;
-};
+}
 
 
-Game.pause = function()
+export function pause()
 {
 createjs.Ticker.setPaused( true );
-};
+}
 
 
-Game.resume = function()
+export function resume()
 {
 createjs.Ticker.setPaused( false );
-};
+}
 
 
-Game.getShadowOption = function()
+export function getShadowOption()
 {
 return SHADOW_ON;
-};
+}
 
 
-Game.setShadowOption = function( value )
+export function setShadowOption( value )
 {
 SHADOW_ON = value;
-};
+}
 
 
-Game.getActiveMap = function()
+export function getActiveMap()
 {
 return MAPS[ ACTIVE_MAP ];
-};
+}
 
 
-Game.hasEnded = function()
+export function hasEnded()
 {
 return GAME_FINISHED;
-};
+}
 
 
-Game.resize = function()
+export function resize()
 {
 var width = $( window ).outerWidth( true );
 var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
@@ -366,7 +358,4 @@ else if ( MAPS.length === 2 )
         PLAYER_TURN.x = width * 3 / 4;
         }
     }
-};
-
-
-})(Game || (Game = {}));
+}

@@ -1,23 +1,17 @@
-'use strict';
-
-var Message;
-(function(Message) {
-
-
 var HTML_ELEMENT;
 var TIMEOUT = null;
 
 
-Message.init = function()
+export function init()
 {
 HTML_ELEMENT = document.getElementById( 'Message' );
 
 Message.center();
 HTML_ELEMENT.style.display = 'block';
-};
+}
 
 
-Message.show = function( text, center= true, timeoutDuration= -1 )
+export function show( text, center= true, timeoutDuration= -1 )
 {
 cancelTimeout();
 
@@ -39,22 +33,22 @@ if ( timeoutDuration > 0 )
 
         }, timeoutDuration );
     }
-};
+}
 
 
-Message.hide = function()
+export function hide()
 {
 cancelTimeout();
 HTML_ELEMENT.style.display = 'none';
-};
+}
 
 
-Message.center = function()
+export function center()
 {
 var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
 
 HTML_ELEMENT.style.top = (height / 2) + 'px';
-};
+}
 
 
 function cancelTimeout()
@@ -66,6 +60,3 @@ if ( TIMEOUT !== null )
     TIMEOUT = null;
     }
 }
-
-
-})(Message || (Message = {}));

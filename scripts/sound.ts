@@ -1,11 +1,4 @@
-/*global createjs*/
-'use strict';
-
-var Sound;
-(function(Sound) {
-
-
-Sound.init = function()
+export function init()
 {
 var musicInstance = createjs.Sound.play( 'music', { loop: -1 } );
 
@@ -18,6 +11,3 @@ audioControl.onclick = function()
     };
 audioControl.classList.remove( 'hidden' );
 }
-
-
-})(Sound || (Sound = {}));

@@ -1,7 +1,13 @@
 import * as AppStorage from './app_storage.js';
+import * as GameMenu from './game_menu.js';
+import * as Message from './message.js';
+import * as HighScore from './high_score.js';
+import * as MainMenu from './main_menu.js';
+import * as Sound from './sound.js';
+import * as Game from './game.js';
 
 
-var CANVAS;
+var CANVAS: HTMLCanvasElement;
 
     // createjs
 var STAGE: createjs.Stage;
@@ -16,7 +22,7 @@ AppStorage.getData( [ 'mahjong_high_score' ], initApp );
 
 function initApp( data )
 {
-CANVAS = document.querySelector( '#mainCanvas' );
+CANVAS = document.getElementById( 'mainCanvas' ) as HTMLCanvasElement;
 
 STAGE = new createjs.Stage( CANVAS );
 
