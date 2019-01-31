@@ -2,6 +2,7 @@ syntax: glob
 .vscode/
 release/
 node_modules/
+scripts/**/*.js
 *.svg
 *.psd
 info.txt
