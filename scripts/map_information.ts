@@ -1,7 +1,31 @@
+import * as Game from './game.js';
+import * as Message from './message.js';
+import * as MainMenu from './main_menu.js';
+import Map from './map.js';
+
+
+export interface MapInformationArgs
+    {
+    map: Map;
+    playerNumber?: number;
+    }
+
+
 export default class MapInformation
 {
-constructor( mapObject, playerNumber )
+tilesLeft_ui: HTMLSpanElement;
+pairsLeft_ui: HTMLSpanElement;
+score_ui: HTMLSpanElement;
+container_ui: HTMLDivElement;
+timesUpdateWasCalled: number;
+mapObject: Map;
+interval_f: number | undefined;
+
+
+constructor( args: MapInformationArgs )
     {
+    let playerNumber = args.playerNumber;
+
     if ( typeof playerNumber === 'undefined' )
         {
         playerNumber = 1;
@@ -38,7 +62,7 @@ constructor( mapObject, playerNumber )
     container.appendChild( pairsLeft );
     container.appendChild( score );
 
-    var mainContainer = document.querySelector( '#GameMenu-MapInformation' );
+    var mainContainer = document.getElementById( 'GameMenu-MapInformation' )!;
 
     mainContainer.appendChild( container );
 
@@ -47,7 +71,7 @@ constructor( mapObject, playerNumber )
     this.score_ui = scoreValue;
     this.container_ui = container;
     this.timesUpdateWasCalled = 0;
-    this.mapObject = mapObject;
+    this.mapObject = args.map;
 
     this.updateScore( 0 );
     }
@@ -68,12 +92,13 @@ startTimer()
 stopTimer()
     {
     window.clearInterval( this.interval_f );
+    this.interval_f = undefined;
     }
 
 
-updateScore( score )
+updateScore( score: number )
     {
-    $( this.score_ui ).text( score );
+    this.score_ui.innerText = score.toString();
     }
 
 
@@ -140,8 +165,7 @@ clear()
     {
     this.stopTimer();
 
-    var mainContainer = document.querySelector( '#GameMenu-MapInformation' );
-
+    var mainContainer = document.getElementById( 'GameMenu-MapInformation' )!;
     mainContainer.removeChild( this.container_ui );
     }
 }

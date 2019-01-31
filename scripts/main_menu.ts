@@ -1,3 +1,6 @@
+import * as Game from './game.js';
+
+
 var MENU;
 var HIGH_SCORE;
 
@@ -21,7 +24,7 @@ var highScore = MENU.querySelector( '#MainMenu-highScore' );
 
 startGame.onclick = function( event )
     {
-    MainMenu.hide();
+    hide();
     Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, false );
 
     event.stopPropagation();
@@ -29,7 +32,7 @@ startGame.onclick = function( event )
 
 twoPlayers.onclick = function( event )
     {
-    MainMenu.hide();
+    hide();
     Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, true );
 
     event.stopPropagation();
@@ -37,8 +40,8 @@ twoPlayers.onclick = function( event )
 
 highScore.onclick = function( event )
     {
-    MainMenu.hide();
-    MainMenu.openHighScore();
+    hide();
+    openHighScore();
 
     event.stopPropagation();
     };
@@ -55,7 +58,7 @@ for (var a = 0 ; a < maps.length ; a++)
     item.onclick = function()
         {
             // this points to the html element
-        MainMenu.selectMap( parseInt( this.getAttribute( 'data-position' ), 10 ) );
+        selectMap( parseInt( this.getAttribute( 'data-position' ), 10 ) );
         }
 
     selectMapContainer.appendChild( item );
@@ -70,7 +73,7 @@ export function open()
 {
 Game.resetStuff();
 
-MainMenu.selectMap( SELECTED_MAP );
+selectMap( SELECTED_MAP );
 
 $( MENU ).css( 'display', 'flex' );
 }

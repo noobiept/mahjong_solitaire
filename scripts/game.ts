@@ -1,3 +1,7 @@
+import * as GameMenu from './game_menu.js';
+import Map from './map.js';
+
+
     // current map information
 var CURRENT_MAP;
 var TWO_PLAYER_MODE;    // either 1 player or 2 player mode
@@ -47,7 +51,7 @@ var GAME_FINISHED = false;
     @param {Object} selectedMap
     @param {Boolean} twoPlayers
  */
-export function start( selectedMap, twoPlayers )
+export function start( selectedMap, twoPlayers: boolean )
 {
 Game.resetStuff();
 
@@ -75,9 +79,9 @@ else
     }
 
 GameMenu.show();
-Game.resize();
-Game.updateInformation();
-Game.setActiveMap( 0 );
+resize();
+updateInformation();
+setActiveMap( 0 );
 }
 
 
@@ -87,7 +91,7 @@ Game.setActiveMap( 0 );
  */
 export function restart()
 {
-Game.start( CURRENT_MAP, TWO_PLAYER_MODE );
+start( CURRENT_MAP, TWO_PLAYER_MODE );
 }
 
 

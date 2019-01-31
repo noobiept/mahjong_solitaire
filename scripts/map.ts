@@ -1,10 +1,31 @@
-export default class Map
-{
-static SHUFFLE_SCORE = -100;
-static HELP_SCORE = -100;
-static COMBINE_SCORE = 50;
-static SHADOW_SCORE = -4;
-static TIMER_SCORE = -1;
+import * as Game from './game.js';
+import * as Message from './message.js';
+import Tile from './tile.js';
+import Grid from './grid.js';
+import MapInformation from './map_information.js';
+import { STAGE } from './main.js';
+
+
+export interface MapPosition
+    {
+    line: number;
+    column: number;
+    }
+
+export interface MapInfo
+    {
+    mapName: number;
+    numberOfColumns: number;
+    numberOfLines: number;
+    mapDescription: MapPosition[][];
+    }
+
+export interface MapArgs
+    {
+    mapInfo: MapInfo;
+    playerNumber: number;
+    }
+
 
 /*
     Generates a map. Each map has 144 tiles.
@@ -17,8 +38,31 @@ static TIMER_SCORE = -1;
         - flower tiles (4)
         - season tiles (4)
  */
-constructor( mapInfo, playerNumber )
+export default class Map
+{
+static SHUFFLE_SCORE = -100;
+static HELP_SCORE = -100;
+static COMBINE_SCORE = 50;
+static SHADOW_SCORE = -4;
+static TIMER_SCORE = -1;
+
+columns: number;
+lines: number;
+all_tiles: Tile[];
+all_grids: Grid[];
+selected_tile: Tile | null;
+mapInformation: MapInformation;
+playerNumber: number;
+score: number;
+isCurrentActive: boolean;
+hasShadows: boolean;
+
+
+constructor( args: MapArgs )
     {
+    let playerNumber = args.playerNumber;
+    const mapInfo = args.mapInfo;
+
     if ( typeof playerNumber === 'undefined' )
         {
         playerNumber = 1;
@@ -571,7 +615,11 @@ removeTile( tileObject )
 
 addGrid( args )
     {
-    var grid = new Grid( args.numberOfColumns, args.numberOfLines, this.all_grids.length );
+    var grid = new Grid({
+        numberOfColumns: args.numberOfColumns,
+        numberOfLines: args.numberOfLines,
+        position: this.all_grids.length
+    });
 
     this.all_grids.push( grid );
 
@@ -579,7 +627,7 @@ addGrid( args )
     }
 
 
-removeGrid( gridObject )
+removeGrid( gridObject: Grid )
     {
     var position = this.all_grids.indexOf( gridObject );
 
@@ -612,7 +660,7 @@ clear()
     }
 
 
-selectTile( tile )
+selectTile( tile: Tile )
     {
     this.selected_tile = tile;
 
@@ -620,7 +668,7 @@ selectTile( tile )
     }
 
 
-unSelectTile( tile )
+unSelectTile( tile: Tile )
     {
     this.selected_tile = null;
 
@@ -632,7 +680,7 @@ unSelectTile( tile )
  * A tile has been clicked on, see if we can select it, or combine it with a previously selected tile.
  * Clicking on the selected tile de-selects it.
  */
-onTileClick( tile )
+onTileClick( tile: Tile )
     {
     if ( !this.isTileSelectable( tile ) || !this.isCurrentActive )
         {
@@ -693,7 +741,7 @@ onTileClick( tile )
 /**
  * To be able to select a tile, one of the sides (left or right) has to be free, and the tile can't have other tiles on top of it (in a grid above).
  */
-isTileSelectable( tile )
+isTileSelectable( tile: Tile )
     {
     var column = tile.column;
     var line = tile.line;
@@ -754,7 +802,7 @@ isTileSelectable( tile )
     }
 
 
-addToScore( score )
+addToScore( score: number )
     {
     this.score += score;
 

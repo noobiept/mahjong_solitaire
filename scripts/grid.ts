@@ -2,7 +2,7 @@ import Tile from './tile.js';
 
 
 export interface GridArgs {
-    numberofColumns: number;
+    numberOfColumns: number;
     numberOfLines: number;
     position: number;
 }
@@ -19,7 +19,7 @@ position: number;
 
 constructor( args: GridArgs )
     {
-    const numberOfColumns = args.numberofColumns;
+    const numberOfColumns = args.numberOfColumns;
     const numberOfLines = args.numberOfLines;
 
     this.grid_array = [];
