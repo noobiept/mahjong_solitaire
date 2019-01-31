@@ -1,12 +1,27 @@
+import Tile from './tile.js';
+
+
+export interface GridArgs {
+    numberofColumns: number;
+    numberOfLines: number;
+    position: number;
+}
+
+
 export default class Grid
 {
-/**
- * @param {number} numberOfColumns
- * @param {number} numberOfLines
- * @param {number} position
- */
-constructor( numberOfColumns, numberOfLines, position )
+grid_array: (Tile | null)[][];
+all_tiles: Tile[];
+numberOfColumns: number;
+numberOfLines: number;
+position: number;
+
+
+constructor( args: GridArgs )
     {
+    const numberOfColumns = args.numberofColumns;
+    const numberOfLines = args.numberOfLines;
+
     this.grid_array = [];
     this.all_tiles = [];
 
@@ -22,7 +37,7 @@ constructor( numberOfColumns, numberOfLines, position )
 
     this.numberOfColumns = numberOfColumns;
     this.numberOfLines = numberOfLines;
-    this.position = position;
+    this.position = args.position;
     }
 
 
@@ -30,12 +45,8 @@ constructor( numberOfColumns, numberOfLines, position )
     Each tile occupies a 2x2 square
 
     The column/line argument, points to the position in top left
-
-    @param {Object} tileObject
-    @param {number} column
-    @param {number} line
  */
-addTile( tileObject, column, line )
+addTile( tileObject: Tile, column: number, line: number )
     {
     this.grid_array[ column ][ line ] = tileObject;
     this.grid_array[ column ][ line + 1 ] = tileObject;
@@ -48,13 +59,15 @@ addTile( tileObject, column, line )
 
 /**
  * Remove a tile from the grid (in a 2x2 square).
- *
- * @param {number} column
- * @param {number} line
  */
-removeTile( column, line )
+removeTile( column: number, line: number )
     {
     var tile = this.grid_array[ column ][ line ];
+    if ( !tile )
+        {
+        return;
+        }
+
     var position = this.all_tiles.indexOf( tile );
 
     this.all_tiles.splice( position, 1 );
@@ -68,21 +81,20 @@ removeTile( column, line )
 
 /**
  * Reposition/resize the grid tiles.
- *
- * @param {number} startingX
- * @param {number} startingY
- * @param {number} scale
  */
-positionElements( startingX, startingY, scale )
+positionElements( startingX: number, startingY: number, scale: number )
     {
     for (var a = 0 ; a < this.all_tiles.length ; a++)
         {
         var tile = this.all_tiles[ a ];
 
-        tile.container.scaleX = scale;
-        tile.container.scaleY = scale;
-        tile.moveTo( startingX + tile.column * tile.width * scale / 2,
-                startingY + tile.line * tile.height * scale / 2 );
+        if ( tile.container )
+            {
+            tile.container.scaleX = scale;
+            tile.container.scaleY = scale;
+            tile.moveTo( startingX + tile.column * tile.width * scale / 2,
+                    startingY + tile.line * tile.height * scale / 2 );
+            }
         }
     }
 }

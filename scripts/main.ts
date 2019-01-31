@@ -10,8 +10,8 @@ import * as Game from './game.js';
 export var CANVAS: HTMLCanvasElement;
 
     // createjs
-var STAGE: createjs.Stage;
-var PRELOAD: createjs.LoadQueue;
+export var STAGE: createjs.Stage;
+export var PRELOAD: createjs.LoadQueue;
 
 
 window.onload = function()

@@ -1,24 +1,41 @@
-    // the original image dimensions, this can be scaled
-var TILE_WIDTH = 36;
-var TILE_HEIGHT = 45;
+import Grid from './grid.js';
+import { PRELOAD, STAGE } from './main.js';
 
 
-/*
-    A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
+// the original image dimensions, this can be scaled
+const TILE_WIDTH = 36;
+const TILE_HEIGHT = 45;
 
-    args = {
-        tileId   : String,      // the id of the image to be loaded
-        tileName : String,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
-        column : Number,
-        line   : Number,
-        gridObject : Grid,
-        drawShape  : Boolean,
-        onClick    : (tile: Tile) => any
-    }
+
+export interface TileArgs {
+    tileId   : string,      // the id of the image to be loaded
+    tileName : string,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
+    column : number,
+    line   : number,
+    gridObject : Grid,
+    drawShape  : boolean,
+    onClick    : (tile: Tile) => any
+}
+
+
+/**
+ * A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
  */
 export default class Tile
 {
-constructor( args )
+width: number;
+height: number;
+tileId: string;
+tileName: string;
+background: createjs.Shape | undefined;
+shape: createjs.Bitmap | undefined;
+container: createjs.Container | undefined;
+column: number;
+line: number;
+gridObject: Grid;
+
+
+constructor( args: TileArgs )
     {
     var _this = this;
 
@@ -92,6 +109,11 @@ constructor( args )
 
 selectTile()
     {
+    if ( !this.background )
+        {
+        return;
+        }
+
     var g = this.background.graphics;
 
     g.beginFill( 'rgba(255, 0, 0, 0.3)' );
@@ -101,6 +123,11 @@ selectTile()
 
 highlightTile()
     {
+    if ( !this.background )
+        {
+        return;
+        }
+
     var g = this.background.graphics;
 
     g.clear();
@@ -111,6 +138,11 @@ highlightTile()
 
 clearBackground()
     {
+    if ( !this.background )
+        {
+        return;
+        }
+
     var g = this.background.graphics;
 
     g.clear();
@@ -121,6 +153,11 @@ clearBackground()
 
 shadow()
     {
+    if ( !this.background )
+        {
+        return;
+        }
+
     var g = this.background.graphics;
 
     g.clear();
@@ -129,8 +166,13 @@ shadow()
     }
 
 
-moveTo( x, y )
+moveTo( x: number, y: number )
     {
+    if ( !this.container )
+        {
+        return;
+        }
+
     this.container.x = x;
     this.container.y = y;
     }
@@ -138,7 +180,10 @@ moveTo( x, y )
 
 remove()
     {
-    STAGE.removeChild( this.container );
+    if ( this.container )
+        {
+        STAGE.removeChild( this.container );
+        }
 
     this.gridObject.removeTile( this.column, this.line );
     }
