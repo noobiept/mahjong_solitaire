@@ -218,7 +218,7 @@ SELECTED_GRID = gridPosition;
 };
 
 
-Map.save = function()
+Map.save = async function()
 {
 var mapName = document.querySelector( '#mapName' ).value;
 
@@ -256,19 +256,19 @@ var mapDefinition = {
     mapDescription  : mapDescription
     };
 
-$.ajax({
-    type  : 'post',
-    url   : '/save_map',
-    data  : { data: JSON.stringify( mapDefinition ) },
-    success: function( jqXHR, textStatus )
-        {
-        console.log( 'Saved Map' );
-        },
-    error: function( jqXHR, textStatus, errorThrown )
-        {
-        console.log( jqXHR, textStatus, errorThrown );
-        }
-    });
+const response = await fetch( '/save_map', {
+    method: 'post',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: mapDefinition })
+} );
+
+if ( response.status === 200 )
+    {
+    console.log( `Saved: ${mapName}` );
+    }
 };
 
 
@@ -308,6 +308,7 @@ if ( typeof mapName === 'undefined' )
         Map.constructMap( mapInfo );
 
         localStorage.setItem( 'previousMap', mapName );
+        console.log( `Loaded: ${mapName}` );
     }
 
     catch( error ) {

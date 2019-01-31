@@ -22,7 +22,14 @@ app.post( '/save_map', function( req, res ) {
         return;
     }
 
-    console.log( data );
+    console.log( `Saving map: ${data.mapName}` );
+
+    const filePath = Path.join( __dirname, `../maps/${data.mapName}.json` );
+    const dataString = JSON.stringify( data, null, 4 );
+
+    Fs.writeFileSync( filePath, dataString );
+
+    return res.sendStatus( 200 );
 } );
 
 
@@ -38,6 +45,7 @@ app.post( '/load_map', function( req, res ) {
     }
 
     console.log( `Loading map: ${mapName}` );
+
     const filePath = Path.join( __dirname, `../maps/${mapName}.json` );
     const content = Fs.readFileSync( filePath, 'utf8' );
 
