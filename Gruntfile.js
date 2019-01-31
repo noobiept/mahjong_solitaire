@@ -1,5 +1,13 @@
-/*global module*/
+/*global module, require*/
 'use strict';
+
+const Glob = require( 'glob' );
+const Terser = require( 'terser' );
+const Fs = require( 'fs' );
+
+const Package = JSON.parse( Fs.readFileSync( 'package.json', 'utf8' ) );
+const DestPath = `./release/${Package.name} ${Package.version}/`;
+
 
 module.exports = function( grunt )
 {
@@ -21,9 +29,6 @@ grunt.initConfig({
 
             // delete the destination folder
         clean: {
-            options: {
-                force: true
-            },
             release: [
                 dest
             ]
@@ -42,17 +47,6 @@ grunt.initConfig({
                     'package.json'
                 ],
                 dest: dest
-            }
-        },
-
-        uglify: {
-            release: {
-                files: [{
-                    src: [
-                        root + 'js/*.js'
-                    ],
-                    dest: dest + 'min.js'
-                }]
             }
         },
 
@@ -85,11 +79,35 @@ grunt.initConfig({
     // load the plugins
 grunt.loadNpmTasks( 'grunt-eslint' );
 grunt.loadNpmTasks( 'grunt-contrib-copy' );
-grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 grunt.loadNpmTasks( 'grunt-contrib-clean' );
 grunt.loadNpmTasks( 'grunt-processhtml' );
 
+
+/**
+ * Run the javascript minimizer task.
+ */
+grunt.registerTask('terser', function() {
+    const files = Glob.sync( root + 'js/**/*.js' );
+    const code = [];
+
+    for (let a = 0 ; a < files.length ; a++) {
+        const filePath = files[ a ];
+
+        code[ filePath ] = Fs.readFileSync( filePath, 'utf8' );
+    }
+
+    const result = Terser.minify( code, {
+        ecma: 8
+    } );
+
+    if ( result.error ) {
+        throw new Error( result.error.message );
+    }
+
+    Fs.writeFileSync( DestPath + 'min.js', result.code );
+});
+
     // tasks
-grunt.registerTask( 'default', [ 'eslint', 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
+grunt.registerTask( 'default', [ 'eslint', 'clean', 'copy', 'terser', 'cssmin', 'processhtml' ] );
 };
