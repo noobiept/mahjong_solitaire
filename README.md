@@ -4,6 +4,10 @@ Mahjong solitaire game, with two players mode (turn based).
 
 There's also a map editor (requires python/django) that you can use to create your own maps.
 
+# Commands #
+
+- `npm run build`: Run the build script.
+
 
 # Links #
 
