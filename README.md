@@ -6,6 +6,8 @@ There's also a map editor (requires python/django) that you can use to create yo
 
 # Commands #
 
+- `npm run dev`: Run the development server ((go to `localhost:8000` to try it out).
+- `npm run mapEditor`: Run the map editor server (go to `localhost:8080` to open it).
 - `npm run build`: Run the build script.
 
 
