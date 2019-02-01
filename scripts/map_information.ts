@@ -7,7 +7,7 @@ import Map from './map.js';
 export interface MapInformationArgs
     {
     map: Map;
-    playerNumber?: number;
+    playerNumber: number;
     }
 
 
@@ -25,11 +25,6 @@ interval_f: number | undefined;
 constructor( args: MapInformationArgs )
     {
     let playerNumber = args.playerNumber;
-
-    if ( typeof playerNumber === 'undefined' )
-        {
-        playerNumber = 1;
-        }
 
         // add the html elements to the game menu
     var player = document.createElement( 'div' );

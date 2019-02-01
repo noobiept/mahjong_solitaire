@@ -1,13 +1,17 @@
 import * as GameMenu from './game_menu.js';
-import Map from './map.js';
+import * as Message from './message.js';
+import * as MainMenu from './main_menu.js';
+import * as HighScore from './high_score.js';
+import Map, { MapInfo } from './map.js';
+import { CANVAS, STAGE } from './main.js';
 
 
     // current map information
-var CURRENT_MAP;
-var TWO_PLAYER_MODE;    // either 1 player or 2 player mode
+var CURRENT_MAP: MapInfo;
+var TWO_PLAYER_MODE: boolean;    // either 1 player or 2 player mode
 
     // has all the map objects (one for each player)
-var MAPS = [];
+var MAPS: Map[] = [];
 
     // when there's more than 1 player, means each player takes turns to play, this keeps track of what player/map is currently playing
 var ACTIVE_MAP = 0;
@@ -17,43 +21,18 @@ var SHADOW_ON = false;
 
     // a message to tell which player turn is
     // only for 2 player mode
-var PLAYER_TURN = null;
+var PLAYER_TURN: createjs.Text | null = null;
 
     // tell if the game finished or not
 var GAME_FINISHED = false;
 
+
 /**
-    mapDescription:
-        each array (inside the main one) corresponds to a grid (an array of 'grids')
-        inside the grid array, we have several objects with the position where we'll put a tile
-
-    selectedMap = {
-        "mapName": "pyramid",
-        "numberOfColumns": 20,
-        "numberOfLines": 22,
-        "mapDescription":
-            [
-                    // first grid
-                [
-                    { "column": 0, "line": 0 },
-                    { "column": 18, "line": 0 },
-                        // ...
-                ],
-                    // second grid
-                [
-                    { "column": 4, "line": 4 },
-                        // ...
-                ],
-                    // ...
-            ]
-    }
-
-    @param {Object} selectedMap
-    @param {Boolean} twoPlayers
+ * Start a new game.
  */
-export function start( selectedMap, twoPlayers: boolean )
+export function start( selectedMap: MapInfo, twoPlayers: boolean )
 {
-Game.resetStuff();
+resetStuff();
 
 TWO_PLAYER_MODE = twoPlayers;
 GAME_FINISHED = false;  // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
@@ -63,8 +42,8 @@ $( CANVAS ).css( 'display', 'block' );
 
 if ( twoPlayers )
     {
-    MAPS.push( new Map( selectedMap, 1 ));
-    MAPS.push( new Map( selectedMap, 2 ));
+    MAPS.push( new Map({ mapInfo: selectedMap, playerNumber: 1 }) );
+    MAPS.push( new Map({ mapInfo: selectedMap, playerNumber: 2 }) );
 
         // init the player turn message
     PLAYER_TURN = new createjs.Text( '', '30px monospace', 'red' );
@@ -75,7 +54,7 @@ if ( twoPlayers )
 
 else
     {
-    MAPS.push( new Map( selectedMap ) );
+    MAPS.push( new Map({ mapInfo: selectedMap, playerNumber: 1 }) );
     }
 
 GameMenu.show();
@@ -144,7 +123,7 @@ else
         }
     }
 
-Game.resetStuff();
+resetStuff();
 
 window.setTimeout( function()
     {
@@ -154,7 +133,7 @@ window.setTimeout( function()
 }
 
 
-export function setActiveMap( position )
+export function setActiveMap( position: number )
 {
 var previousMap = MAPS[ ACTIVE_MAP ];
 
@@ -167,7 +146,7 @@ MAPS[ position ].mapInformation.startTimer();
 MAPS[ position ].isCurrentActive = true;
 
     // for 2 players mode only
-if ( MAPS.length > 1 )
+if ( MAPS.length > 1 && PLAYER_TURN )
     {
     var playerName = MAPS[ position ].playerNumber;
 
@@ -203,7 +182,7 @@ if ( nextPlayer >= MAPS.length )
     nextPlayer = 0;
     }
 
-Game.setActiveMap( nextPlayer );
+setActiveMap( nextPlayer );
 }
 
 
@@ -255,7 +234,7 @@ if ( SHADOW_ON )
 
 export function highlightRandomPair()
 {
-Game.getActiveMap().highlightRandomPair();
+getActiveMap().highlightRandomPair();
 }
 
 
@@ -272,8 +251,11 @@ ACTIVE_MAP = 0;
 GameMenu.clear();
 $( CANVAS ).css( 'display', 'none' );
 
-STAGE.removeChild( PLAYER_TURN );
-PLAYER_TURN = null;
+if ( PLAYER_TURN )
+    {
+    STAGE.removeChild( PLAYER_TURN );
+    PLAYER_TURN = null;
+    }
 }
 
 
@@ -295,7 +277,7 @@ return SHADOW_ON;
 }
 
 
-export function setShadowOption( value )
+export function setShadowOption( value: boolean )
 {
 SHADOW_ON = value;
 }
@@ -315,8 +297,8 @@ return GAME_FINISHED;
 
 export function resize()
 {
-var width = $( window ).outerWidth( true );
-var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
+var width = $( window ).outerWidth( true )!;
+var height = $( window ).outerHeight( true )! - $( '#GameMenu' ).outerHeight( true )!;
 
 CANVAS.width = width;
 CANVAS.height = height;
@@ -349,17 +331,20 @@ else if ( MAPS.length === 2 )
             height: height
         });
 
+    if ( PLAYER_TURN )
+        {
         // position just above the menu, in the left or right side of the window (depending on which turn it is)
-    PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
+        PLAYER_TURN.y = height - 32; // the 32 (30px + a bit of margin) depends on the font-size specified above when creating the Text()
 
-    if ( ACTIVE_MAP === 0 )
-        {
-        PLAYER_TURN.x = width / 4;
-        }
+        if ( ACTIVE_MAP === 0 )
+            {
+            PLAYER_TURN.x = width / 4;
+            }
 
-    else
-        {
-        PLAYER_TURN.x = width * 3 / 4;
+        else
+            {
+            PLAYER_TURN.x = width * 3 / 4;
+            }
         }
     }
 }

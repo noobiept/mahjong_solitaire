@@ -1,7 +1,8 @@
 import * as Game from './game.js';
 import * as Message from './message.js';
-import Tile from './tile.js';
-import Grid from './grid.js';
+import * as Utilities from './utilities.js';
+import Tile, { TileName, TileArgs } from './tile.js';
+import Grid, { GridArgs } from './grid.js';
 import MapInformation from './map_information.js';
 import { STAGE } from './main.js';
 
@@ -12,12 +13,18 @@ export interface MapPosition
     column: number;
     }
 
+export interface MapTilePosition extends MapPosition
+    {
+    tileId: TileName;
+    tileName: TileName;
+    }
+
 export interface MapInfo
     {
     mapName: number;
     numberOfColumns: number;
     numberOfLines: number;
-    mapDescription: MapPosition[][];
+    mapDescription: MapPosition[][];    // first dimension is the grid, and then its a list of positions where the tiles are positioned (check the maps in the `/maps/*.json` for examples)
     }
 
 export interface MapArgs
@@ -63,11 +70,6 @@ constructor( args: MapArgs )
     let playerNumber = args.playerNumber;
     const mapInfo = args.mapInfo;
 
-    if ( typeof playerNumber === 'undefined' )
-        {
-        playerNumber = 1;
-        }
-
     this.columns = mapInfo.numberOfColumns;
     this.lines = mapInfo.numberOfLines;
 
@@ -78,7 +80,7 @@ constructor( args: MapArgs )
         // to clear tiles you need to select 2 tiles of same type, this variable points to the first one being selected
     this.selected_tile = null;
 
-    this.mapInformation = new MapInformation( this, playerNumber );
+    this.mapInformation = new MapInformation({ map: this, playerNumber: playerNumber });
 
     var newMap = this.determineTileNames( mapInfo.mapDescription );
 
@@ -104,7 +106,7 @@ constructor( args: MapArgs )
             ]
         ]
  */
-buildMap( mapDescription )
+buildMap( mapDescription: MapTilePosition[][] )
     {
     var mapObject = this;
     var grid;
@@ -202,7 +204,7 @@ buildMap( mapDescription )
 
     Start with a complete map, and find the selectable tiles. Determine the tile names, and remove those tiles, find again the selectable tiles, and so on.
  */
-determineTileNames( mapDescription, tilePairs )
+determineTileNames( mapDescription: MapPosition[][], tilePairs?: TileName[] )
     {
     var newMap = [];
     var grid;
@@ -346,7 +348,7 @@ shuffle( addToScore= true )
     }
 
 
-getNextTile( tilesNames )
+getNextTile( tilesNames?: TileName[] )
     {
     if ( typeof tilesNames === 'undefined' )
         {
@@ -582,7 +584,7 @@ unShadowTiles()
     }
 
 
-addTile( args )
+addTile( args: TileArgs )
     {
     var tile = new Tile( args );
 
@@ -603,7 +605,7 @@ addTile( args )
     }
 
 
-removeTile( tileObject )
+removeTile( tileObject: Tile )
     {
     var position = this.all_tiles.indexOf( tileObject );
 
@@ -613,7 +615,7 @@ removeTile( tileObject )
     }
 
 
-addGrid( args )
+addGrid( args: GridArgs )
     {
     var grid = new Grid({
         numberOfColumns: args.numberOfColumns,

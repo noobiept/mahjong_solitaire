@@ -6,6 +6,7 @@ import { PRELOAD, STAGE } from './main.js';
 const TILE_WIDTH = 36;
 const TILE_HEIGHT = 45;
 
+export type TileName = 'bamboo1' | 'bamboo2' | 'bamboo3' | 'bamboo4' | 'bamboo5' | 'bamboo6' | 'bamboo7' | 'bamboo8' | 'bamboo9' | 'character1' | 'character2' | 'character3' | 'character4' | 'character5' | 'character6' | 'character6' | 'character7' | 'character8' | 'character9' | 'circle1' | 'circle2' | 'circle3' | 'circle4' | 'circle5' | 'circle6' | 'circle7' | 'circle8' | 'circle9' | 'wind1' | 'wind2' | 'wind3' | 'wind4' | 'dragon1' | 'flower' | 'season';
 
 export interface TileArgs {
     tileId   : string,      // the id of the image to be loaded
