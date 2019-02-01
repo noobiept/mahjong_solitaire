@@ -6,16 +6,18 @@ import { PRELOAD, STAGE } from './main.js';
 const TILE_WIDTH = 36;
 const TILE_HEIGHT = 45;
 
-export type TileName = 'bamboo1' | 'bamboo2' | 'bamboo3' | 'bamboo4' | 'bamboo5' | 'bamboo6' | 'bamboo7' | 'bamboo8' | 'bamboo9' | 'character1' | 'character2' | 'character3' | 'character4' | 'character5' | 'character6' | 'character6' | 'character7' | 'character8' | 'character9' | 'circle1' | 'circle2' | 'circle3' | 'circle4' | 'circle5' | 'circle6' | 'circle7' | 'circle8' | 'circle9' | 'wind1' | 'wind2' | 'wind3' | 'wind4' | 'dragon1' | 'flower' | 'season';
+
+export type TileName = 'bamboo' | 'character' | 'circle' | 'wind' | 'dragon' | 'flower' | 'season';
+export type TileId = 'bamboo1' | 'bamboo2' | 'bamboo3' | 'bamboo4' | 'bamboo5' | 'bamboo6' | 'bamboo7' | 'bamboo8' | 'bamboo9' | 'character1' | 'character2' | 'character3' | 'character4' | 'character5' | 'character6' | 'character6' | 'character7' | 'character8' | 'character9' | 'circle1' | 'circle2' | 'circle3' | 'circle4' | 'circle5' | 'circle6' | 'circle7' | 'circle8' | 'circle9' | 'wind1' | 'wind2' | 'wind3' | 'wind4' | 'dragon1' | 'flower' | 'season';
 
 export interface TileArgs {
-    tileId   : string,      // the id of the image to be loaded
-    tileName : string,      // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
-    column : number,
-    line   : number,
+    tileId    : TileId,      // the id of the image to be loaded
+    tileName? : TileName,    // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
+    column? : number,
+    line?   : number,
     gridObject : Grid,
-    drawShape  : boolean,
-    onClick    : (tile: Tile) => any
+    drawShape? : boolean,
+    onClick?   : (tile: Tile) => any
 }
 
 
@@ -26,8 +28,8 @@ export default class Tile
 {
 width: number;
 height: number;
-tileId: string;
-tileName: string;
+tileId: TileId;
+tileName: TileName;
 background: createjs.Shape | undefined;
 shape: createjs.Bitmap | undefined;
 container: createjs.Container | undefined;
@@ -55,7 +57,7 @@ constructor( args: TileArgs )
     if ( typeof args.tileName === 'undefined' )
         {
             // if not provided, we assume its the same as the id
-        args.tileName = args.tileId;
+        args.tileName = args.tileId as TileName;
         }
 
     if ( typeof args.column === 'undefined' )
@@ -88,7 +90,10 @@ constructor( args: TileArgs )
 
         container.on( 'click', function()
             {
-            args.onClick( _this );
+            if ( args.onClick )
+                {
+                args.onClick( _this );
+                }
             });
 
         STAGE.addChild( container );

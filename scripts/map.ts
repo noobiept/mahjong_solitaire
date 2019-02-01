@@ -1,7 +1,7 @@
 import * as Game from './game.js';
 import * as Message from './message.js';
 import * as Utilities from './utilities.js';
-import Tile, { TileName, TileArgs } from './tile.js';
+import Tile, { TileName, TileArgs, TileId } from './tile.js';
 import Grid, { GridArgs } from './grid.js';
 import MapInformation from './map_information.js';
 import { STAGE } from './main.js';
@@ -15,7 +15,7 @@ export interface MapPosition
 
 export interface MapTilePosition extends MapPosition
     {
-    tileId: TileName;
+    tileId: TileId;
     tileName: TileName;
     }
 
@@ -25,6 +25,14 @@ export interface MapInfo
     numberOfColumns: number;
     numberOfLines: number;
     mapDescription: MapPosition[][];    // first dimension is the grid, and then its a list of positions where the tiles are positioned (check the maps in the `/maps/*.json` for examples)
+    }
+
+export interface MapDimension
+    {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
     }
 
 export interface MapArgs
@@ -164,7 +172,7 @@ buildMap( mapDescription: MapTilePosition[][] )
                 {
                 element = grid.grid_array[ column ][ line ];
 
-                if ( element )
+                if ( element && element.container )
                     {
                     STAGE.addChild( element.container );
                     }
@@ -184,7 +192,7 @@ buildMap( mapDescription: MapTilePosition[][] )
                 {
                 element = grid.grid_array[ column ][ line ];
 
-                if ( element )
+                if ( element && element.container )
                     {
                     STAGE.addChild( element.container );
                     }
@@ -206,7 +214,7 @@ buildMap( mapDescription: MapTilePosition[][] )
  */
 determineTileNames( mapDescription: MapPosition[][], tilePairs?: TileName[] )
     {
-    var newMap = [];
+    var newMap: MapTilePosition[][] = [];
     var grid;
     var gridDescription;
     var tilePosition;
@@ -229,7 +237,7 @@ determineTileNames( mapDescription: MapPosition[][], tilePairs?: TileName[] )
             tilePosition = gridDescription[ b ];
 
             this.addTile({
-                    tileId     : '', // doesn't matter, since we aren't drawing the shape
+                    tileId     : 'bamboo1', // doesn't matter, since we aren't drawing the shape
                     column     : tilePosition.column,
                     line       : tilePosition.line,
                     gridObject : grid
@@ -281,7 +289,7 @@ shuffle( addToScore= true )
     var a;
 
     var numberOfGrids = this.all_grids.length;
-    var currentMap = [];
+    var currentMap: MapPosition[][] = [];
 
     for (a = 0 ; a < numberOfGrids ; a++)
         {
@@ -290,7 +298,7 @@ shuffle( addToScore= true )
 
 
     var tile;
-    var tileNames = [];
+    var tileNames: TileName[] = [];
 
         // get the current positions and tile names
     for (a = 0 ; a < allTiles.length ; a++)
@@ -307,16 +315,15 @@ shuffle( addToScore= true )
 
 
         // remove the pairs, since the .getNextTile() already takes care of that (only have one for each pair)
-    var tilePairs = [];
-    var firstTile, secondTile;
+    var tilePairs: TileName[] = [];
 
     for (a = 0 ; a < tileNames.length ; a++)
         {
-        firstTile = tileNames[ a ];
+        const firstTile = tileNames[ a ];
 
         for (var b = a + 1 ; b < tileNames.length ; b++)
             {
-            secondTile = tileNames[ b ];
+            const secondTile = tileNames[ b ];
 
             if ( firstTile === secondTile )
                 {
@@ -399,30 +406,27 @@ getNextTile( tilesNames?: TileName[] )
             ];
         }
 
-
-    var previousTile = null;
+    var previousTile: TileName | null = null;
     var flowerNumber = 1;
     var seasonNumber = 1;
 
     return function()
         {
-        var tileName;
-        var tileId;
+        var tileName: TileName;
+        var tileId: TileId;
 
             // we need to return the same tile 2 times (a pair), so check if its time to return the 2nd, otherwise get a new pair from the 'tileNames' array
         if ( previousTile )
             {
             tileName = previousTile;
-
             previousTile = null;
             }
 
         else
             {
-            var position = Utilities.getRandomInt( 0, tilesNames.length - 1 );
+            var position = Utilities.getRandomInt( 0, tilesNames!.length - 1 );
 
-            tileName = tilesNames.splice( position, 1 )[ 0 ];
-
+            tileName = tilesNames!.splice( position, 1 )[ 0 ] as TileName;
             previousTile = tileName;
             }
 
@@ -430,21 +434,21 @@ getNextTile( tilesNames?: TileName[] )
             // the flower/season works a bit differently than the others, since they can match with each other, but have different images
         if ( tileName === 'flower' )
             {
-            tileId = tileName + flowerNumber;
+            tileId = (tileName + flowerNumber) as TileId;
 
             flowerNumber++;
             }
 
         else if ( tileName === 'season' )
             {
-            tileId = tileName + seasonNumber;
+            tileId = (tileName + seasonNumber) as TileId;
 
             seasonNumber++;
             }
 
         else
             {
-            tileId = tileName;
+            tileId = tileName as TileId;
             }
 
         return {
@@ -615,7 +619,7 @@ removeTile( tileObject: Tile )
     }
 
 
-addGrid( args: GridArgs )
+addGrid( args: Utilities.Omit<GridArgs, 'position'> )
     {
     var grid = new Grid({
         numberOfColumns: args.numberOfColumns,
@@ -818,7 +822,7 @@ addTimerScore()
     }
 
 
-scaleMap( dimensions )
+scaleMap( dimensions: MapDimension )
     {
     var tileWidth = Tile.getImageWidth();
     var tileHeight = Tile.getImageHeight();

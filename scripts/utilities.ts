@@ -1,6 +1,9 @@
 import { CANVAS } from './main.js';
 
 
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+
 export const EVENT_KEY = {
 
     backspace  : 8,
