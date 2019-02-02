@@ -1,23 +1,25 @@
-var HTML_ELEMENT;
-var TIMEOUT = null;
+
+
+var HTML_ELEMENT: HTMLElement;
+var TIMEOUT: number | null = null;
 
 
 export function init()
 {
-HTML_ELEMENT = document.getElementById( 'Message' );
+HTML_ELEMENT = document.getElementById( 'Message' )!;
 
-Message.center();
+center();
 HTML_ELEMENT.style.display = 'block';
 }
 
 
-export function show( text, center= true, timeoutDuration= -1 )
+export function show( text: string, centerMessage= true, timeoutDuration= -1 )
 {
 cancelTimeout();
 
-if ( center !== false )
+if ( centerMessage !== false )
     {
-    Message.center();
+    center();
     }
 
     // set the new message
@@ -28,7 +30,7 @@ if ( timeoutDuration > 0 )
     {
     TIMEOUT = window.setTimeout( function()
         {
-        Message.hide();
+        hide();
         TIMEOUT = null;
 
         }, timeoutDuration );
@@ -45,7 +47,7 @@ HTML_ELEMENT.style.display = 'none';
 
 export function center()
 {
-var height = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
+var height = $( window ).outerHeight( true )! - $( '#GameMenu' ).outerHeight( true )!;
 
 HTML_ELEMENT.style.top = (height / 2) + 'px';
 }

@@ -1,26 +1,27 @@
 import * as Game from './game.js';
+import * as HighScore from './high_score.js';
+import { MapInfo } from './map.js';
 
 
-var MENU;
-var HIGH_SCORE;
+var MENU: HTMLElement;
+var HIGH_SCORE: HTMLElement;
 
     // has the mapInfo of the maps (the .json loaded from /maps/)
-var MAPS_AVAILABLE = [];
+var MAPS_AVAILABLE: MapInfo[] = [];
 var SELECTED_MAP = 0;
 
     // has reference for the html elements used to select the map in the main menu
-var MAPS_ELEMENTS = [];
+var MAPS_ELEMENTS: HTMLElement[] = [];
 
 
 export function init( maps )
 {
-MENU = document.querySelector( '#MainMenu' );
-HIGH_SCORE = document.querySelector( '#HighScore' );
+MENU = document.getElementById( 'MainMenu' )!;
+HIGH_SCORE = document.getElementById( 'HighScore' )!;
 
-var startGame = MENU.querySelector( '#MainMenu-startGame' );
-var twoPlayers = MENU.querySelector( '#MainMenu-twoPlayers' );
-var highScore = MENU.querySelector( '#MainMenu-highScore' );
-
+var startGame = document.getElementById( 'MainMenu-startGame' )!;
+var twoPlayers = document.getElementById( 'MainMenu-twoPlayers' )!;
+var highScore = document.getElementById( 'MainMenu-highScore' )!;
 
 startGame.onclick = function( event )
     {
@@ -87,7 +88,7 @@ $( MENU ).css( 'display', 'none' );
 
 export function openHighScore()
 {
-var table = HIGH_SCORE.querySelector( '#HighScore-table' );
+var table = document.getElementById( 'HighScore-table' )!;
 var scores = HighScore.getAll();
 var keys = Object.keys( scores );
 
@@ -151,7 +152,7 @@ else
         }
     }
 
-var back = HIGH_SCORE.querySelector( '#HighScore-back' );
+var back = document.getElementById( 'HighScore-back' )!;
 
 back.onclick = function()
     {
@@ -160,14 +161,14 @@ back.onclick = function()
 
     $( HIGH_SCORE ).css( 'display', 'none' );
 
-    MainMenu.open();
+    open();
     };
 
 $( HIGH_SCORE ).css( 'display', 'flex' );
 }
 
 
-export function selectMap( position )
+export function selectMap( position: number )
 {
 $( MAPS_ELEMENTS[ SELECTED_MAP ] ).removeClass( 'mapSelected' );
 $( MAPS_ELEMENTS[ position ] ).addClass( 'mapSelected' );
