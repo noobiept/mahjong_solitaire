@@ -13,7 +13,7 @@ var HIGH_SCORE: Score = {};
 var MAX_SCORES_SAVED = 5;
 
 
-export function load( score: Score )
+export function load( score?: Score )
 {
 if ( score )
     {

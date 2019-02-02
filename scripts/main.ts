@@ -21,7 +21,7 @@ AppStorage.getData( [ 'mahjong_high_score' ], initApp );
 };
 
 
-function initApp( data )
+function initApp( data: AppStorage.Data )
 {
 CANVAS = document.getElementById( 'mainCanvas' ) as HTMLCanvasElement;
 

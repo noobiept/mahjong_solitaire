@@ -1,25 +1,27 @@
-export interface Dict
-    {
-    [ key: string ]: Object
-    }
+import { Score } from "./high_score";
+
+
+export interface Data {
+    mahjong_high_score?: Score
+}
 
 
 /**
  * Calls the `callback` with a dictionary that has all the requested keys/values from `localStorage`.
  */
-export function getData( keys: string[], callback: (objects: Dict) => void )
+export function getData( keys: (keyof Data)[], callback: (data: Data) => void )
     {
-    var objects: Dict = {};
+    var data: Data = {};
 
     for (var a = 0 ; a < keys.length ; a++)
         {
         var key = keys[ a ];
         var value = localStorage.getItem( key );
 
-        objects[ key ] = value && JSON.parse( value );
+        data[ key ] = value && JSON.parse( value );
         }
 
-    callback( objects );
+    callback( data );
     }
 
 
@@ -27,13 +29,16 @@ export function getData( keys: string[], callback: (objects: Dict) => void )
  * Sets the given key/value into `localStorage`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-export function setData( items: Dict, callback?: () => void )
+export function setData( items: Data, callback?: () => void )
     {
     for ( var key in items )
         {
         if ( items.hasOwnProperty( key ) )
             {
-            localStorage.setItem( key, JSON.stringify( items[ key ] ) );
+            const dataKey = key as keyof Data;
+            const item = items[ dataKey ];
+
+            localStorage.setItem( key, JSON.stringify( item ) );
             }
         }
 
@@ -47,7 +52,7 @@ export function setData( items: Dict, callback?: () => void )
 /**
  * Remove the given keys from the `localStorage`.
  */
-export function removeData( keys: string[] )
+export function removeData( keys: (keyof Data)[] )
     {
     for (let a = 0 ; a < keys.length ; a++)
         {
