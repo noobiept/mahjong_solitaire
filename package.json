@@ -20,9 +20,10 @@
     },
     "scripts": {
         "dev": "npm-run-all --parallel dev:*",
-        "dev:typescript": "tsc -w",
-        "dev:server": "http-server -p 8000 --silent",
-        "mapEditor": "node map_editor/server.js",
+        "dev:game:watch": "tsc -w",
+        "dev:game:server": "http-server -p 8000 --silent",
+        "dev:map_editor:watch": "tsc -w --project ./map_editor/",
+        "dev:map_editor:server": "node map_editor/server.js",
         "build": "grunt"
     }
 }
