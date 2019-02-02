@@ -13,8 +13,8 @@ export type TileId = 'bamboo1' | 'bamboo2' | 'bamboo3' | 'bamboo4' | 'bamboo5' |
 export interface TileArgs {
     tileId    : TileId,      // the id of the image to be loaded
     tileName? : TileName,    // tile name plus the number ('bamboo1' for example). This is going to be used to know which tiles match (we can't use the id for that, since there's for example flower tiles that have different images, but can be matched between them
-    column? : number,
-    line?   : number,
+    column : number,
+    line   : number,
     gridObject : Grid,
     drawShape? : boolean,
     onClick?   : (tile: Tile) => any
@@ -58,16 +58,6 @@ constructor( args: TileArgs )
         {
             // if not provided, we assume its the same as the id
         args.tileName = args.tileId as TileName;
-        }
-
-    if ( typeof args.column === 'undefined' )
-        {
-        args.column = 0;
-        }
-
-    if ( typeof args.line === 'undefined' )
-        {
-        args.line = 0;
         }
 
     this.width = TILE_WIDTH;

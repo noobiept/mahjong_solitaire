@@ -32,15 +32,7 @@ Message.init();
 HighScore.load( data[ 'mahjong_high_score' ] );
 
 createjs.Ticker.timingMode = createjs.Ticker.RAF;
-createjs.Ticker.on( 'tick', function( event )
-    {
-    if ( event.paused )
-        {
-        return;
-        }
-
-    STAGE.update();
-    });
+createjs.Ticker.on( 'tick', tick as (event: Object) => void );
 
 PRELOAD = new createjs.LoadQueue();
 PRELOAD.setMaxConnections( 10 );
@@ -102,10 +94,7 @@ var manifest = [
         { id: 'music', src: 'audio/Jaoan.ogg' }
     ];
 
-PRELOAD.addEventListener( 'progress', function( event )
-    {
-    Message.show( 'Loading ' + ( event.progress * 100 | 0 ) + '%', false );
-    });
+PRELOAD.addEventListener( 'progress', progress as (event: Object) => void );
 PRELOAD.addEventListener( 'complete', function()
     {
     Message.hide();
@@ -129,3 +118,24 @@ window.onresize = function()
 {
 Game.resize();
 };
+
+
+/**
+ * Draw the elements at every tick.
+ */
+function tick( event: createjs.TickerEvent) {
+    if ( event.paused )
+        {
+        return;
+        }
+
+    STAGE.update();
+}
+
+
+/**
+ * Called during the loading of the assets. We show the current progress to the player.
+ */
+function progress( event: createjs.ProgressEvent ) {
+    Message.show( 'Loading ' + ( event.progress * 100 | 0 ) + '%', false );
+}

@@ -600,7 +600,7 @@ addTile( args: TileArgs )
 
     else
         {
-        args.gridObject.addTile( tile, args.column, args.line, false );
+        args.gridObject.addTile( tile, args.column, args.line );
         }
 
     this.all_tiles.push( tile );
@@ -818,7 +818,8 @@ addToScore( score: number )
 
 addTimerScore()
     {
-    this.addToScore( Map.TIMER_SCORE + this.hasShadows * Map.SHADOW_SCORE );
+    const shadowsNumber = this.hasShadows === true ? 1 : 0; // if the shadow option is being used, we add a penalty to the timer score
+    this.addToScore( Map.TIMER_SCORE + shadowsNumber * Map.SHADOW_SCORE );
     }
 
 

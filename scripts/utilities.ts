@@ -137,8 +137,7 @@ export function timeToString( dateMilliseconds: number )
         }
 
         //and the seconds
-    secondsLeft = round( dateMilliseconds / 1000, 2).toFixed( 1 );
-
+    secondsLeft = round( dateMilliseconds / 1000, 2);
 
         // :: construct the string :: //
 
@@ -169,12 +168,14 @@ export function timeToString( dateMilliseconds: number )
             break;
             }
 
+        const unit = theDate[ i ][ 0 ] as string;
+        const value = theDate[ i ][ 1 ] as number;
+
             // only show when there's something relevant to be shown
             // (for example: 0 days 2 hours 2 minutes... no point showing the days part)
-        if ( theDate[ i ][ 1 ] !== 0 )
+        if ( value !== 0 )
             {
-            date += constructDate( theDate[ i ][ 0 ], theDate[ i ][ 1 ] );
-
+            date += constructDate( unit, value );
             totalUnits--;
             }
         }
@@ -195,7 +196,6 @@ export function centerElement( element: HTMLElement )
     var canvasPosition = $( CANVAS ).position();
 
     var left = canvasWidth / 2 - $( element ).width()! / 2 + canvasPosition.left;
-
     var top = canvasHeight / 2 - $( element ).height()! / 2 + canvasPosition.top;
 
     $( element ).css({

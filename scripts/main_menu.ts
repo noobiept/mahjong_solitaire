@@ -144,7 +144,7 @@ else
 
             else
                 {
-                scoreElement.innerHTML = score;
+                scoreElement.innerHTML = score.toString();
                 }
 
             tableRow.appendChild( scoreElement );
