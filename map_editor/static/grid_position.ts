@@ -1,6 +1,4 @@
-/*exported GridPosition*/
-/*global Tile, createjs, STAGE*/
-'use strict';
+import * as Map from './map.js';
 
 
     // position in array corresponds to position in the grid
@@ -11,7 +9,7 @@ var ALL_POSITIONS = [];
 /**
  * Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square.
  */
-class GridPosition
+export default class GridPosition
 {
 constructor( column, line, gridObject, hidden )
     {
@@ -63,7 +61,7 @@ constructor( column, line, gridObject, hidden )
     }
 
 
-moveTo( x, y )
+moveTo( x: number, y: number )
     {
     this.container.x = x;
     this.container.y = y;
@@ -71,7 +69,7 @@ moveTo( x, y )
 
 
 /**
- * @param {Boolean} drawBelow If the tile is draw below all elements (z-index)
+ * @param drawBelow If the tile is draw below all elements (z-index)
  */
 onClick( drawBelow= true )
     {

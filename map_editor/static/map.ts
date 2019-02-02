@@ -1,10 +1,3 @@
-/*global Tile, updateMenuValues, GridPosition, Grid, STAGE, CANVAS*/
-/*eslint no-console: 0, no-unused-vars: 0*/
-'use strict';
-
-
-(function(window)
-{
 var ALL_GRIDS = [];
 var ALL_TILES = [];
 
@@ -12,10 +5,8 @@ var ALL_TILES = [];
 var SELECTED_GRID = -1;
 var TILES_LEFT = 144;
 
-var Map = {};
 
-
-Map.constructGrid = function( mapInfo )
+export function constructGrid( mapInfo )
 {
 var numberOfGrids;
 
@@ -87,13 +78,12 @@ for (let a = 0 ; a < numberOfGrids ; a++)
     startingY += 6;
     }
 
-Map.selectGrid( SELECTED_GRID );
-
+selectGrid( SELECTED_GRID );
 updateMenuValues( mapInfo );
-};
+}
 
 
-Map.constructMap = function( mapInfo )
+export function constructMap( mapInfo )
 {
 var mapDescription = mapInfo.mapDescription;
 
@@ -125,10 +115,10 @@ for (var a = 0 ; a < mapDescription.length ; a++)
             }
         }
     }
-};
+}
 
 
-Map.selectGrid = function( gridPosition )
+export function selectGrid( gridPosition )
 {
     // -1 is to show all grids, 0+ is to select a specific grid
 if ( gridPosition < -1 || gridPosition >= ALL_GRIDS.length )
@@ -215,10 +205,10 @@ else
     }
 
 SELECTED_GRID = gridPosition;
-};
+}
 
 
-Map.save = async function()
+export async function save()
 {
 var mapName = document.querySelector( '#mapName' ).value;
 
@@ -269,12 +259,12 @@ if ( response.status === 200 )
     {
     console.log( `Saved: ${mapName}` );
     }
-};
+}
 
 
-Map.load = async function( mapName )
+export async function load( mapName?: string )
 {
-Map.clear();
+clear();
 
     // try to load the latest map (that was loaded in the previous session)
 if ( typeof mapName === 'undefined' )
@@ -314,10 +304,10 @@ if ( typeof mapName === 'undefined' )
     catch( error ) {
         console.log( error );
     }
-};
+}
 
 
-Map.addTile = function( args )
+export function addTile( args )
 {
 args.mapObject = Map;
 
@@ -330,10 +320,10 @@ tile.container.removeAllEventListeners( 'click' );
 TILES_LEFT--;
 
 return tile;
-};
+}
 
 
-Map.removeTile = function( tileObject )
+export function removeTile( tileObject )
 {
 var position = ALL_TILES.indexOf( tileObject );
 
@@ -342,52 +332,52 @@ ALL_TILES.splice( position, 1 );
 tileObject.remove();
 
 TILES_LEFT++;
-};
+}
 
 
-Map.addGrid = function( args )
+export function addGrid( args )
 {
 var grid = new Grid( args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
 
 ALL_GRIDS.push( grid );
 
 return grid;
-};
+}
 
 
-Map.removeGrid = function( gridObject )
+export function removeGrid( gridObject )
 {
 var position = ALL_GRIDS.indexOf( gridObject );
 
 ALL_GRIDS.splice( position, 1 );
-};
+}
 
 
-Map.getGrid = function( position )
+export function getGrid( position )
 {
 return ALL_GRIDS[ position ];
-};
+}
 
 
-Map.getAllGrids = function()
+export function getAllGrids()
 {
 return ALL_GRIDS;
-};
+}
 
 
-Map.getAllTiles = function()
+export function getAllTiles()
 {
 return ALL_TILES;
-};
+}
 
 
-Map.removeAllGrids = function()
+export function removeAllGrids()
 {
 ALL_GRIDS.length = 0;
-};
+}
 
 
-Map.removeAllTiles = function()
+export function removeAllTiles()
 {
 for (var a = 0 ; a < ALL_TILES.length ; a++)
     {
@@ -395,10 +385,10 @@ for (var a = 0 ; a < ALL_TILES.length ; a++)
     }
 
 ALL_TILES.length = 0;
-};
+}
 
 
-Map.clear = function()
+export function clear()
 {
 GridPosition.removeAll();
 Map.removeAllGrids();
@@ -406,14 +396,10 @@ Map.removeAllGrids();
 TILES_LEFT = 144;
 
 document.querySelector( '#Grids-container' ).innerHTML = '';
-};
+}
 
 
-Map.updateTilesLeft = function()
+export function updateTilesLeft()
 {
 $( '#TilesLeft' ).text( 'Tiles Left: ' + TILES_LEFT );
-};
-
-
-window.Map = Map;
-}(window));
+}

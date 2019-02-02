@@ -1,16 +1,14 @@
-/*exported updateMenuValues*/
-/*global createjs, Utilities*/
-'use strict';
+import * as Map from './map.js';
 
 
-var CANVAS;
-var STAGE;
-var PRELOAD;
+var CANVAS: HTMLCanvasElement;
+var STAGE: createjs.Stage;
+var PRELOAD: createjs.LoadQueue;
 
 
 window.onload = function()
 {
-CANVAS = document.querySelector( '#canvas' );
+CANVAS = document.getElementById( 'canvas' ) as HTMLCanvasElement;
 CANVAS.width = 1500;
 CANVAS.height = 850;
 
@@ -21,27 +19,31 @@ createjs.Ticker.addEventListener('tick', function()
     STAGE.update();
     });
 
-document.querySelector( '#saveMap' ).onclick = Map.save;
-document.querySelector( '#loadMap' ).onclick = function()
+document.getElementById( 'saveMap' )!.onclick = Map.save;
+document.getElementById( 'loadMap' )!.onclick = function()
     {
-    var mapName = document.querySelector( '#mapName' ).value;
+    const label = document.getElementById('mapName') as HTMLInputElement;
+    var mapName = label.value;
 
     Map.load( mapName );
     };
 
-document.querySelector( '#Grids-seeAll').onclick = function()
+document.getElementById( 'Grids-seeAll' )!.onclick = function()
     {
     Map.selectGrid( -1 );
     };
 
-document.querySelector( '#newMap' ).onclick = function()
+document.getElementById( 'newMap' )!.onclick = function()
     {
-    var numberOfGrids = document.querySelector( '#grids' ).value;
-    var numberOfColumns = document.querySelector( '#columns' ).value;
-    var numberOfLines = document.querySelector( '#lines' ).value;
+    const gridsInput = document.getElementById( 'grids' ) as HTMLInputElement;
+    const columnsInput = document.getElementById( 'columns' ) as HTMLInputElement;
+    const linesInput = document.getElementById( 'lines' ) as HTMLInputElement;
+
+    var numberOfGrids = gridsInput.value;
+    var numberOfColumns = columnsInput.value;
+    var numberOfLines = linesInput.value;
 
     Map.clear();
-
     Map.constructGrid({
             numberOfColumns: parseInt( numberOfColumns ),
             numberOfLines: parseInt( numberOfLines ),
@@ -113,44 +115,3 @@ document.querySelector( '#mapName' ).value = mapInfo.mapName;
 
 Map.updateTilesLeft();
 }
-
-
-/*
- * For jquery ajax to work (server only)
- */
-jQuery(document).ajaxSend(function(event, xhr, settings) {
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    function sameOrigin(url) {
-        // url could be relative or scheme relative or absolute
-        var host = document.location.host; // host + port
-        var protocol = document.location.protocol;
-        var sr_origin = '//' + host;
-        var origin = protocol + sr_origin;
-        // Allow absolute or scheme relative URLs to same origin
-        return (url === origin || url.slice(0, origin.length + 1) === origin + '/') ||
-            (url === sr_origin || url.slice(0, sr_origin.length + 1) === sr_origin + '/') ||
-            // or any other URL that isn't scheme relative or absolute i.e relative.
-            !(/^(\/\/|http:|https:).*/.test(url));
-    }
-    function safeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    }
-});
