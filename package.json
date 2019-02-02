@@ -21,11 +21,13 @@
         "typescript": "^3.3.1"
     },
     "scripts": {
-        "dev": "npm-run-all --parallel dev:*",
-        "dev:game:watch": "tsc -w",
-        "dev:game:server": "http-server -p 8000 --silent",
-        "dev:map_editor:watch": "tsc -w --project ./map_editor/",
-        "dev:map_editor:server": "node map_editor/server.js",
+        "dev": "npm-run-all --parallel game:* map_editor:*",
+        "game": "npm-run-all --sequential game:*",
+        "game:watch": "tsc -w",
+        "game:server": "http-server -p 8000 --silent",
+        "map_editor": "npm-run-all --sequential map_editor:*",
+        "map_editor:watch": "tsc -w --project ./map_editor/",
+        "map_editor:server": "node map_editor/server.js",
         "build": "grunt"
     }
 }

@@ -7,6 +7,8 @@ There's also a map editor (requires python/django) that you can use to create yo
 # Commands #
 
 - `npm run dev`: Compile and run both the game and the map editor (go to `localhost:8000` to open the game, and to `localhost:8080` for the map editor).
+- `npm run game`: Run only the game compiler/server.
+- `npm run map_editor`: Run only the map editor compiler/server.
 - `npm run build`: Run the build script.
 
 
