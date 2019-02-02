@@ -1,9 +1,19 @@
 import * as Map from './map.js';
+import Tile from '/static/scripts/tile.js';
+import Grid from '/static/scripts/grid.js';
+import { STAGE } from './map_editor.js';
 
+
+export interface GridPositionArgs {
+    column: number;
+    line: number;
+    grid: Grid;
+    hidden: boolean;
+}
 
     // position in array corresponds to position in the grid
     // the value is another array with the GridPosition
-var ALL_POSITIONS = [];
+var ALL_POSITIONS: GridPosition[][] = [];
 
 
 /**
@@ -11,7 +21,18 @@ var ALL_POSITIONS = [];
  */
 export default class GridPosition
 {
-constructor( column, line, gridObject, hidden )
+container: createjs.Container;
+width: number;
+height: number;
+hasTile: boolean;
+tileObject: Tile | null;
+column: number;
+line: number;
+gridObject: Grid;
+gridPosition: number;
+
+
+constructor( args: GridPositionArgs )
     {
     var _this = this;
     var width = Tile.getImageWidth() / 2;
@@ -34,7 +55,7 @@ constructor( column, line, gridObject, hidden )
         _this.onClick();
         });
 
-    if ( hidden !== true )
+    if ( args.hidden !== true )
         {
         STAGE.addChild( container );
         }
@@ -44,11 +65,11 @@ constructor( column, line, gridObject, hidden )
     this.height = height;
     this.hasTile = false;
     this.tileObject = null;
-    this.column = column;
-    this.line = line;
-    this.gridObject = gridObject;
+    this.column = args.column;
+    this.line = args.line;
+    this.gridObject = args.grid;
 
-    var gridPosition = gridObject.position;
+    var gridPosition = args.grid.position;
 
     if ( !ALL_POSITIONS[ gridPosition ] )
         {
@@ -100,7 +121,7 @@ onClick( drawBelow= true )
         tile.container.y = this.container.y;
 
             // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
-        if ( drawBelow !== false )
+        if ( drawBelow !== false && this.tileObject && this.tileObject.container )
             {
             STAGE.setChildIndex( this.tileObject.container, 0 );
             }
@@ -114,7 +135,7 @@ show()
     {
     STAGE.addChild( this.container );
 
-    if ( this.tileObject )
+    if ( this.tileObject && this.tileObject.container )
         {
         STAGE.addChild( this.tileObject.container );
         }
@@ -125,7 +146,7 @@ hide()
     {
     STAGE.removeChild( this.container );
 
-    if ( this.tileObject )
+    if ( this.tileObject && this.tileObject.container )
         {
         STAGE.removeChild( this.tileObject.container );
         }
@@ -172,7 +193,7 @@ static removeAll()
 /*
     Get all the GridPosition elements from a selected grid
  */
-static getGrid( gridPosition )
+static getGrid( gridPosition: number )
     {
     return ALL_POSITIONS[ gridPosition ];
     }

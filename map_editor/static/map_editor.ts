@@ -1,9 +1,10 @@
 import * as Map from './map.js';
+import { MapInfo } from '../../scripts/map.js';
 
 
-var CANVAS: HTMLCanvasElement;
-var STAGE: createjs.Stage;
-var PRELOAD: createjs.LoadQueue;
+export var CANVAS: HTMLCanvasElement;
+export var STAGE: createjs.Stage;
+export var PRELOAD: createjs.LoadQueue;
 
 
 window.onload = function()
@@ -71,24 +72,24 @@ PRELOAD.addEventListener( 'complete', function()
 /**
  * - 1, 2, ..., 9: Select a specific grid.
  * - a: See all the grids.
- *
- * @param {KeyboardEvent} event
  */
-function keyboardShortcuts( event )
+function keyboardShortcuts( event: KeyboardEvent )
 {
-var key = event.keyCode;
+var key = event.key;
 var selectGrid = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
 
 for (var a = 0 ; a < selectGrid.length ; a++)
     {
-    if ( key === Utilities.EVENT_KEY[ selectGrid[ a ] ] )
+    const gridId = selectGrid[ a ];
+
+    if ( event.key === gridId )
         {
         Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
         return;
         }
     }
 
-if ( key === Utilities.EVENT_KEY[ 'a' ] )
+if ( key.toLowerCase() === 'a' )
     {
     Map.selectGrid( -1 );
     }
@@ -98,7 +99,7 @@ if ( key === Utilities.EVENT_KEY[ 'a' ] )
 /**
  * Update the number of grids/columns/lines value in the menu's input elements.
  */
-function updateMenuValues( mapInfo )
+export function updateMenuValues( mapInfo: MapInfo )
 {
 var numberOfGrids = Map.getAllGrids().length;
 
@@ -108,10 +109,15 @@ var grid = Map.getGrid( 0 );
 var numberOfColumns = grid.numberOfColumns;
 var numberOfLines = grid.numberOfLines;
 
-document.querySelector( '#grids' ).value = numberOfGrids;
-document.querySelector( '#columns' ).value = numberOfColumns;
-document.querySelector( '#lines' ).value = numberOfLines;
-document.querySelector( '#mapName' ).value = mapInfo.mapName;
+const gridsInput = document.getElementById( 'grids' ) as HTMLInputElement;
+const columnsInput = document.getElementById( 'columns' ) as HTMLInputElement;
+const linesInput = document.getElementById( 'lines' ) as HTMLInputElement;
+const mapNameInput = document.getElementById( 'mapName' ) as HTMLInputElement;
+
+gridsInput.value = numberOfGrids.toString();
+columnsInput.value = numberOfColumns;
+linesInput.value = numberOfLines;
+mapNameInput.value = mapInfo.mapName;
 
 Map.updateTilesLeft();
 }

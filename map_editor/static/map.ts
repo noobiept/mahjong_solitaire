@@ -1,3 +1,9 @@
+import Tile from '/static/scripts/tile.js';
+import Grid from '/static/scripts/grid.js';
+import GridPosition from './grid_position.js';
+import { CANVAS, updateMenuValues } from './map_editor.js';
+
+
 var ALL_GRIDS = [];
 var ALL_TILES = [];
 
@@ -35,7 +41,7 @@ var gridsContainer = document.querySelector( '#Grids-container' );
 
 for (let a = 0 ; a < numberOfGrids ; a++)
     {
-    Map.addGrid({
+    addGrid({
             numberOfColumns : columns + 1,
             numberOfLines   : lines
         });
@@ -49,7 +55,7 @@ for (let a = 0 ; a < numberOfGrids ; a++)
         {
         var newGrid = parseInt( $( this ).text() ) - 1;
 
-        Map.selectGrid( newGrid );
+        selectGrid( newGrid );
         };
 
     gridsContainer.appendChild( gridElement );
@@ -62,13 +68,18 @@ SELECTED_GRID = -1;
 
 for (let a = 0 ; a < numberOfGrids ; a++)
     {
-    grid = Map.getGrid( a );
+    grid = getGrid( a );
 
     for (var b = 0 ; b < columns ; b++)
         {
         for (var c = 0 ; c < lines ; c++)
             {
-            var gridPosition = new GridPosition( b, c, grid, true );
+            var gridPosition = new GridPosition({
+                column: b,
+                line: c,
+                grid: grid,
+                hidden: true
+            });
 
             gridPosition.moveTo( startingX + tileWidth * b, startingY + tileHeight * c );
             }
@@ -133,7 +144,7 @@ if ( gridPosition === SELECTED_GRID )
     }
 
 var previousGridPositions;
-var allTiles = Map.getAllTiles();
+var allTiles = getAllTiles();
 var allGridPositions = GridPosition.getAll();
 
     // show all the tiles (but not the GridPosition)
@@ -212,9 +223,9 @@ export async function save()
 {
 var mapName = document.querySelector( '#mapName' ).value;
 
-var grid = Map.getGrid( 0 );
-var allGrids = Map.getAllGrids();
-var allTiles = Map.getAllTiles();
+var grid = getGrid( 0 );
+var allGrids = getAllGrids();
+var allTiles = getAllTiles();
 
 var numberOfColumns = grid.numberOfColumns;
 var numberOfLines = grid.numberOfLines;
@@ -294,8 +305,8 @@ if ( typeof mapName === 'undefined' )
         } );
         const mapInfo = await response.json();
 
-        Map.constructGrid( mapInfo );
-        Map.constructMap( mapInfo );
+        constructGrid( mapInfo );
+        constructMap( mapInfo );
 
         localStorage.setItem( 'previousMap', mapName );
         console.log( `Loaded: ${mapName}` );
@@ -391,7 +402,7 @@ ALL_TILES.length = 0;
 export function clear()
 {
 GridPosition.removeAll();
-Map.removeAllGrids();
+removeAllGrids();
 
 TILES_LEFT = 144;
 
