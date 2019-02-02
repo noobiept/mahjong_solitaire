@@ -5,6 +5,7 @@ import * as HighScore from './high_score.js';
 import * as MainMenu from './main_menu.js';
 import * as Sound from './sound.js';
 import * as Game from './game.js';
+import { MapInfo } from './map.js';
 
 
 export var CANVAS: HTMLCanvasElement;
@@ -111,11 +112,11 @@ PRELOAD.addEventListener( 'complete', function()
 
         // the order of the array needs to match the order of the html elements in the main menu
     MainMenu.init([
-            { name: 'Pyramid',  info: PRELOAD.getResult( 'map_pyramid' ) },
-            { name: 'Tower', info: PRELOAD.getResult( 'map_tower' ) },
-            { name: 'Fish', info: PRELOAD.getResult( 'map_fish' ) },
-            { name: 'Crossroads', info: PRELOAD.getResult( 'map_crossroads' ) },
-            { name: 'Cross', info: PRELOAD.getResult( 'map_cross' ) }
+        PRELOAD.getResult( 'map_pyramid' ) as MapInfo,
+        PRELOAD.getResult( 'map_tower' ) as MapInfo,
+        PRELOAD.getResult( 'map_fish' ) as MapInfo,
+        PRELOAD.getResult( 'map_crossroads' ) as MapInfo,
+        PRELOAD.getResult( 'map_cross' ) as MapInfo
         ]);
     MainMenu.open();
     Sound.init();

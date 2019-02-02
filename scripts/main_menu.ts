@@ -1,5 +1,6 @@
 import * as Game from './game.js';
 import * as HighScore from './high_score.js';
+import * as Utilities from './utilities.js';
 import { MapInfo } from './map.js';
 
 
@@ -14,7 +15,7 @@ var SELECTED_MAP = 0;
 var MAPS_ELEMENTS: HTMLElement[] = [];
 
 
-export function init( maps )
+export function init( maps: MapInfo[] )
 {
 MENU = document.getElementById( 'MainMenu' )!;
 HIGH_SCORE = document.getElementById( 'HighScore' )!;
@@ -26,7 +27,7 @@ var highScore = document.getElementById( 'MainMenu-highScore' )!;
 startGame.onclick = function( event )
     {
     hide();
-    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, false );
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], false );
 
     event.stopPropagation();
     };
@@ -34,7 +35,7 @@ startGame.onclick = function( event )
 twoPlayers.onclick = function( event )
     {
     hide();
-    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ].info, true );
+    Game.start( MAPS_AVAILABLE[ SELECTED_MAP ], true );
 
     event.stopPropagation();
     };
@@ -52,9 +53,11 @@ var selectMapContainer = document.getElementById( 'MainMenu-selectMap' );
 
 for (var a = 0 ; a < maps.length ; a++)
     {
+    const capitalizedName = Utilities.capitalize( maps[ a ].mapName );
+
     var item = document.createElement( 'div' );
     item.className = 'button';
-    item.innerText = maps[ a ].name;
+    item.innerText = capitalizedName;
     item.setAttribute( 'data-position', a );
     item.onclick = function()
         {

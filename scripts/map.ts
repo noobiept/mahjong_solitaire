@@ -21,7 +21,7 @@ export interface MapTilePosition extends MapPosition
 
 export interface MapInfo
     {
-    mapName: number;
+    mapName: string;
     numberOfColumns: number;
     numberOfLines: number;
     mapDescription: MapPosition[][];    // first dimension is the grid, and then its a list of positions where the tiles are positioned (check the maps in the `/maps/*.json` for examples)
