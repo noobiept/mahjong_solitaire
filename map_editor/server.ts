@@ -1,7 +1,7 @@
-const Express = require( 'express' );
-const BodyParser = require( 'body-parser' );
-const Path = require( 'path' );
-const Fs = require( 'fs' );
+import * as Express from 'express';
+import * as BodyParser from 'body-parser';
+import * as Path from 'path';
+import * as Fs from 'fs';
 
 const app = Express();
 const port = 8080;
