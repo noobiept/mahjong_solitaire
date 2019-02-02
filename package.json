@@ -26,7 +26,8 @@
         "game:watch": "tsc -w",
         "game:server": "http-server -p 8000 --silent",
         "map_editor": "npm-run-all --sequential map_editor:*",
-        "map_editor:watch": "tsc -w --project ./map_editor/",
+        "map_editor:watchClient": "tsc -w --project ./map_editor/static/",
+        "map_editor:watchServer": "tsc -w --project ./map_editor/",
         "map_editor:server": "node map_editor/server.js",
         "build": "grunt"
     }
