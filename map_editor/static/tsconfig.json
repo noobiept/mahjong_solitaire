@@ -5,6 +5,7 @@
         "strict": true
     },
     "include": [
-        "*.ts"
+        "**/*.ts",
+        "../../scripts/**/*.ts"
     ]
 }

@@ -1,5 +1,4 @@
 import * as Map from './map.js';
-import { MapInfo } from '../../scripts/map.js';
 
 
 export var CANVAS: HTMLCanvasElement;
@@ -99,7 +98,7 @@ if ( key.toLowerCase() === 'a' )
 /**
  * Update the number of grids/columns/lines value in the menu's input elements.
  */
-export function updateMenuValues( mapInfo: MapInfo )
+export function updateMenuValues( mapName: string )
 {
 var numberOfGrids = Map.getAllGrids().length;
 
@@ -117,7 +116,7 @@ const mapNameInput = document.getElementById( 'mapName' ) as HTMLInputElement;
 gridsInput.value = numberOfGrids.toString();
 columnsInput.value = numberOfColumns;
 linesInput.value = numberOfLines;
-mapNameInput.value = mapInfo.mapName;
+mapNameInput.value = mapName;
 
 Map.updateTilesLeft();
 }

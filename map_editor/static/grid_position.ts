@@ -1,6 +1,8 @@
-import * as Map from './map.js';
+// @ts-ignore
 import Tile from '/static/scripts/tile.js';
+// @ts-ignore
 import Grid from '/static/scripts/grid.js';
+import * as Map from './map.js';
 import { STAGE } from './map_editor.js';
 
 

@@ -1,22 +1,36 @@
+// @ts-ignore
 import Tile from '/static/scripts/tile.js';
+// @ts-ignore
 import Grid from '/static/scripts/grid.js';
 import GridPosition from './grid_position.js';
-import { CANVAS, updateMenuValues } from './map_editor.js';
+import { CANVAS, STAGE, updateMenuValues } from './map_editor.js';
+import { MapInfo } from '../../scripts/map.js';
+import { Omit } from '../../scripts/utilities.js';
+import { GridArgs } from '../../scripts/grid.js';
+import { TileArgs } from '../../scripts/tile.js';
 
 
-var ALL_GRIDS = [];
-var ALL_TILES = [];
+export interface ConstructArgs {
+    numberOfColumns: number;
+    numberOfLines: number;
+    numberOfGrids: number;
+    mapName: string;
+}
+
+
+var ALL_GRIDS: Grid[] = [];
+var ALL_TILES: Tile[] = [];
 
     // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
 var SELECTED_GRID = -1;
 var TILES_LEFT = 144;
 
 
-export function constructGrid( mapInfo )
+export function constructGrid( mapInfo: ConstructArgs | MapInfo )
 {
 var numberOfGrids;
 
-if ( mapInfo.numberOfGrids )
+if ( 'numberOfGrids' in mapInfo )
     {
     numberOfGrids = mapInfo.numberOfGrids;
     }
@@ -37,7 +51,7 @@ var startingY = 0;
 CANVAS.width = columns * tileWidth + startingX;
 CANVAS.height = lines * tileHeight + startingY;
 
-var gridsContainer = document.querySelector( '#Grids-container' );
+var gridsContainer = document.getElementById( 'Grids-container' )!;
 
 for (let a = 0 ; a < numberOfGrids ; a++)
     {
@@ -49,8 +63,7 @@ for (let a = 0 ; a < numberOfGrids ; a++)
 
     var gridElement = document.createElement( 'div' );
 
-    $( gridElement ).text( a + 1 );
-
+    gridElement.innerText = (a + 1).toString();
     gridElement.onclick = function()
         {
         var newGrid = parseInt( $( this ).text() ) - 1;
@@ -90,11 +103,11 @@ for (let a = 0 ; a < numberOfGrids ; a++)
     }
 
 selectGrid( SELECTED_GRID );
-updateMenuValues( mapInfo );
+updateMenuValues( mapInfo.mapName );
 }
 
 
-export function constructMap( mapInfo )
+export function constructMap( mapInfo: MapInfo )
 {
 var mapDescription = mapInfo.mapDescription;
 
@@ -129,7 +142,7 @@ for (var a = 0 ; a < mapDescription.length ; a++)
 }
 
 
-export function selectGrid( gridPosition )
+export function selectGrid( gridPosition: number )
 {
     // -1 is to show all grids, 0+ is to select a specific grid
 if ( gridPosition < -1 || gridPosition >= ALL_GRIDS.length )
@@ -221,7 +234,8 @@ SELECTED_GRID = gridPosition;
 
 export async function save()
 {
-var mapName = document.querySelector( '#mapName' ).value;
+const mapNameInput = document.getElementById( 'mapName' ) as HTMLInputElement;
+var mapName = mapNameInput.value;
 
 var grid = getGrid( 0 );
 var allGrids = getAllGrids();
@@ -318,7 +332,7 @@ if ( typeof mapName === 'undefined' )
 }
 
 
-export function addTile( args )
+export function addTile( args: TileArgs )
 {
 args.mapObject = Map;
 
@@ -334,7 +348,7 @@ return tile;
 }
 
 
-export function removeTile( tileObject )
+export function removeTile( tileObject: Tile )
 {
 var position = ALL_TILES.indexOf( tileObject );
 
@@ -346,7 +360,7 @@ TILES_LEFT++;
 }
 
 
-export function addGrid( args )
+export function addGrid( args: Omit<GridArgs, 'position'> )
 {
 var grid = new Grid( args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
 
@@ -356,7 +370,7 @@ return grid;
 }
 
 
-export function removeGrid( gridObject )
+export function removeGrid( gridObject: Grid )
 {
 var position = ALL_GRIDS.indexOf( gridObject );
 
@@ -364,7 +378,7 @@ ALL_GRIDS.splice( position, 1 );
 }
 
 
-export function getGrid( position )
+export function getGrid( position: number )
 {
 return ALL_GRIDS[ position ];
 }
@@ -406,7 +420,7 @@ removeAllGrids();
 
 TILES_LEFT = 144;
 
-document.querySelector( '#Grids-container' ).innerHTML = '';
+document.getElementById( 'Grids-container' )!.innerHTML = '';
 }
 
 
