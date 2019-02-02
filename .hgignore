@@ -3,6 +3,7 @@ syntax: glob
 release/
 node_modules/
 scripts/**/*.js
+map_editor/**/*.js
 *.svg
 *.psd
 info.txt
