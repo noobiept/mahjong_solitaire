@@ -42,3 +42,16 @@ export function setData( items: Dict, callback?: () => void )
         callback();
         }
     }
+
+
+/**
+ * Remove the given keys from the `localStorage`.
+ */
+export function removeData( keys: string[] )
+    {
+    for (let a = 0 ; a < keys.length ; a++)
+        {
+        const key = keys[ a ];
+        localStorage.removeItem( key );
+        }
+    }
