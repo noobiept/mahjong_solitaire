@@ -179,15 +179,13 @@ if ( gridPosition < 0 )
 
         for (var b = 0 ; b < individualGrid.length ; b++)
             {
-            var gridPositionObject = individualGrid[ b ];
-
-            if ( gridPositionObject.tileObject )
+            const tile = individualGrid[ b ].tileObject;
+            if ( tile && tile.container )
                 {
-                STAGE.addChild( gridPositionObject.tileObject.container );
+                STAGE.addChild( tile.container );
                 }
             }
         }
-
 
     $( '#Grids-currentGrid' ).text( 'All Grids.' );
     }
@@ -201,7 +199,11 @@ else
             // hide all tiles
         for (let a = 0 ; a < allTiles.length ; a++)
             {
-            STAGE.removeChild( allTiles[ a ].container );
+            const container = allTiles[ a ].container;
+            if ( container )
+                {
+                STAGE.removeChild( container );
+                }
             }
         }
 
@@ -338,7 +340,9 @@ var tile = new Tile( args );
 
 ALL_TILES.push( tile );
 
-tile.container.removeAllEventListeners( 'click' );
+if ( tile.container ) {
+    tile.container.removeAllEventListeners( 'click' );
+}
 
 TILES_LEFT--;
 
@@ -360,7 +364,11 @@ TILES_LEFT++;
 
 export function addGrid( args: Omit<GridArgs, 'position'> )
 {
-var grid = new Grid( args.numberOfColumns, args.numberOfLines, ALL_GRIDS.length );
+var grid = new Grid({
+    numberOfColumns: args.numberOfColumns,
+    numberOfLines: args.numberOfLines,
+    position: ALL_GRIDS.length
+});
 
 ALL_GRIDS.push( grid );
 

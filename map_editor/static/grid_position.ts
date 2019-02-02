@@ -100,7 +100,11 @@ onClick( drawBelow= true )
         {
         this.hasTile = false;
 
-        Map.removeTile( this.tileObject );
+        if ( this.tileObject )
+            {
+            Map.removeTile( this.tileObject );
+            }
+
         this.tileObject = null;
         }
 
@@ -117,10 +121,13 @@ onClick( drawBelow= true )
 
         this.tileObject = tile;
 
-        tile.container.scaleX = 2;
-        tile.container.scaleY = 2;
-        tile.container.x = this.container.x;
-        tile.container.y = this.container.y;
+        if ( tile.container )
+            {
+            tile.container.scaleX = 2;
+            tile.container.scaleY = 2;
+            tile.container.x = this.container.x;
+            tile.container.y = this.container.y;
+            }
 
             // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
         if ( drawBelow !== false && this.tileObject && this.tileObject.container )

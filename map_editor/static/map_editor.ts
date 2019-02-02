@@ -114,8 +114,8 @@ const linesInput = document.getElementById( 'lines' ) as HTMLInputElement;
 const mapNameInput = document.getElementById( 'mapName' ) as HTMLInputElement;
 
 gridsInput.value = numberOfGrids.toString();
-columnsInput.value = numberOfColumns;
-linesInput.value = numberOfLines;
+columnsInput.value = numberOfColumns.toString();
+linesInput.value = numberOfLines.toString();
 mapNameInput.value = mapName;
 
 Map.updateTilesLeft();
