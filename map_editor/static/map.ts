@@ -4,7 +4,7 @@ import Tile from '/static/scripts/tile.js';
 import Grid from '/static/scripts/grid.js';
 import GridPosition from './grid_position.js';
 import { CANVAS, STAGE, updateMenuValues } from './map_editor.js';
-import { MapInfo } from '../../scripts/map.js';
+import { MapInfo, MapPosition } from '../../scripts/map.js';
 import { Omit } from '../../scripts/utilities.js';
 import { GridArgs } from '../../scripts/grid.js';
 import { TileArgs } from '../../scripts/tile.js';
@@ -244,7 +244,7 @@ var allTiles = getAllTiles();
 var numberOfColumns = grid.numberOfColumns;
 var numberOfLines = grid.numberOfLines;
 var a;
-var mapDescription = [];
+var mapDescription: MapPosition[][] = [];
 
     // init mapDescription
 for (a = 0 ; a < allGrids.length ; a++)
@@ -334,8 +334,6 @@ if ( typeof mapName === 'undefined' )
 
 export function addTile( args: TileArgs )
 {
-args.mapObject = Map;
-
 var tile = new Tile( args );
 
 ALL_TILES.push( tile );

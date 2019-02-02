@@ -42,7 +42,7 @@ constructor( args: GridPositionArgs )
 
     var container = new createjs.Container();
 
-    container.setBounds( width, height );
+    container.setBounds( 0, 0, width, height );
 
     var background = new createjs.Shape();
 
