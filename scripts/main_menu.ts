@@ -12,7 +12,7 @@ var MAPS_AVAILABLE: MapInfo[] = [];
 var SELECTED_MAP = 0;
 
     // has reference for the html elements used to select the map in the main menu
-var MAPS_ELEMENTS: HTMLElement[] = [];
+var MAPS_ELEMENTS: Element[] = [];
 
 
 export function init( maps: MapInfo[] )
@@ -49,7 +49,7 @@ highScore.onclick = function( event )
     };
 
 
-var selectMapContainer = document.getElementById( 'MainMenu-selectMap' );
+var selectMapContainer = document.getElementById( 'MainMenu-selectMap' )!;
 
 for (var a = 0 ; a < maps.length ; a++)
     {
@@ -58,18 +58,18 @@ for (var a = 0 ; a < maps.length ; a++)
     var item = document.createElement( 'div' );
     item.className = 'button';
     item.innerText = capitalizedName;
-    item.setAttribute( 'data-position', a );
+    item.setAttribute( 'data-position', a.toString() );
     item.onclick = function()
         {
-            // this points to the html element
-        selectMap( parseInt( this.getAttribute( 'data-position' ), 10 ) );
+        const position = parseInt( item.getAttribute( 'data-position' )!, 10 );
+        selectMap( position );
         }
 
     selectMapContainer.appendChild( item );
     }
 
 MAPS_AVAILABLE = maps;
-MAPS_ELEMENTS = selectMapContainer.children;
+MAPS_ELEMENTS = Array.from( selectMapContainer.children );
 }
 
 
@@ -107,13 +107,12 @@ else
     var tableRow = document.createElement( 'tr' );
     var headers = [ '' ].concat( keys );
     var tableHeader;
-    var a, b;
     var positionElement, scoreElement;
     var score;
     var mapScoreList;
     var maxScores = HighScore.getMaxScoresSaved();
 
-    for (a = 0 ; a < headers.length ; a++)
+    for (let a = 0 ; a < headers.length ; a++)
         {
         tableHeader = document.createElement( 'th' );
 
@@ -124,15 +123,15 @@ else
     table.appendChild( tableRow );
 
 
-    for (a = 0 ; a < maxScores ; a++)
+    for (let a = 0 ; a < maxScores ; a++)
         {
         tableRow = document.createElement( 'tr' );
         positionElement = document.createElement( 'td' );
 
-        positionElement.innerHTML = a + 1;
+        positionElement.innerHTML = (a + 1).toString();
         tableRow.appendChild( positionElement );
 
-        for (b = 0 ; b < keys.length ; b++)
+        for (let b = 0 ; b < keys.length ; b++)
             {
             mapScoreList = scores[ keys[ b ] ];
             score = mapScoreList[ a ];

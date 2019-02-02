@@ -27,7 +27,7 @@ export function getData( keys: string[], callback: (objects: Dict) => void )
  * Sets the given key/value into `localStorage`. Calls the `callback` when its done.
  * Converts the value to string (with json).
  */
-export function setData( items: Dict, callback: () => void )
+export function setData( items: Dict, callback?: () => void )
     {
     for ( var key in items )
         {

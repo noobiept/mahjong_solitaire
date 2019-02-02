@@ -1,11 +1,19 @@
+import * as AppStorage from './app_storage.js';
+
+
+export interface Score {
+    [mapName: string]: number[];
+}
+
+
     // HIGH_SCORE = { mapName: [ time1, time2, ... ] }
-var HIGH_SCORE = {};
+var HIGH_SCORE: Score = {};
 
     // max. number of scores saved per map (the top 5 scores)
 var MAX_SCORES_SAVED = 5;
 
 
-export function load( score )
+export function load( score: Score )
 {
 if ( score )
     {
@@ -20,7 +28,7 @@ AppStorage.setData({ mahjong_high_score: HIGH_SCORE });
 }
 
 
-export function add( mapName, score: number )
+export function add( mapName: string, score: number )
 {
 if ( !HIGH_SCORE[ mapName ] )
     {
@@ -41,7 +49,7 @@ if ( HIGH_SCORE[ mapName ].length > MAX_SCORES_SAVED )
     HIGH_SCORE[ mapName ].pop();
     }
 
-HighScore.save();
+save();
 }
 
 
@@ -51,7 +59,7 @@ return HIGH_SCORE;
 }
 
 
-export function get( mapName )
+export function get( mapName: string )
 {
 return HIGH_SCORE[ mapName ];
 }
@@ -59,8 +67,7 @@ return HIGH_SCORE[ mapName ];
 
 export function removeAll()
 {
-HIGH_SCORE.length = 0;
-
+HIGH_SCORE = {};
 AppStorage.removeData( [ 'mahjong_high_score' ] );
 }
 
