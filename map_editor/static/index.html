@@ -1,70 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Map Editor</title>
+    <head>
+        <title>Map Editor</title>
 
-    <script type="text/javascript" src="static/libraries/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="static/libraries/easeljs-0.8.2.min.js"></script>
-    <script type="text/javascript" src="static/libraries/preloadjs-0.6.2.min.js"></script>
+        <script
+            type="text/javascript"
+            src="static/libraries/jquery-3.2.1.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="static/libraries/easeljs-0.8.2.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="static/libraries/preloadjs-0.6.2.min.js"
+        ></script>
 
-    <script type="module" src="map_editor.js"></script>
+        <script type="module" src="map_editor.js"></script>
 
-    <style type="text/css">
-
-        #canvas
-            {
-            margin-left: 200px;
-            border: 1px solid black;
+        <style type="text/css">
+            #canvas {
+                margin-left: 200px;
+                border: 1px solid black;
             }
 
-        #menu > *
-            {
-            display: inline-block;
+            #menu > * {
+                display: inline-block;
             }
 
-        #Grids-container > *, #Grids-seeAll
-            {
-            display: inline-block;
-            margin: 0 10px;
-            cursor: pointer;
+            #Grids-container > *,
+            #Grids-seeAll {
+                display: inline-block;
+                margin: 0 10px;
+                cursor: pointer;
             }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
 
-    </style>
-</head>
-<body>
+        <div id="menu">
+            <div id="Grids-container"></div>
 
-<canvas id="canvas"></canvas>
+            <div id="Grids-seeAll">See All Grids</div>
+            <div id="Grids-currentGrid">All Grids.</div>
 
-<div id="menu">
+            <div id="TilesLeft">Tiles Left: 144</div>
 
-    <div id="Grids-container"></div>
+            <br />
 
-    <div id="Grids-seeAll">See All Grids</div>
-    <div id="Grids-currentGrid">All Grids.</div>
+            <label for="grids">Grids</label>
+            <input id="grids" type="number" />
 
-    <div id="TilesLeft">Tiles Left: 144</div>
+            <label for="columns">Columns</label>
+            <input id="columns" type="number" />
 
-    <br />
+            <label for="lines">Lines</label>
+            <input id="lines" type="number" />
 
-    <label for="grids">Grids</label>
-    <input id="grids" type="number" />
+            <input id="newMap" type="button" value="New Map" />
 
-    <label for="columns">Columns</label>
-    <input id="columns" type="number" />
+            <br />
 
-    <label for="lines">Lines</label>
-    <input id="lines" type="number" />
+            <label for="mapName">Map Name</label>
+            <input id="mapName" type="text" />
 
-    <input id="newMap" type="button" value="New Map" />
-
-    <br />
-
-    <label for="mapName">Map Name</label>
-    <input id="mapName" type="text" />
-
-    <input id="saveMap" type="button" value="Save" />
-    <input id="loadMap" type="button" value="Load" />
-</div>
-
-</body>
+            <input id="saveMap" type="button" value="Save" />
+            <input id="loadMap" type="button" value="Load" />
+        </div>
+    </body>
 </html>

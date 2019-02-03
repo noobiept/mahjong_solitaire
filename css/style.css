@@ -1,11 +1,9 @@
-html
-    {
+html {
     min-height: 100%;
     height: 100%;
-    }
+}
 
-body
-    {
+body {
     background-color: rgb(40, 40, 40);
     color: white;
     text-align: center;
@@ -13,28 +11,27 @@ body
 
     min-height: 100%;
     height: 100%;
-    }
+}
 
-#GameMenu, #MainMenu, #HighScore, #mainCanvas
-    {
+#GameMenu,
+#MainMenu,
+#HighScore,
+#mainCanvas {
     display: none;
-    }
+}
 
-.button
-    {
+.button {
     cursor: pointer;
     color: white;
     padding: 5px 25px;
-    }
+}
 
-.button:hover
-    {
+.button:hover {
     border-left: 1px dotted rgba(100, 100, 255, 0.5);
     border-right: 1px dotted rgba(100, 100, 255, 0.5);
-    }
+}
 
-#Message
-    {
+#Message {
     display: none;
     background-color: black;
     font-size: 1.5em;
@@ -42,31 +39,28 @@ body
     cursor: default;
     position: fixed;
     left: 0;
-    right: 0;   /* center aligned */
-    }
+    right: 0; /* center aligned */
+}
 
-#AudioControl
-    {
+#AudioControl {
     position: fixed;
     top: 0;
     right: 0;
     cursor: pointer;
-    }
+}
 
-.inactive
-    {
+.inactive {
     text-decoration: line-through;
-    }
+}
 
-.hidden
-    {
+.hidden {
     display: none;
-    }
+}
 
-    /* ::: Main Menu ::: */
+/* ::: Main Menu ::: */
 
-#MainMenu, #HighScore
-    {
+#MainMenu,
+#HighScore {
     /*display: flex; set in code*/
     flex-direction: column;
     justify-content: center;
@@ -74,87 +68,77 @@ body
     align-content: center;
     align-self: center;
     height: 100%;
-    }
+}
 
-    /* Select Map */
+/* Select Map */
 
-#MainMenu-selectMap
-    {
+#MainMenu-selectMap {
     margin-bottom: 10px;
-    }
+}
 
-#MainMenu-selectMap > *
-    {
+#MainMenu-selectMap > * {
     display: table-cell;
     width: 100px;
     height: 100px;
     text-align: center;
     vertical-align: middle;
-    }
+}
 
-.mapSelected
-    {
+.mapSelected {
     border-radius: 15px;
     background-color: rgba(100, 100, 255, 0.5);
-    }
+}
 
-#MainMenu-selectMap > *:hover
-    {
+#MainMenu-selectMap > *:hover {
     border-radius: 15px;
     border: 1px solid rgba(100, 100, 255, 0.5);
-    }
+}
 
-    /* High Score */
+/* High Score */
 
-#HighScore-table
-    {
+#HighScore-table {
     border-spacing: 0;
-    }
+}
 
-#HighScore-table td, #HighScore-table th
-    {
+#HighScore-table td,
+#HighScore-table th {
     padding: 5px 10px;
     min-width: 40px;
-    }
+}
 
-#HighScore-table td:first-child, #HighScore-table th:not(:first-child)
-    {
+#HighScore-table td:first-child,
+#HighScore-table th:not(:first-child) {
     background-color: rgb(90, 90, 90);
-    }
+}
 
-#HighScore-back
-    {
+#HighScore-back {
     margin: 20px;
-    }
+}
 
-    /* ::: Game Menu ::: */
+/* ::: Game Menu ::: */
 
-#GameMenu
-    {
+#GameMenu {
     justify-content: space-between;
     margin-bottom: 5px;
-    }
+}
 
-.GameMenu-infoContainer > *, #GameMenu-right > *
-    {
+.GameMenu-infoContainer > *,
+#GameMenu-right > * {
     display: inline-block;
     margin: 0 10px;
-    }
+}
 
-#GameMenu-left > *
-    {
+#GameMenu-left > * {
     display: inline-block;
-    }
+}
 
-.GameMenu-infoContainer
-    {
+.GameMenu-infoContainer {
     display: inline-block;
     margin-right: 40px;
-    }
+}
 
-.MapInformation-playerNumber
-    {
+.MapInformation-playerNumber {
     background-color: rgba(100, 100, 255, 0.5);
     border-radius: 5px;
     padding: 0 8px;
-    }
+}

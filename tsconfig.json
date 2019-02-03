@@ -4,7 +4,5 @@
         "module": "es2015",
         "strict": true
     },
-    "include": [
-        "scripts/**/*.ts"
-    ]
+    "include": ["scripts/**/*.ts"]
 }
