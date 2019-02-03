@@ -44,10 +44,10 @@ export function init(maps: MapInfo[]) {
 
     var selectMapContainer = document.getElementById("MainMenu-selectMap")!;
 
-    for (var a = 0; a < maps.length; a++) {
+    for (let a = 0; a < maps.length; a++) {
         const capitalizedName = Utilities.capitalize(maps[a].mapName);
 
-        var item = document.createElement("div");
+        let item = document.createElement("div");
         item.className = "button";
         item.innerText = capitalizedName;
         item.setAttribute("data-position", a.toString());
