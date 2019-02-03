@@ -1,0 +1,9 @@
+.vscode/
+audio/
+images/
+libraries/
+map_images/
+maps/
+release/
+node_modules/
+package-lock.json

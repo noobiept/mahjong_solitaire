@@ -17,8 +17,20 @@
         "grunt-processhtml": "~0.4.2",
         "http-server": "^0.11.1",
         "npm-run-all": "^4.1.5",
-        "terser": "~3.14.1",
+        "prettier": "1.16.4",
+        "terser": "~3.16.0",
         "typescript": "^3.3.1"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "useTabs": false,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "arrowParens": "always",
+        "htmlWhitespaceSensitivity": "strict",
+        "endOfLine": "lf"
     },
     "scripts": {
         "dev": "npm-run-all --parallel game map",
@@ -30,6 +42,8 @@
         "map_server": "npm-run-all --sequential map_server:*",
         "map_server:build": "tsc --project ./map_editor/",
         "map_server:run": "node map_editor/server.js",
-        "build": "grunt"
+        "build": "grunt",
+        "formatting:check": "prettier --check \"**/*.{html,css,json,ts}\"",
+        "formatting:run": "prettier --write \"**/*.{html,css,json,ts}\""
     }
 }
