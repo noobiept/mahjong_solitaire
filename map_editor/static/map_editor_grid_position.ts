@@ -1,15 +1,13 @@
-// @ts-ignore
-import Tile from '/static/scripts/tile.js';
-// @ts-ignore
-import Grid from '/static/scripts/grid.js';
-import * as Map from './map.js';
+import * as MapEditorMap from './map_editor_map.js';
 import { STAGE } from './map_editor.js';
+import MapEditorGrid from './map_editor_grid.js';
+import MapEditorTile from './map_editor_tile.js';
 
 
 export interface GridPositionArgs {
     column: number;
     line: number;
-    grid: Grid;
+    grid: MapEditorGrid;
     hidden: boolean;
 }
 
@@ -27,18 +25,18 @@ container: createjs.Container;
 width: number;
 height: number;
 hasTile: boolean;
-tileObject: Tile | null;
+tileObject: MapEditorTile | null;
 column: number;
 line: number;
-gridObject: Grid;
+gridObject: MapEditorGrid;
 gridPosition: number;
 
 
 constructor( args: GridPositionArgs )
     {
     var _this = this;
-    var width = Tile.getImageWidth() / 2;
-    var height = Tile.getImageHeight() / 2;
+    var width = MapEditorTile.getImageWidth() / 2;
+    var height = MapEditorTile.getImageHeight() / 2;
 
     var container = new createjs.Container();
 
@@ -102,7 +100,7 @@ onClick( drawBelow= true )
 
         if ( this.tileObject )
             {
-            Map.removeTile( this.tileObject );
+            MapEditorMap.removeTile( this.tileObject );
             }
 
         this.tileObject = null;
@@ -112,7 +110,7 @@ onClick( drawBelow= true )
         {
         this.hasTile = true;
 
-        var tile = Map.addTile({
+        var tile = MapEditorMap.addTile({
                 tileId: 'bamboo1',
                 column: this.column,
                 line: this.line,
@@ -136,7 +134,7 @@ onClick( drawBelow= true )
             }
         }
 
-    Map.updateTilesLeft();
+    MapEditorMap.updateTilesLeft();
     }
 
 
@@ -166,7 +164,7 @@ remove()
     {
     if ( this.tileObject )
         {
-        Map.removeTile( this.tileObject );
+        MapEditorMap.removeTile( this.tileObject );
         this.tileObject = null;
         }
 

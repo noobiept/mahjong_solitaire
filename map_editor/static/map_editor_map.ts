@@ -1,13 +1,11 @@
-// @ts-ignore
-import Tile from '/static/scripts/tile.js';
-// @ts-ignore
-import Grid from '/static/scripts/grid.js';
-import GridPosition from './grid_position.js';
+import GridPosition from './map_editor_grid_position.js';
 import { CANVAS, STAGE, updateMenuValues } from './map_editor.js';
 import { MapInfo, MapPosition } from '../../scripts/map.js';
 import { Omit } from '../../scripts/utilities.js';
 import { GridArgs } from '../../scripts/grid.js';
 import { TileArgs } from '../../scripts/tile.js';
+import MapEditorGrid from './map_editor_grid.js';
+import MapEditorTile from './map_editor_tile.js';
 
 
 export interface ConstructArgs {
@@ -18,8 +16,8 @@ export interface ConstructArgs {
 }
 
 
-var ALL_GRIDS: Grid[] = [];
-var ALL_TILES: Tile[] = [];
+var ALL_GRIDS: MapEditorGrid[] = [];
+var ALL_TILES: MapEditorTile[] = [];
 
     // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
 var SELECTED_GRID = -1;
@@ -43,8 +41,8 @@ else
 var columns = mapInfo.numberOfColumns;
 var lines = mapInfo.numberOfLines;
 var grid;
-var tileWidth = Tile.getImageWidth();
-var tileHeight = Tile.getImageHeight();
+var tileWidth = MapEditorTile.getImageWidth();
+var tileHeight = MapEditorTile.getImageHeight();
 var startingX = 100;
 var startingY = 0;
 
@@ -336,7 +334,7 @@ if ( typeof mapName === 'undefined' )
 
 export function addTile( args: TileArgs )
 {
-var tile = new Tile( args );
+var tile = new MapEditorTile( args );
 
 ALL_TILES.push( tile );
 
@@ -350,7 +348,7 @@ return tile;
 }
 
 
-export function removeTile( tileObject: Tile )
+export function removeTile( tileObject: MapEditorTile )
 {
 var position = ALL_TILES.indexOf( tileObject );
 
@@ -364,7 +362,7 @@ TILES_LEFT++;
 
 export function addGrid( args: Omit<GridArgs, 'position'> )
 {
-var grid = new Grid({
+var grid = new MapEditorGrid({
     numberOfColumns: args.numberOfColumns,
     numberOfLines: args.numberOfLines,
     position: ALL_GRIDS.length
@@ -376,7 +374,7 @@ return grid;
 }
 
 
-export function removeGrid( gridObject: Grid )
+export function removeGrid( gridObject: MapEditorGrid )
 {
 var position = ALL_GRIDS.indexOf( gridObject );
 

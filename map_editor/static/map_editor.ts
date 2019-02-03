@@ -1,4 +1,4 @@
-import * as Map from './map.js';
+import * as MapEditorMap from './map_editor_map.js';
 
 
 export var CANVAS: HTMLCanvasElement;
@@ -19,18 +19,18 @@ createjs.Ticker.addEventListener('tick', function()
     STAGE.update();
     });
 
-document.getElementById( 'saveMap' )!.onclick = Map.save;
+document.getElementById( 'saveMap' )!.onclick = MapEditorMap.save;
 document.getElementById( 'loadMap' )!.onclick = function()
     {
     const label = document.getElementById('mapName') as HTMLInputElement;
     var mapName = label.value;
 
-    Map.load( mapName );
+    MapEditorMap.load( mapName );
     };
 
 document.getElementById( 'Grids-seeAll' )!.onclick = function()
     {
-    Map.selectGrid( -1 );
+    MapEditorMap.selectGrid( -1 );
     };
 
 document.getElementById( 'newMap' )!.onclick = function()
@@ -43,8 +43,8 @@ document.getElementById( 'newMap' )!.onclick = function()
     var numberOfColumns = columnsInput.value;
     var numberOfLines = linesInput.value;
 
-    Map.clear();
-    Map.constructGrid({
+    MapEditorMap.clear();
+    MapEditorMap.constructGrid({
             numberOfColumns: parseInt( numberOfColumns ),
             numberOfLines: parseInt( numberOfLines ),
             numberOfGrids: parseInt( numberOfGrids ),
@@ -63,7 +63,7 @@ PRELOAD = new createjs.LoadQueue();
 PRELOAD.loadManifest( manifest, true );
 PRELOAD.addEventListener( 'complete', function()
     {
-    Map.load();
+    MapEditorMap.load();
     });
 };
 
@@ -83,14 +83,14 @@ for (var a = 0 ; a < selectGrid.length ; a++)
 
     if ( event.key === gridId )
         {
-        Map.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
+        MapEditorMap.selectGrid( parseInt( selectGrid[ a ] ) - 1 );
         return;
         }
     }
 
 if ( key.toLowerCase() === 'a' )
     {
-    Map.selectGrid( -1 );
+    MapEditorMap.selectGrid( -1 );
     }
 }
 
@@ -100,10 +100,10 @@ if ( key.toLowerCase() === 'a' )
  */
 export function updateMenuValues( mapName: string )
 {
-var numberOfGrids = Map.getAllGrids().length;
+var numberOfGrids = MapEditorMap.getAllGrids().length;
 
     // all grids have the same number of columns/lines, so we only need to check the numbers of one
-var grid = Map.getGrid( 0 );
+var grid = MapEditorMap.getGrid( 0 );
 
 var numberOfColumns = grid.numberOfColumns;
 var numberOfLines = grid.numberOfLines;
@@ -118,5 +118,5 @@ columnsInput.value = numberOfColumns.toString();
 linesInput.value = numberOfLines.toString();
 mapNameInput.value = mapName;
 
-Map.updateTilesLeft();
+MapEditorMap.updateTilesLeft();
 }
