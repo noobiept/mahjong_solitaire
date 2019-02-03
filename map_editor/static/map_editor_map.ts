@@ -53,7 +53,8 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
 
         gridElement.innerText = (a + 1).toString();
         gridElement.onclick = function() {
-            var newGrid = parseInt($(this).text()) - 1;
+            const text = gridElement.innerText;
+            var newGrid = parseInt(text, 10) - 1;
 
             selectGrid(newGrid);
         };
@@ -137,6 +138,7 @@ export function selectGrid(gridPosition: number) {
     var previousGridPositions;
     var allTiles = getAllTiles();
     var allGridPositions = GridPosition.getAll();
+    const current = document.getElementById("Grids-currentGrid")!;
 
     // show all the tiles (but not the GridPosition)
     if (gridPosition < 0) {
@@ -160,7 +162,7 @@ export function selectGrid(gridPosition: number) {
             }
         }
 
-        $("#Grids-currentGrid").text("All Grids.");
+        current.innerText = "All Grids.";
     }
 
     // show only the selected GridPosition/Tile elements
@@ -193,7 +195,7 @@ export function selectGrid(gridPosition: number) {
             gridPositions[a].show();
         }
 
-        $("#Grids-currentGrid").text("Selected Grid: " + (gridPosition + 1));
+        current.innerText = "Selected Grid: " + (gridPosition + 1);
     }
 
     SELECTED_GRID = gridPosition;
@@ -361,5 +363,6 @@ export function clear() {
 }
 
 export function updateTilesLeft() {
-    $("#TilesLeft").text("Tiles Left: " + TILES_LEFT);
+    const tilesLeft = document.getElementById("TilesLeft")!;
+    tilesLeft.innerText = "Tiles Left: " + TILES_LEFT;
 }
