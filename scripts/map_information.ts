@@ -27,10 +27,10 @@ export default class MapInformation {
         var score = document.createElement("div");
         var container = document.createElement("div");
 
-        $(player).text("Player " + playerNumber);
-        $(tilesLeft).text("Tiles Left: ");
-        $(pairsLeft).text("Pairs Left: ");
-        $(score).text("Score: ");
+        player.innerText = "Player " + playerNumber;
+        tilesLeft.innerText = "Tiles Left: ";
+        pairsLeft.innerText = "Pairs Left: ";
+        score.innerText = "Score: ";
 
         var tilesLeftValue = document.createElement("span");
         var pairsLeftValue = document.createElement("span");
@@ -84,16 +84,14 @@ export default class MapInformation {
 
     updateTilesLeft() {
         var tilesLeft = this.mapObject.all_tiles.length;
-
-        $(this.tilesLeft_ui).text(tilesLeft);
+        this.tilesLeft_ui.innerText = tilesLeft.toString();
 
         return tilesLeft;
     }
 
     updatePairsLeft() {
         var pairsLeft = this.mapObject.howManySelectablePairs();
-
-        $(this.pairsLeft_ui).text(pairsLeft);
+        this.pairsLeft_ui.innerText = pairsLeft.toString();
 
         return pairsLeft;
     }

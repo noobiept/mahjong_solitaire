@@ -4,6 +4,7 @@ import * as MainMenu from "./main_menu.js";
 import * as HighScore from "./high_score.js";
 import Map, { MapInfo } from "./map.js";
 import { CANVAS, STAGE } from "./main.js";
+import { outerHeight } from "./utilities.js";
 
 // current map information
 var CURRENT_MAP: MapInfo;
@@ -35,7 +36,7 @@ export function start(selectedMap: MapInfo, twoPlayers: boolean) {
     GAME_FINISHED = false; // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
     CURRENT_MAP = selectedMap;
 
-    $(CANVAS).css("display", "block");
+    CANVAS.style.display = "block";
 
     if (twoPlayers) {
         MAPS.push(new Map({ mapInfo: selectedMap, playerNumber: 1 }));
@@ -197,7 +198,7 @@ export function resetStuff() {
     ACTIVE_MAP = 0;
 
     GameMenu.clear();
-    $(CANVAS).css("display", "none");
+    CANVAS.style.display = "none";
 
     if (PLAYER_TURN) {
         STAGE.removeChild(PLAYER_TURN);
@@ -230,9 +231,9 @@ export function hasEnded() {
 }
 
 export function resize() {
-    var width = $(window).outerWidth(true)!;
-    var height =
-        $(window).outerHeight(true)! - $("#GameMenu").outerHeight(true)!;
+    const gameMenu = document.getElementById("GameMenu")!;
+    const width = window.outerWidth;
+    const height = window.outerHeight - outerHeight(gameMenu);
 
     CANVAS.width = width;
     CANVAS.height = height;

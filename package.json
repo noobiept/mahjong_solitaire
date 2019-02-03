@@ -5,7 +5,6 @@
     "devDependencies": {
         "@types/createjs": "0.0.29",
         "@types/express": "^4.16.1",
-        "@types/jquery": "^3.3.29",
         "@types/node": "^10.12.21",
         "body-parser": "^1.18.3",
         "express": "^4.16.4",

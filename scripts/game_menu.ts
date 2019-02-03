@@ -26,12 +26,12 @@ export function init() {
             Game.setShadowOption(false);
             Game.unShadowTiles();
 
-            $(shadowValue).text("Off");
+            shadowValue.innerText = "Off";
         } else {
             Game.setShadowOption(true);
             Game.shadowTiles();
 
-            $(shadowValue).text("On");
+            shadowValue.innerText = "On";
         }
     };
 
@@ -51,10 +51,12 @@ export function init() {
 }
 
 export function show() {
-    $(GAME_MENU_CONTAINER).css("display", "inline-flex");
+    GAME_MENU_CONTAINER.style.display = "inline-flex";
 }
 
+/**
+ * Hide the html elements.
+ */
 export function clear() {
-    // hide the html elements
-    $(GAME_MENU_CONTAINER).css("display", "none");
+    GAME_MENU_CONTAINER.style.display = "none";
 }

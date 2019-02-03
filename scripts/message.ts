@@ -1,3 +1,5 @@
+import { outerHeight } from "./utilities.js";
+
 var HTML_ELEMENT: HTMLElement;
 var TIMEOUT: number | null = null;
 
@@ -33,8 +35,8 @@ export function hide() {
 }
 
 export function center() {
-    var height =
-        $(window).outerHeight(true)! - $("#GameMenu").outerHeight(true)!;
+    const gameMenu = document.getElementById("GameMenu")!;
+    var height = window.outerHeight - outerHeight(gameMenu);
 
     HTML_ELEMENT.style.top = height / 2 + "px";
 }

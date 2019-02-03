@@ -68,11 +68,11 @@ export function open() {
 
     selectMap(SELECTED_MAP);
 
-    $(MENU).css("display", "flex");
+    MENU.style.display = "flex";
 }
 
 export function hide() {
-    $(MENU).css("display", "none");
+    MENU.style.display = "none";
 }
 
 export function openHighScore() {
@@ -98,7 +98,7 @@ export function openHighScore() {
         for (let a = 0; a < headers.length; a++) {
             tableHeader = document.createElement("th");
 
-            $(tableHeader).text(headers[a]);
+            tableHeader.innerText = headers[a];
             tableRow.appendChild(tableHeader);
         }
 
@@ -133,19 +133,18 @@ export function openHighScore() {
 
     back.onclick = function() {
         // clear the table (since we're always using the same <table> element)
-        $(table).empty();
-
-        $(HIGH_SCORE).css("display", "none");
+        table.innerHTML = "";
+        HIGH_SCORE.style.display = "none";
 
         open();
     };
 
-    $(HIGH_SCORE).css("display", "flex");
+    HIGH_SCORE.style.display = "flex";
 }
 
 export function selectMap(position: number) {
-    $(MAPS_ELEMENTS[SELECTED_MAP]).removeClass("mapSelected");
-    $(MAPS_ELEMENTS[position]).addClass("mapSelected");
+    MAPS_ELEMENTS[SELECTED_MAP].classList.remove("mapSelected");
+    MAPS_ELEMENTS[position].classList.add("mapSelected");
 
     SELECTED_MAP = position;
 }
