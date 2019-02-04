@@ -20,6 +20,11 @@
         "terser": "~3.16.0",
         "typescript": "^3.3.1"
     },
+    "dependencies": {
+        "easeljs": "^1.0.2",
+        "preloadjs": "^1.0.1",
+        "soundjs": "^1.0.1"
+    },
     "prettier": {
         "tabWidth": 4,
         "useTabs": false,
@@ -35,6 +40,7 @@
         "dev": "npm-run-all --parallel game map",
         "game": "npm-run-all --parallel game:*",
         "game:watch": "tsc -w",
+        "game:copy_libraries": "grunt copy:libraries",
         "game:server": "http-server -p 8000 --silent",
         "map": "npm-run-all --parallel map_client map_server",
         "map_client": "tsc -w --project ./map_editor/static/",
