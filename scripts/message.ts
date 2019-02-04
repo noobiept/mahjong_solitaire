@@ -1,25 +1,21 @@
-import { outerHeight } from "./utilities.js";
-
 var HTML_ELEMENT: HTMLElement;
 var TIMEOUT: number | null = null;
 
+/**
+ * Initialize the message module.
+ */
 export function init() {
     HTML_ELEMENT = document.getElementById("Message")!;
-
-    center();
-    HTML_ELEMENT.style.display = "block";
 }
 
-export function show(text: string, centerMessage = true, timeoutDuration = -1) {
+/**
+ * Show a message, optionally with a timeout before hiding.
+ */
+export function show(text: string, timeoutDuration = -1) {
     cancelTimeout();
 
-    if (centerMessage !== false) {
-        center();
-    }
-
-    // set the new message
-    HTML_ELEMENT.style.display = "block";
-    HTML_ELEMENT.innerHTML = text;
+    HTML_ELEMENT.innerHTML = text; // set the new message
+    HTML_ELEMENT.classList.remove("hidden"); // show the message element
 
     if (timeoutDuration > 0) {
         TIMEOUT = window.setTimeout(function() {
@@ -29,18 +25,17 @@ export function show(text: string, centerMessage = true, timeoutDuration = -1) {
     }
 }
 
+/**
+ * Hide the message.
+ */
 export function hide() {
     cancelTimeout();
-    HTML_ELEMENT.style.display = "none";
+    HTML_ELEMENT.classList.add("hidden");
 }
 
-export function center() {
-    const gameMenu = document.getElementById("GameMenu")!;
-    var height = window.outerHeight - outerHeight(gameMenu);
-
-    HTML_ELEMENT.style.top = height / 2 + "px";
-}
-
+/**
+ * Cancel the show timeout (if it happens to be active at the moment).
+ */
 function cancelTimeout() {
     // a timeout is active, from a previous call. cancel it
     if (TIMEOUT !== null) {

@@ -32,14 +32,15 @@ body {
 }
 
 #Message {
-    display: none;
     background-color: black;
     font-size: 1.5em;
     text-align: center;
     cursor: default;
     position: fixed;
-    left: 0;
-    right: 0; /* center aligned */
+    width: 100vw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #AudioControl {

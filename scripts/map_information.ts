@@ -120,7 +120,7 @@ export default class MapInformation {
                 }
 
                 Game.getActiveMap().shuffle(false);
-                Message.show("No More Pairs Left (shuffling)", true, 1000);
+                Message.show("No More Pairs Left (shuffling)", 1000);
                 Game.updateInformation();
             }
         }

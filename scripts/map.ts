@@ -629,7 +629,7 @@ export default class Map {
      */
     onTileClick(tile: Tile) {
         if (!this.isTileSelectable(tile) || !this.isCurrentActive) {
-            Message.show("Un-selectable tile.", true, 1000);
+            Message.show("Un-selectable tile.", 1000);
             return;
         }
 

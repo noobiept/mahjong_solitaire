@@ -126,5 +126,5 @@ function tick(event: createjs.TickerEvent) {
  * Called during the loading of the assets. We show the current progress to the player.
  */
 function progress(event: createjs.ProgressEvent) {
-    Message.show("Loading " + ((event.progress * 100) | 0) + "%", false);
+    Message.show("Loading " + ((event.progress * 100) | 0) + "%");
 }
