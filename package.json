@@ -26,6 +26,7 @@
         "soundjs": "^1.0.1"
     },
     "prettier": {
+        "printWidth": 80,
         "tabWidth": 4,
         "useTabs": false,
         "semi": true,
