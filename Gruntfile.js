@@ -5,27 +5,19 @@ const Glob = require("glob");
 const Terser = require("terser");
 const Fs = require("fs");
 const Path = require("path");
+const ChildProcess = require("child_process");
 
 const Package = JSON.parse(Fs.readFileSync("package.json", "utf8"));
-const DestPath = `./release/${Package.name} ${Package.version}/`;
+const ROOT = "./";
+const DEST = `./release/${Package.name} ${Package.version}/`;
 
 module.exports = function(grunt) {
-    var root = "./";
-    var dest = "./release/<%= pkg.name %> <%= pkg.version %>/";
-
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
-        eslint: {
-            options: {
-                configFile: root + ".eslintrc.js",
-            },
-            target: [root + "js/**", root + "map_editor/static/**"],
-        },
-
-        // delete the destination folder
+        // delete the destination folder and the previously compiled javascript files
         clean: {
-            release: [dest],
+            release: [DEST, Path.join(ROOT, "scripts/**/*.js")],
         },
 
         // copy the audio and libraries files
@@ -34,36 +26,37 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: Path.join(root, "node_modules/easeljs/lib/"),
+                        cwd: Path.join(ROOT, "node_modules/easeljs/lib/"),
                         src: "easeljs.min.js",
-                        dest: Path.join(root, "libraries/"),
+                        dest: Path.join(ROOT, "libraries/"),
                     },
                     {
                         expand: true,
-                        cwd: Path.join(root, "node_modules/preloadjs/lib/"),
+                        cwd: Path.join(ROOT, "node_modules/preloadjs/lib/"),
                         src: "preloadjs.min.js",
-                        dest: Path.join(root, "libraries/"),
+                        dest: Path.join(ROOT, "libraries/"),
                     },
                     {
                         expand: true,
-                        cwd: Path.join(root, "node_modules/soundjs/lib/"),
+                        cwd: Path.join(ROOT, "node_modules/soundjs/lib/"),
                         src: "soundjs.min.js",
-                        dest: Path.join(root, "libraries/"),
+                        dest: Path.join(ROOT, "libraries/"),
                     },
                 ],
             },
 
             release: {
                 expand: true,
-                cwd: root,
+                cwd: ROOT,
                 src: [
                     "audio/**",
                     "images/*.png",
                     "libraries/**",
                     "maps/**",
+                    "index.html",
                     "package.json",
                 ],
-                dest: dest,
+                dest: DEST,
             },
         },
 
@@ -72,9 +65,9 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: root + "css/",
+                        cwd: ROOT + "css/",
                         src: "*.css",
-                        dest: dest + "css/",
+                        dest: DEST + "css/",
                     },
                 ],
             },
@@ -82,58 +75,55 @@ module.exports = function(grunt) {
                 advanced: false,
             },
         },
+    });
 
-        processhtml: {
-            release: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: root,
-                        src: "index.html",
-                        dest: dest,
-                    },
-                ],
-            },
-        },
+    /**
+     * Run the javascript minimizer task.
+     */
+    grunt.registerTask("terser", function() {
+        const files = Glob.sync(ROOT + "scripts/**/*.js");
+
+        for (let a = 0; a < files.length; a++) {
+            const filePath = files[a];
+            const destPath = Path.join(DEST, filePath);
+            const directoryPath = Path.dirname(destPath);
+
+            const code = Fs.readFileSync(filePath, "utf8");
+            const result = Terser.minify(code, {
+                ecma: 8,
+            });
+
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
+
+            if (!Fs.existsSync(directoryPath)) {
+                Fs.mkdirSync(directoryPath, { recursive: true });
+            }
+
+            Fs.writeFileSync(destPath, result.code);
+        }
+    });
+
+    /**
+     * Run the typescript compiler.
+     */
+    grunt.registerTask("typescript", function() {
+        ChildProcess.execSync("tsc");
     });
 
     // load the plugins
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-processhtml");
-
-    /**
-     * Run the javascript minimizer task.
-     */
-    grunt.registerTask("terser", function() {
-        const files = Glob.sync(root + "js/**/*.js");
-        const code = [];
-
-        for (let a = 0; a < files.length; a++) {
-            const filePath = files[a];
-
-            code[filePath] = Fs.readFileSync(filePath, "utf8");
-        }
-
-        const result = Terser.minify(code, {
-            ecma: 8,
-        });
-
-        if (result.error) {
-            throw new Error(result.error.message);
-        }
-
-        Fs.writeFileSync(DestPath + "min.js", result.code);
-    });
 
     // tasks
     grunt.registerTask("default", [
-        "eslint",
         "clean",
-        "copy",
+        "typescript",
+        "copy:libraries",
+        "copy:release",
         "terser",
         "cssmin",
-        "processhtml",
     ]);
 };
