@@ -108,14 +108,7 @@ export default class MapInformation {
                 // we're in an endless recursion, due to not being possible to get a valid map with pairs left (after .shuffle() is called)
                 // end the game
                 if (this.timesUpdateWasCalled > 1) {
-                    Message.show("No More Possible Plays");
-                    Game.resetStuff();
-
-                    window.setTimeout(function() {
-                        Message.hide();
-                        MainMenu.open();
-                    }, 2500);
-
+                    Game.quit("No More Possible Plays");
                     return;
                 }
 

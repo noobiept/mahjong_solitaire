@@ -67,9 +67,7 @@ export function init(maps: MapInfo[]) {
  * Show the main menu.
  */
 export function open() {
-    Game.resetStuff();
     selectMap(SELECTED_MAP);
-
     MENU.classList.remove("hidden");
 }
 

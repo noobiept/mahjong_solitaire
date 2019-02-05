@@ -65,10 +65,8 @@ export function restart() {
 }
 
 export function finished() {
-    var a;
-
     // confirm that all players have finished the game, otherwise return and wait until the last player finish to proceed
-    for (a = 0; a < MAPS.length; a++) {
+    for (let a = 0; a < MAPS.length; a++) {
         // see if there's still tiles left
         if (MAPS[a].all_tiles.length > 0) {
             return;
@@ -77,13 +75,15 @@ export function finished() {
 
     GAME_FINISHED = true;
 
-    for (a = 0; a < MAPS.length; a++) {
+    for (let a = 0; a < MAPS.length; a++) {
         HighScore.add(CURRENT_MAP.mapName, MAPS[a].score);
     }
 
+    let message = "";
+
     // 1 player mode
     if (MAPS.length === 1) {
-        Message.show("Map Cleared! Score: " + MAPS[0].score);
+        message = "Map Cleared! Score: " + MAPS[0].score;
     }
 
     // more than 1 player, need to determine who won
@@ -92,20 +92,15 @@ export function finished() {
         var playerTwoScore = MAPS[1].score;
 
         if (playerOneScore > playerTwoScore) {
-            Message.show("Player 1 Wins! Score: " + playerOneScore);
+            message = "Player 1 Wins! Score: " + playerOneScore;
         } else if (playerTwoScore > playerOneScore) {
-            Message.show("Player 2 Wins! Score: " + playerTwoScore);
+            message = "Player 2 Wins! Score: " + playerTwoScore;
         } else {
-            Message.show("Its a Draw! Score: " + playerOneScore);
+            message = "Its a Draw! Score: " + playerOneScore;
         }
     }
 
-    resetStuff();
-
-    window.setTimeout(function() {
-        Message.hide();
-        MainMenu.open();
-    }, 2500);
+    quit(message);
 }
 
 export function setActiveMap(position: number) {
@@ -188,7 +183,7 @@ export function highlightRandomPair() {
     getActiveMap().highlightRandomPair();
 }
 
-export function resetStuff() {
+function resetStuff() {
     for (var a = 0; a < MAPS.length; a++) {
         MAPS[a].clear();
     }
@@ -270,5 +265,24 @@ export function resize() {
                 PLAYER_TURN.x = (width * 3) / 4;
             }
         }
+    }
+}
+
+/**
+ * Show an ending `message`, then quit the game and go back to the main menu.
+ * If no `message` is given then it just opens the main menu immediately.
+ */
+export function quit(message?: string) {
+    resetStuff();
+
+    if (message) {
+        Message.show(message);
+
+        window.setTimeout(function() {
+            Message.hide();
+            MainMenu.open();
+        }, 2500);
+    } else {
+        MainMenu.open();
     }
 }

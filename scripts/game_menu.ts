@@ -1,5 +1,4 @@
 import * as Game from "./game.js";
-import * as MainMenu from "./main_menu.js";
 
 // reference to html elements
 var GAME_MENU_CONTAINER: HTMLElement;
@@ -44,7 +43,7 @@ export function init() {
     };
 
     quit.onclick = function() {
-        MainMenu.open();
+        Game.quit();
     };
 
     GAME_MENU_CONTAINER = gameMenu;
