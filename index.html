@@ -17,9 +17,9 @@
     </head>
     <body>
         <div id="AudioControl" class="hidden">🔊&#xFE0E;</div>
-        <canvas id="mainCanvas"></canvas>
+        <canvas id="mainCanvas" class="hidden"></canvas>
 
-        <div id="MainMenu">
+        <div id="MainMenu" class="hidden">
             <div id="MainMenu-selectMap">
                 <!-- A list of maps, where you click to select the map, then click 'startGame' to start that map, or 'highScore' to see the scores of that particular map. Its built dynamically. -->
             </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div id="GameMenu">
+        <div id="GameMenu" class="hidden">
             <div id="GameMenu-left">
                 <!-- container for MapInformation, with the score, tiles/pairs left of each map. -->
                 <div id="GameMenu-MapInformation"></div>
@@ -49,13 +49,11 @@
             </div>
         </div>
 
-        <div id="Message">Loading 0%</div>
+        <div id="Message" class="hidden">Loading 0%</div>
 
-        <div id="HighScore">
+        <div id="HighScore" class="hidden">
             <h2 id="HighScore-title">High Score</h2>
-
             <table id="HighScore-table"></table>
-
             <div id="HighScore-back" class="button">Back</div>
         </div>
     </body>

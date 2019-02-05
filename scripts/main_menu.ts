@@ -63,16 +63,21 @@ export function init(maps: MapInfo[]) {
     MAPS_ELEMENTS = Array.from(selectMapContainer.children);
 }
 
+/**
+ * Show the main menu.
+ */
 export function open() {
     Game.resetStuff();
-
     selectMap(SELECTED_MAP);
 
-    MENU.style.display = "flex";
+    MENU.classList.remove("hidden");
 }
 
+/**
+ * Hide the main menu.
+ */
 export function hide() {
-    MENU.style.display = "none";
+    MENU.classList.add("hidden");
 }
 
 export function openHighScore() {
@@ -134,12 +139,12 @@ export function openHighScore() {
     back.onclick = function() {
         // clear the table (since we're always using the same <table> element)
         table.innerHTML = "";
-        HIGH_SCORE.style.display = "none";
+        HIGH_SCORE.classList.add("hidden");
 
         open();
     };
 
-    HIGH_SCORE.style.display = "flex";
+    HIGH_SCORE.classList.remove("hidden");
 }
 
 export function selectMap(position: number) {

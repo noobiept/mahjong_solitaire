@@ -13,13 +13,6 @@ body {
     height: 100%;
 }
 
-#GameMenu,
-#MainMenu,
-#HighScore,
-#mainCanvas {
-    display: none;
-}
-
 .button {
     cursor: pointer;
     color: white;
@@ -55,14 +48,14 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 /* ::: Main Menu ::: */
 
 #MainMenu,
 #HighScore {
-    /*display: flex; set in code*/
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -119,6 +112,7 @@ body {
 /* ::: Game Menu ::: */
 
 #GameMenu {
+    display: inline-flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }

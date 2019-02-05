@@ -3,7 +3,7 @@ import * as Message from "./message.js";
 import * as MainMenu from "./main_menu.js";
 import * as HighScore from "./high_score.js";
 import Map, { MapInfo } from "./map.js";
-import { CANVAS, STAGE } from "./main.js";
+import { CANVAS, STAGE, showHideCanvas } from "./main.js";
 import { outerHeight } from "./utilities.js";
 
 // current map information
@@ -31,12 +31,11 @@ var GAME_FINISHED = false;
  */
 export function start(selectedMap: MapInfo, twoPlayers: boolean) {
     resetStuff();
+    showHideCanvas(true);
 
     TWO_PLAYER_MODE = twoPlayers;
     GAME_FINISHED = false; // can't have this on Game.resetStuff() (leads to an issue when finishing the game)
     CURRENT_MAP = selectedMap;
-
-    CANVAS.style.display = "block";
 
     if (twoPlayers) {
         MAPS.push(new Map({ mapInfo: selectedMap, playerNumber: 1 }));
@@ -198,7 +197,7 @@ export function resetStuff() {
     ACTIVE_MAP = 0;
 
     GameMenu.clear();
-    CANVAS.style.display = "none";
+    showHideCanvas(false);
 
     if (PLAYER_TURN) {
         STAGE.removeChild(PLAYER_TURN);

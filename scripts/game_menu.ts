@@ -50,13 +50,16 @@ export function init() {
     GAME_MENU_CONTAINER = gameMenu;
 }
 
+/**
+ * Show the game menu html elements.
+ */
 export function show() {
-    GAME_MENU_CONTAINER.style.display = "inline-flex";
+    GAME_MENU_CONTAINER.classList.remove("hidden");
 }
 
 /**
  * Hide the html elements.
  */
 export function clear() {
-    GAME_MENU_CONTAINER.style.display = "none";
+    GAME_MENU_CONTAINER.classList.add("hidden");
 }

@@ -128,3 +128,14 @@ function tick(event: createjs.TickerEvent) {
 function progress(event: createjs.ProgressEvent) {
     Message.show("Loading " + ((event.progress * 100) | 0) + "%");
 }
+
+/**
+ * Show or hide the canvas element (where the game is displayed).
+ */
+export function showHideCanvas(show: boolean) {
+    if (show) {
+        CANVAS.classList.remove("hidden");
+    } else {
+        CANVAS.classList.add("hidden");
+    }
+}
