@@ -7,3 +7,4 @@ maps/
 release/
 node_modules/
 package-lock.json
+bitbucket-pipelines.yml

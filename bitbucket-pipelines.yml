@@ -2,28 +2,28 @@ image: node:11
 pipelines:
     default:
         - step:
-          script:
-              # install dependencies
-              - apt-get update
-              - apt-get --yes install zip
-              - npm install -g grunt-cli
-              - npm install -g json
-              - npm install
+            script:
+                # install dependencies
+                - apt-get update
+                - apt-get --yes install zip
+                - npm install -g grunt-cli
+                - npm install -g json
+                - npm install
 
-              # run some checks
-              - npm run formatting:check
+                # run some checks
+                - npm run formatting:check
 
-              # build the project
-              - npm run build
-              - npm run map_server:build
+                # build the project
+                - npm run build
+                - npm run map_server:build
 
-              # get the current version of the project
-              - VERSION=$(json -f ./package.json version)
+                # get the current version of the project
+                - VERSION=$(json -f ./package.json version)
 
-              # zip the output
-              - pushd "./release/mahjong_solitaire $VERSION"
-              - zip -r "../../mahjong_solitaire $VERSION.zip" *
-              - popd
+                # zip the output
+                - pushd "./release/mahjong_solitaire $VERSION"
+                - zip -r "../../mahjong_solitaire $VERSION.zip" *
+                - popd
 
-              # upload to the 'downloads' section of the bitbucket project
-              - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/drk4/mahjong_solitaire/downloads" --form files=@"mahjong_solitaire $VERSION.zip"
+                # upload to the 'downloads' section of the bitbucket project
+                - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/drk4/mahjong_solitaire/downloads" --form files=@"mahjong_solitaire $VERSION.zip"
