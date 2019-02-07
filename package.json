@@ -48,7 +48,7 @@
         "map_server:build": "tsc --project ./map_editor/",
         "map_server:run": "node map_editor/server.js",
         "build": "grunt",
-        "formatting:check": "prettier --check \"**/*.{html,css,json,ts}\"",
-        "formatting:run": "prettier --write \"**/*.{html,css,json,ts}\""
+        "formatting:check": "prettier --check \"**/*.{html,css,json,yml,ts}\"",
+        "formatting:run": "prettier --write \"**/*.{html,css,json,yml,ts}\""
     }
 }
