@@ -7,11 +7,11 @@ export interface GridArgs {
 }
 
 export default class Grid {
-    grid_array: (Tile | null)[][];
-    all_tiles: Tile[];
-    numberOfColumns: number;
-    numberOfLines: number;
-    position: number;
+    private grid_array: (Tile | null)[][];
+    private all_tiles: Tile[];
+    readonly numberOfColumns: number;
+    readonly numberOfLines: number;
+    readonly position: number;
 
     constructor(args: GridArgs) {
         const numberOfColumns = args.numberOfColumns;
@@ -34,10 +34,9 @@ export default class Grid {
     }
 
     /**
-    Each tile occupies a 2x2 square
-
-    The column/line argument, points to the position in top left
- */
+     * Each tile occupies a 2x2 square.
+     * The column/line argument, points to the position in top left.
+     */
     addTile(tileObject: Tile, column: number, line: number) {
         this.grid_array[column][line] = tileObject;
         this.grid_array[column][line + 1] = tileObject;
@@ -79,5 +78,12 @@ export default class Grid {
                 startingY + (tile.line * tile.height * scale) / 2
             );
         }
+    }
+
+    /**
+     * Get an element in the grid by position.
+     */
+    getElement(column: number, line: number) {
+        return this.grid_array[column][line];
     }
 }

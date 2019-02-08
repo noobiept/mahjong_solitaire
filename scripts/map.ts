@@ -155,7 +155,7 @@ export default class Map {
                 column = 0;
 
                 while (line < numberOfLines && column < numberOfColumns) {
-                    element = grid.grid_array[column][line];
+                    element = grid.getElement(column, line);
 
                     if (element) {
                         element.addToStage();
@@ -172,7 +172,7 @@ export default class Map {
                 column = b;
 
                 while (line < numberOfLines && column < numberOfColumns) {
-                    element = grid.grid_array[column][line];
+                    element = grid.getElement(column, line);
 
                     if (element) {
                         element.addToStage();
@@ -693,17 +693,17 @@ export default class Map {
 
         if (column > 0) {
             if (
-                grid.grid_array[column - 1][line] ||
-                grid.grid_array[column - 1][line + 1]
+                grid.getElement(column - 1, line) ||
+                grid.getElement(column - 1, line + 1)
             ) {
                 isLeftFree = false;
             }
         }
 
-        if (column + 2 < grid.grid_array.length) {
+        if (column + 2 < grid.numberOfColumns) {
             if (
-                grid.grid_array[column + 2][line] ||
-                grid.grid_array[column + 2][line + 1]
+                grid.getElement(column + 2, line) ||
+                grid.getElement(column + 2, line + 1)
             ) {
                 isRightFree = false;
             }
@@ -727,10 +727,10 @@ export default class Map {
             }
 
             if (
-                gridAbove.grid_array[column][line] ||
-                gridAbove.grid_array[column][line + 1] ||
-                gridAbove.grid_array[column + 1][line] ||
-                gridAbove.grid_array[column + 1][line + 1]
+                gridAbove.getElement(column, line) ||
+                gridAbove.getElement(column, line + 1) ||
+                gridAbove.getElement(column + 1, line) ||
+                gridAbove.getElement(column + 1, line + 1)
             ) {
                 return false;
             }
