@@ -1,10 +1,6 @@
 import Grid from "./grid.js";
 import { getAsset, addToStage, removeFromStage } from "./main.js";
 
-// the original image dimensions, this can be scaled
-const TILE_WIDTH = 36;
-const TILE_HEIGHT = 45;
-
 export type TileName =
     | "bamboo1"
     | "bamboo2"
@@ -100,6 +96,10 @@ export interface TileArgs {
  * A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
  */
 export default class Tile {
+    // the original image dimensions, this can be scaled
+    static readonly WIDTH = 36;
+    static readonly HEIGHT = 45;
+
     width: number;
     height: number;
     tileId: TileId;
@@ -129,8 +129,8 @@ export default class Tile {
             args.tileName = args.tileId as TileName;
         }
 
-        this.width = TILE_WIDTH;
-        this.height = TILE_HEIGHT;
+        this.width = Tile.WIDTH;
+        this.height = Tile.HEIGHT;
 
         // :: draw the shape :: //
         var shape, background, container;
@@ -175,7 +175,7 @@ export default class Tile {
         var g = this.background.graphics;
 
         g.beginFill("rgba(255, 0, 0, 0.3)");
-        g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
+        g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
     highlightTile() {
@@ -187,7 +187,7 @@ export default class Tile {
 
         g.clear();
         g.beginFill("rgba(255, 215, 0, 0.3)");
-        g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
+        g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
     clearBackground() {
@@ -199,7 +199,7 @@ export default class Tile {
 
         g.clear();
         g.beginFill("transparent");
-        g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
+        g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
     shadow() {
@@ -211,7 +211,7 @@ export default class Tile {
 
         g.clear();
         g.beginFill("rgba(0, 0, 0, 0.3)");
-        g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
+        g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
     moveTo(x: number, y: number) {
@@ -229,13 +229,5 @@ export default class Tile {
         }
 
         this.gridObject.removeTile(this.column, this.line);
-    }
-
-    static getImageWidth() {
-        return TILE_WIDTH;
-    }
-
-    static getImageHeight() {
-        return TILE_HEIGHT;
     }
 }

@@ -744,8 +744,8 @@ export default class Map {
     }
 
     scaleMap(dimensions: MapDimension) {
-        var tileWidth = Tile.getImageWidth();
-        var tileHeight = Tile.getImageHeight();
+        var tileWidth = Tile.WIDTH;
+        var tileHeight = Tile.HEIGHT;
 
         // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
         // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
@@ -758,7 +758,7 @@ export default class Map {
         }
 
         // center the map horizontally
-        var mapWidth = (this.columns / 2) * Tile.getImageWidth() * scale;
+        var mapWidth = (this.columns / 2) * tileWidth * scale;
         var startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
         var startingY = dimensions.y;
 
