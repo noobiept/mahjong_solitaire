@@ -23,7 +23,7 @@ window.onload = function() {
 };
 
 function initApp(data: AppStorage.Data) {
-    CANVAS = document.getElementById("mainCanvas") as HTMLCanvasElement;
+    CANVAS = document.getElementById("MainCanvas") as HTMLCanvasElement;
 
     STAGE = new createjs.Stage(CANVAS);
 

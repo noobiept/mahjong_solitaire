@@ -209,7 +209,7 @@ export function selectGrid(gridPosition: number) {
 }
 
 export async function save() {
-    const mapNameInput = document.getElementById("mapName") as HTMLInputElement;
+    const mapNameInput = document.getElementById("MapName") as HTMLInputElement;
     var mapName = mapNameInput.value;
 
     var grid = getGrid(0);

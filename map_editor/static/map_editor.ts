@@ -6,7 +6,7 @@ var STAGE: createjs.Stage;
 var PRELOAD: createjs.LoadQueue;
 
 window.onload = function() {
-    CANVAS = document.getElementById("canvas") as HTMLCanvasElement;
+    CANVAS = document.getElementById("Canvas") as HTMLCanvasElement;
     CANVAS.width = 1500;
     CANVAS.height = 850;
 
@@ -16,9 +16,9 @@ window.onload = function() {
         STAGE.update();
     });
 
-    document.getElementById("saveMap")!.onclick = MapEditorMap.save;
-    document.getElementById("loadMap")!.onclick = function() {
-        const label = document.getElementById("mapName") as HTMLInputElement;
+    document.getElementById("SaveMap")!.onclick = MapEditorMap.save;
+    document.getElementById("LoadMap")!.onclick = function() {
+        const label = document.getElementById("MapName") as HTMLInputElement;
         var mapName = label.value;
 
         MapEditorMap.load(mapName);
@@ -28,12 +28,12 @@ window.onload = function() {
         MapEditorMap.selectGrid(-1);
     };
 
-    document.getElementById("newMap")!.onclick = function() {
-        const gridsInput = document.getElementById("grids") as HTMLInputElement;
+    document.getElementById("NewMap")!.onclick = function() {
+        const gridsInput = document.getElementById("Grids") as HTMLInputElement;
         const columnsInput = document.getElementById(
-            "columns"
+            "Columns"
         ) as HTMLInputElement;
-        const linesInput = document.getElementById("lines") as HTMLInputElement;
+        const linesInput = document.getElementById("Lines") as HTMLInputElement;
 
         var numberOfGrids = gridsInput.value;
         var numberOfColumns = columnsInput.value;
@@ -93,10 +93,10 @@ export function updateMenuValues(mapName: string) {
     var numberOfColumns = grid.numberOfColumns;
     var numberOfLines = grid.numberOfLines;
 
-    const gridsInput = document.getElementById("grids") as HTMLInputElement;
-    const columnsInput = document.getElementById("columns") as HTMLInputElement;
-    const linesInput = document.getElementById("lines") as HTMLInputElement;
-    const mapNameInput = document.getElementById("mapName") as HTMLInputElement;
+    const gridsInput = document.getElementById("Grids") as HTMLInputElement;
+    const columnsInput = document.getElementById("Columns") as HTMLInputElement;
+    const linesInput = document.getElementById("Lines") as HTMLInputElement;
+    const mapNameInput = document.getElementById("MapName") as HTMLInputElement;
 
     gridsInput.value = numberOfGrids.toString();
     columnsInput.value = numberOfColumns.toString();
