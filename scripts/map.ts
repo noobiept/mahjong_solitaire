@@ -661,7 +661,7 @@ export default class Map {
                     Game.updateInformation();
 
                     this.addToScore(Map.COMBINE_SCORE);
-                    this.mapInformation.timesUpdateWasCalled = 0;
+                    this.mapInformation.resetTimesUpdateWasCalled();
                     this.updateMapInformation();
 
                     if (!Game.hasEnded()) {

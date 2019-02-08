@@ -7,13 +7,13 @@ export interface MapInformationArgs {
 }
 
 export default class MapInformation {
-    args: MapInformationArgs;
-    tilesLeft_ui: HTMLSpanElement;
-    pairsLeft_ui: HTMLSpanElement;
-    score_ui: HTMLSpanElement;
-    container_ui: HTMLDivElement;
-    timesUpdateWasCalled: number;
-    interval_f: number | undefined;
+    private args: MapInformationArgs;
+    private tilesLeft: HTMLSpanElement;
+    private pairsLeft: HTMLSpanElement;
+    private score: HTMLSpanElement;
+    private container: HTMLDivElement;
+    private timesUpdateWasCalled: number;
+    private interval: number | undefined;
 
     constructor(args: MapInformationArgs) {
         // add the html elements to the game menu
@@ -51,10 +51,10 @@ export default class MapInformation {
 
         mainContainer.appendChild(container);
 
-        this.tilesLeft_ui = tilesLeftValue;
-        this.pairsLeft_ui = pairsLeftValue;
-        this.score_ui = scoreValue;
-        this.container_ui = container;
+        this.tilesLeft = tilesLeftValue;
+        this.pairsLeft = pairsLeftValue;
+        this.score = scoreValue;
+        this.container = container;
         this.timesUpdateWasCalled = 0;
         this.args = args;
 
@@ -62,26 +62,30 @@ export default class MapInformation {
     }
 
     startTimer() {
-        this.interval_f = window.setInterval(() => {
+        this.interval = window.setInterval(() => {
             this.args.addTimerScore();
         }, 1000);
     }
 
     stopTimer() {
-        window.clearInterval(this.interval_f);
-        this.interval_f = undefined;
+        window.clearInterval(this.interval);
+        this.interval = undefined;
+    }
+
+    resetTimesUpdateWasCalled() {
+        this.timesUpdateWasCalled = 0;
     }
 
     updateScore(score: number) {
-        this.score_ui.innerText = score.toString();
+        this.score.innerText = score.toString();
     }
 
     updateTilesLeft(tilesLeft: number) {
-        this.tilesLeft_ui.innerText = tilesLeft.toString();
+        this.tilesLeft.innerText = tilesLeft.toString();
     }
 
     updatePairsLeft(pairsLeft: number) {
-        this.pairsLeft_ui.innerText = pairsLeft.toString();
+        this.pairsLeft.innerText = pairsLeft.toString();
     }
 
     update(tilesLeft: number, pairsLeft: number) {
@@ -113,6 +117,6 @@ export default class MapInformation {
         this.stopTimer();
 
         var mainContainer = document.getElementById("GameMenu-MapInformation")!;
-        mainContainer.removeChild(this.container_ui);
+        mainContainer.removeChild(this.container);
     }
 }
