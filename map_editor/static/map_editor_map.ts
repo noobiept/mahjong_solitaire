@@ -8,9 +8,8 @@ import {
 import { MapInfo, MapPosition } from "../../scripts/map.js";
 import { Omit } from "../../scripts/utilities.js";
 import { GridArgs } from "../../scripts/grid.js";
-import { TileArgs } from "../../scripts/tile.js";
 import MapEditorGrid from "./map_editor_grid.js";
-import MapEditorTile from "./map_editor_tile.js";
+import MapEditorTile, { TileArgs } from "./map_editor_tile.js";
 
 export interface ConstructArgs {
     numberOfColumns: number;
@@ -163,7 +162,7 @@ export function selectGrid(gridPosition: number) {
 
             for (var b = 0; b < individualGrid.length; b++) {
                 const tile = individualGrid[b].tileObject;
-                if (tile && tile.container) {
+                if (tile) {
                     addToStage(tile.container);
                 }
             }
@@ -299,9 +298,7 @@ export function addTile(args: TileArgs) {
 
     ALL_TILES.push(tile);
 
-    if (tile.container) {
-        tile.container.removeAllEventListeners("click");
-    }
+    tile.container.removeAllEventListeners("click");
 
     TILES_LEFT--;
 

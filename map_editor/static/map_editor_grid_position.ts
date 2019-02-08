@@ -102,12 +102,10 @@ export default class GridPosition {
 
             this.tileObject = tile;
 
-            if (tile.container) {
-                tile.container.scaleX = 2;
-                tile.container.scaleY = 2;
-                tile.container.x = this.container.x;
-                tile.container.y = this.container.y;
-            }
+            tile.container.scaleX = 2;
+            tile.container.scaleY = 2;
+            tile.container.x = this.container.x;
+            tile.container.y = this.container.y;
 
             // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
             if (
@@ -125,7 +123,7 @@ export default class GridPosition {
     show() {
         addToStage(this.container);
 
-        if (this.tileObject && this.tileObject.container) {
+        if (this.tileObject) {
             addToStage(this.tileObject.container);
         }
     }
@@ -133,7 +131,7 @@ export default class GridPosition {
     hide() {
         removeFromStage(this.container);
 
-        if (this.tileObject && this.tileObject.container) {
+        if (this.tileObject) {
             removeFromStage(this.tileObject.container);
         }
     }

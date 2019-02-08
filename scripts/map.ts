@@ -566,12 +566,8 @@ export default class Map {
     addTile(args: TileArgs) {
         var tile = new Tile(args);
 
-        if (args.drawShape !== false) {
-            args.gridObject.addTile(tile, args.column, args.line);
-            this.unSelectTile(tile);
-        } else {
-            args.gridObject.addTile(tile, args.column, args.line);
-        }
+        args.gridObject.addTile(tile, args.column, args.line);
+        this.unSelectTile(tile);
 
         this.all_tiles.push(tile);
 

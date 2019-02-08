@@ -92,7 +92,6 @@ export interface TileArgs {
     column: number;
     line: number;
     gridObject: MapEditorGrid;
-    drawShape?: boolean;
     onClick?: (tile: MapEditorTile) => any;
 }
 
@@ -104,9 +103,9 @@ export default class MapEditorTile {
     height: number;
     tileId: TileId;
     tileName: TileName;
-    background: createjs.Shape | undefined;
-    shape: createjs.Bitmap | undefined;
-    container: createjs.Container | undefined;
+    background: createjs.Shape;
+    shape: createjs.Bitmap;
+    container: createjs.Container;
     column: number;
     line: number;
     gridObject: MapEditorGrid;
@@ -133,27 +132,23 @@ export default class MapEditorTile {
         this.height = TILE_HEIGHT;
 
         // :: draw the shape :: //
-        var shape, background, container;
 
-        if (args.drawShape !== false) {
-            // load the image
-            shape = new createjs.Bitmap(getAsset(args.tileId));
+        // load the image
+        const shape = new createjs.Bitmap(getAsset(args.tileId));
 
-            // and the background (its used to tell when a tile is selected or not)
-            background = new createjs.Shape();
+        // and the background (its used to tell when a tile is selected or not)
+        const background = new createjs.Shape();
 
-            container = new createjs.Container();
-            container.addChild(shape);
-            container.addChild(background);
+        const container = new createjs.Container();
+        container.addChild(shape);
+        container.addChild(background);
+        container.on("click", function() {
+            if (args.onClick) {
+                args.onClick(_this);
+            }
+        });
 
-            container.on("click", function() {
-                if (args.onClick) {
-                    args.onClick(_this);
-                }
-            });
-
-            addToStage(container);
-        }
+        addToStage(container);
 
         // :: set properties :: //
 
@@ -215,19 +210,12 @@ export default class MapEditorTile {
     }
 
     moveTo(x: number, y: number) {
-        if (!this.container) {
-            return;
-        }
-
         this.container.x = x;
         this.container.y = y;
     }
 
     remove() {
-        if (this.container) {
-            removeFromStage(this.container);
-        }
-
+        removeFromStage(this.container);
         this.gridObject.removeTile(this.column, this.line);
     }
 

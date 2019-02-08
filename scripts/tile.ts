@@ -88,7 +88,6 @@ export interface TileArgs {
     column: number;
     line: number;
     gridObject: Grid;
-    drawShape?: boolean;
     onClick?: (tile: Tile) => any;
 }
 
@@ -108,8 +107,8 @@ export default class Tile {
     readonly line: number;
     readonly gridObject: Grid;
 
-    private background: createjs.Shape | undefined;
-    private container: createjs.Container | undefined;
+    private background: createjs.Shape;
+    private container: createjs.Container;
 
     constructor(args: TileArgs) {
         var _this = this;
@@ -133,25 +132,21 @@ export default class Tile {
         this.height = Tile.HEIGHT;
 
         // :: draw the shape :: //
-        var shape, background, container;
 
-        if (args.drawShape !== false) {
-            // load the image
-            shape = new createjs.Bitmap(getAsset(args.tileId));
+        // load the image
+        const shape = new createjs.Bitmap(getAsset(args.tileId));
 
-            // and the background (its used to tell when a tile is selected or not)
-            background = new createjs.Shape();
+        // and the background (its used to tell when a tile is selected or not)
+        const background = new createjs.Shape();
 
-            container = new createjs.Container();
-            container.addChild(shape);
-            container.addChild(background);
-
-            container.on("click", function() {
-                if (args.onClick) {
-                    args.onClick(_this);
-                }
-            });
-        }
+        const container = new createjs.Container();
+        container.addChild(shape);
+        container.addChild(background);
+        container.on("click", function() {
+            if (args.onClick) {
+                args.onClick(_this);
+            }
+        });
 
         // :: set properties :: //
 
@@ -167,23 +162,15 @@ export default class Tile {
     }
 
     addToStage() {
-        if (this.container) {
-            addToStage(this.container);
-        }
+        addToStage(this.container);
     }
 
     scaleContainer(scale: number) {
-        if (this.container) {
-            this.container.scaleX = scale;
-            this.container.scaleY = scale;
-        }
+        this.container.scaleX = scale;
+        this.container.scaleY = scale;
     }
 
     selectTile() {
-        if (!this.background) {
-            return;
-        }
-
         var g = this.background.graphics;
 
         g.beginFill("rgba(255, 0, 0, 0.3)");
@@ -191,10 +178,6 @@ export default class Tile {
     }
 
     highlightTile() {
-        if (!this.background) {
-            return;
-        }
-
         var g = this.background.graphics;
 
         g.clear();
@@ -203,10 +186,6 @@ export default class Tile {
     }
 
     clearBackground() {
-        if (!this.background) {
-            return;
-        }
-
         var g = this.background.graphics;
 
         g.clear();
@@ -215,10 +194,6 @@ export default class Tile {
     }
 
     shadow() {
-        if (!this.background) {
-            return;
-        }
-
         var g = this.background.graphics;
 
         g.clear();
@@ -227,19 +202,12 @@ export default class Tile {
     }
 
     moveTo(x: number, y: number) {
-        if (!this.container) {
-            return;
-        }
-
         this.container.x = x;
         this.container.y = y;
     }
 
     remove() {
-        if (this.container) {
-            removeFromStage(this.container);
-        }
-
+        removeFromStage(this.container);
         this.gridObject.removeTile(this.column, this.line);
     }
 }
