@@ -1,8 +1,9 @@
 import * as MapEditorMap from "./map_editor_map.js";
+import { Dimensions } from "../../scripts/main.js";
 
-export var CANVAS: HTMLCanvasElement;
-export var STAGE: createjs.Stage;
-export var PRELOAD: createjs.LoadQueue;
+var CANVAS: HTMLCanvasElement;
+var STAGE: createjs.Stage;
+var PRELOAD: createjs.LoadQueue;
 
 window.onload = function() {
     CANVAS = document.getElementById("canvas") as HTMLCanvasElement;
@@ -103,4 +104,50 @@ export function updateMenuValues(mapName: string) {
     mapNameInput.value = mapName;
 
     MapEditorMap.updateTilesLeft();
+}
+
+/**
+ * Get or set the canvas dimensions (width/height).
+ */
+export function canvasDimensions(dimensions?: Dimensions) {
+    if (typeof dimensions !== "undefined") {
+        CANVAS.width = dimensions.width;
+        CANVAS.height = dimensions.height;
+    }
+
+    return {
+        width: CANVAS.width,
+        height: CANVAS.height,
+    };
+}
+
+/**
+ * Get an asset that was pre-loaded at the start of the application.
+ */
+export function getAsset(name: string) {
+    return PRELOAD.getResult(name);
+}
+
+/**
+ * Add a game element to the stage (to be drawn).
+ */
+export function addToStage(element: createjs.DisplayObject) {
+    STAGE.addChild(element);
+}
+
+/**
+ * Remove a game element from the stage.
+ */
+export function removeFromStage(element: createjs.DisplayObject) {
+    STAGE.removeChild(element);
+}
+
+/**
+ * Change the depth of the element in the stage (z-index).
+ */
+export function setIndexInStage(
+    element: createjs.DisplayObject,
+    position: number
+) {
+    STAGE.setChildIndex(element, position);
 }

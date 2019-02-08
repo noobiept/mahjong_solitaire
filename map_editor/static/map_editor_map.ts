@@ -1,5 +1,10 @@
 import GridPosition from "./map_editor_grid_position.js";
-import { CANVAS, STAGE, updateMenuValues } from "./map_editor.js";
+import {
+    updateMenuValues,
+    canvasDimensions,
+    addToStage,
+    removeFromStage,
+} from "./map_editor.js";
 import { MapInfo, MapPosition } from "../../scripts/map.js";
 import { Omit } from "../../scripts/utilities.js";
 import { GridArgs } from "../../scripts/grid.js";
@@ -38,8 +43,10 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
     var startingX = 100;
     var startingY = 0;
 
-    CANVAS.width = columns * tileWidth + startingX;
-    CANVAS.height = lines * tileHeight + startingY;
+    canvasDimensions({
+        width: columns * tileWidth + startingX,
+        height: lines * tileHeight + startingY,
+    });
 
     var gridsContainer = document.getElementById("Grids-container")!;
 
@@ -157,7 +164,7 @@ export function selectGrid(gridPosition: number) {
             for (var b = 0; b < individualGrid.length; b++) {
                 const tile = individualGrid[b].tileObject;
                 if (tile && tile.container) {
-                    STAGE.addChild(tile.container);
+                    addToStage(tile.container);
                 }
             }
         }
@@ -173,7 +180,7 @@ export function selectGrid(gridPosition: number) {
             for (let a = 0; a < allTiles.length; a++) {
                 const container = allTiles[a].container;
                 if (container) {
-                    STAGE.removeChild(container);
+                    removeFromStage(container);
                 }
             }
         }

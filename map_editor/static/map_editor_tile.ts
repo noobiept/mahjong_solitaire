@@ -1,5 +1,5 @@
 import MapEditorGrid from "./map_editor_grid.js";
-import { PRELOAD, STAGE } from "./map_editor.js";
+import { addToStage, removeFromStage, getAsset } from "./map_editor.js";
 
 // the original image dimensions, this can be scaled
 const TILE_WIDTH = 36;
@@ -137,7 +137,7 @@ export default class MapEditorTile {
 
         if (args.drawShape !== false) {
             // load the image
-            shape = new createjs.Bitmap(PRELOAD.getResult(args.tileId));
+            shape = new createjs.Bitmap(getAsset(args.tileId));
 
             // and the background (its used to tell when a tile is selected or not)
             background = new createjs.Shape();
@@ -152,7 +152,7 @@ export default class MapEditorTile {
                 }
             });
 
-            STAGE.addChild(container);
+            addToStage(container);
         }
 
         // :: set properties :: //
@@ -225,7 +225,7 @@ export default class MapEditorTile {
 
     remove() {
         if (this.container) {
-            STAGE.removeChild(this.container);
+            removeFromStage(this.container);
         }
 
         this.gridObject.removeTile(this.column, this.line);

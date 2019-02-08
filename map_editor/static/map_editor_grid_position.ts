@@ -1,5 +1,5 @@
 import * as MapEditorMap from "./map_editor_map.js";
-import { STAGE } from "./map_editor.js";
+import { addToStage, removeFromStage, setIndexInStage } from "./map_editor.js";
 import MapEditorGrid from "./map_editor_grid.js";
 import MapEditorTile from "./map_editor_tile.js";
 
@@ -50,7 +50,7 @@ export default class GridPosition {
         });
 
         if (args.hidden !== true) {
-            STAGE.addChild(container);
+            addToStage(container);
         }
 
         this.container = container;
@@ -115,7 +115,7 @@ export default class GridPosition {
                 this.tileObject &&
                 this.tileObject.container
             ) {
-                STAGE.setChildIndex(this.tileObject.container, 0);
+                setIndexInStage(this.tileObject.container, 0);
             }
         }
 
@@ -123,18 +123,18 @@ export default class GridPosition {
     }
 
     show() {
-        STAGE.addChild(this.container);
+        addToStage(this.container);
 
         if (this.tileObject && this.tileObject.container) {
-            STAGE.addChild(this.tileObject.container);
+            addToStage(this.tileObject.container);
         }
     }
 
     hide() {
-        STAGE.removeChild(this.container);
+        removeFromStage(this.container);
 
         if (this.tileObject && this.tileObject.container) {
-            STAGE.removeChild(this.tileObject.container);
+            removeFromStage(this.tileObject.container);
         }
     }
 
@@ -144,7 +144,7 @@ export default class GridPosition {
             this.tileObject = null;
         }
 
-        STAGE.removeChild(this.container);
+        removeFromStage(this.container);
 
         var position = ALL_POSITIONS[this.gridPosition].indexOf(this);
 

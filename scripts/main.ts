@@ -7,7 +7,7 @@ import * as Sound from "./sound.js";
 import * as Game from "./game.js";
 import { MapInfo } from "./map.js";
 
-interface Dimensions {
+export interface Dimensions {
     width: number;
     height: number;
 }
@@ -180,4 +180,3 @@ export function addToStage(element: createjs.DisplayObject) {
 export function removeFromStage(element: createjs.DisplayObject) {
     STAGE.removeChild(element);
 }
-1;
