@@ -3,7 +3,7 @@ import * as Message from "./message.js";
 import * as MainMenu from "./main_menu.js";
 import * as HighScore from "./high_score.js";
 import Map, { MapInfo } from "./map.js";
-import { CANVAS, STAGE, showHideCanvas } from "./main.js";
+import { STAGE, showHideCanvas, canvasDimensions } from "./main.js";
 import { outerHeight } from "./utilities.js";
 
 // current map information
@@ -116,15 +116,16 @@ export function setActiveMap(position: number) {
 
     // for 2 players mode only
     if (MAPS.length > 1 && PLAYER_TURN) {
-        var playerName = MAPS[position].playerNumber;
+        const playerName = MAPS[position].playerNumber;
+        const canvas = canvasDimensions();
 
         if (playerName === 1) {
             // position centered in the left side of the map
-            PLAYER_TURN.x = CANVAS.width / 4;
+            PLAYER_TURN.x = canvas.width / 4;
             PLAYER_TURN.text = "Player 1 Turn";
         } else {
             // centered in the right side of the map
-            PLAYER_TURN.x = (CANVAS.width * 3) / 4;
+            PLAYER_TURN.x = (canvas.width * 3) / 4;
             PLAYER_TURN.text = "Player 2 Turn";
         }
     }
@@ -229,8 +230,10 @@ export function resize() {
     const width = window.outerWidth;
     const height = window.outerHeight - outerHeight(gameMenu);
 
-    CANVAS.width = width;
-    CANVAS.height = height;
+    canvasDimensions({
+        width: width,
+        height: height,
+    });
 
     if (MAPS.length === 1) {
         MAPS[0].scaleMap({

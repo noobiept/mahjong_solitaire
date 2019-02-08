@@ -7,7 +7,12 @@ import * as Sound from "./sound.js";
 import * as Game from "./game.js";
 import { MapInfo } from "./map.js";
 
-export var CANVAS: HTMLCanvasElement;
+interface Dimensions {
+    width: number;
+    height: number;
+}
+
+var CANVAS: HTMLCanvasElement;
 
 // createjs
 export var STAGE: createjs.Stage;
@@ -138,4 +143,19 @@ export function showHideCanvas(show: boolean) {
     } else {
         CANVAS.classList.add("hidden");
     }
+}
+
+/**
+ * Get or set the canvas dimensions (width/height).
+ */
+export function canvasDimensions(dimensions?: Dimensions) {
+    if (typeof dimensions !== "undefined") {
+        CANVAS.width = dimensions.width;
+        CANVAS.height = dimensions.height;
+    }
+
+    return {
+        width: CANVAS.width,
+        height: CANVAS.height,
+    };
 }
