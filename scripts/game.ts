@@ -73,7 +73,7 @@ export function finished() {
     // confirm that all players have finished the game, otherwise return and wait until the last player finish to proceed
     for (let a = 0; a < MAPS.length; a++) {
         // see if there's still tiles left
-        if (MAPS[a].all_tiles.length > 0) {
+        if (MAPS[a].howManyTilesLeft() > 0) {
             return;
         }
     }
@@ -81,20 +81,20 @@ export function finished() {
     GAME_FINISHED = true;
 
     for (let a = 0; a < MAPS.length; a++) {
-        HighScore.add(CURRENT_MAP.mapName, MAPS[a].score);
+        HighScore.add(CURRENT_MAP.mapName, MAPS[a].getCurrentScore());
     }
 
     let message = "";
 
     // 1 player mode
     if (MAPS.length === 1) {
-        message = "Map Cleared! Score: " + MAPS[0].score;
+        message = "Map Cleared! Score: " + MAPS[0].getCurrentScore();
     }
 
     // more than 1 player, need to determine who won
     else {
-        var playerOneScore = MAPS[0].score;
-        var playerTwoScore = MAPS[1].score;
+        var playerOneScore = MAPS[0].getCurrentScore();
+        var playerTwoScore = MAPS[1].getCurrentScore();
 
         if (playerOneScore > playerTwoScore) {
             message = "Player 1 Wins! Score: " + playerOneScore;
@@ -111,13 +111,10 @@ export function finished() {
 export function setActiveMap(position: number) {
     var previousMap = MAPS[ACTIVE_MAP];
 
-    previousMap.mapInformation.stopTimer();
-    previousMap.isCurrentActive = false;
+    previousMap.activate(false);
+    MAPS[position].activate(true);
 
     ACTIVE_MAP = position;
-
-    MAPS[position].mapInformation.startTimer();
-    MAPS[position].isCurrentActive = true;
 
     // for 2 players mode only
     if (MAPS.length > 1 && PLAYER_TURN) {
@@ -153,27 +150,21 @@ export function changePlayer() {
 
 export function shadowTiles() {
     for (var a = 0; a < MAPS.length; a++) {
-        MAPS[a].shadowTiles();
-
-        var selectedTile = MAPS[a].selected_tile;
+        const map = MAPS[a];
+        map.shadowTiles();
 
         // calling .shadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
-        if (selectedTile) {
-            selectedTile.selectTile();
-        }
+        map.reSelectCurrentSelected();
     }
 }
 
 export function unShadowTiles() {
     for (var a = 0; a < MAPS.length; a++) {
-        MAPS[a].unShadowTiles();
-
-        var selectedTile = MAPS[a].selected_tile;
+        const map = MAPS[a];
+        map.unShadowTiles();
 
         // calling .unShadowTiles() above will change the background of the selected tile (if there's one), so we need to select again
-        if (selectedTile) {
-            selectedTile.selectTile();
-        }
+        map.reSelectCurrentSelected();
     }
 }
 

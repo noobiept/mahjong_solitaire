@@ -52,16 +52,17 @@ export default class Map {
     static SHADOW_SCORE = -4;
     static TIMER_SCORE = -1;
 
-    columns: number;
-    lines: number;
-    all_tiles: Tile[];
-    all_grids: Grid[];
-    selected_tile: Tile | null;
-    mapInformation: MapInformation;
-    playerNumber: number;
-    score: number;
-    isCurrentActive: boolean;
-    hasShadows: boolean;
+    private columns: number;
+    private lines: number;
+    private all_tiles: Tile[];
+    private all_grids: Grid[];
+    private selected_tile: Tile | null;
+    private mapInformation: MapInformation;
+    private score: number;
+    private isCurrentActive: boolean;
+    private hasShadows: boolean;
+
+    readonly playerNumber: number;
 
     constructor(args: MapArgs) {
         let playerNumber = args.playerNumber;
@@ -631,6 +632,15 @@ export default class Map {
     }
 
     /**
+     * Re-selecting it makes sure it has the proper background.
+     */
+    reSelectCurrentSelected() {
+        if (this.selected_tile) {
+            this.selected_tile.selectTile();
+        }
+    }
+
+    /**
      * A tile has been clicked on, see if we can select it, or combine it with a previously selected tile.
      * Clicking on the selected tile de-selects it.
      */
@@ -739,10 +749,19 @@ export default class Map {
         return true;
     }
 
+    /**
+     * Add to the current score. Update the associated UI elements as well.
+     */
     addToScore(score: number) {
         this.score += score;
-
         this.mapInformation.updateScore(this.score);
+    }
+
+    /**
+     * Get the current score in this map.
+     */
+    getCurrentScore() {
+        return this.score;
     }
 
     addTimerScore() {
@@ -788,5 +807,18 @@ export default class Map {
             this.howManyTilesLeft(),
             this.howManySelectablePairs()
         );
+    }
+
+    /**
+     * Activate/deactivate the map.
+     */
+    activate(yes: boolean) {
+        if (yes) {
+            this.mapInformation.startTimer();
+            this.isCurrentActive = true;
+        } else {
+            this.mapInformation.stopTimer();
+            this.isCurrentActive = false;
+        }
     }
 }
