@@ -1,25 +1,21 @@
 import * as Game from "./game.js";
 import * as Message from "./message.js";
-import * as MainMenu from "./main_menu.js";
-import Map from "./map.js";
 
 export interface MapInformationArgs {
-    map: Map;
     playerNumber: number;
+    addTimerScore: () => void;
 }
 
 export default class MapInformation {
+    args: MapInformationArgs;
     tilesLeft_ui: HTMLSpanElement;
     pairsLeft_ui: HTMLSpanElement;
     score_ui: HTMLSpanElement;
     container_ui: HTMLDivElement;
     timesUpdateWasCalled: number;
-    mapObject: Map;
     interval_f: number | undefined;
 
     constructor(args: MapInformationArgs) {
-        let playerNumber = args.playerNumber;
-
         // add the html elements to the game menu
         var player = document.createElement("div");
         var tilesLeft = document.createElement("div");
@@ -27,7 +23,7 @@ export default class MapInformation {
         var score = document.createElement("div");
         var container = document.createElement("div");
 
-        player.innerText = "Player " + playerNumber;
+        player.innerText = "Player " + args.playerNumber;
         tilesLeft.innerText = "Tiles Left: ";
         pairsLeft.innerText = "Pairs Left: ";
         score.innerText = "Score: ";
@@ -60,16 +56,14 @@ export default class MapInformation {
         this.score_ui = scoreValue;
         this.container_ui = container;
         this.timesUpdateWasCalled = 0;
-        this.mapObject = args.map;
+        this.args = args;
 
         this.updateScore(0);
     }
 
     startTimer() {
-        var _this = this;
-
-        this.interval_f = window.setInterval(function() {
-            _this.mapObject.addTimerScore();
+        this.interval_f = window.setInterval(() => {
+            this.args.addTimerScore();
         }, 1000);
     }
 
@@ -82,25 +76,21 @@ export default class MapInformation {
         this.score_ui.innerText = score.toString();
     }
 
-    updateTilesLeft() {
-        var tilesLeft = this.mapObject.all_tiles.length;
+    updateTilesLeft(tilesLeft: number) {
         this.tilesLeft_ui.innerText = tilesLeft.toString();
-
-        return tilesLeft;
     }
 
-    updatePairsLeft() {
-        var pairsLeft = this.mapObject.howManySelectablePairs();
+    updatePairsLeft(pairsLeft: number) {
         this.pairsLeft_ui.innerText = pairsLeft.toString();
-
-        return pairsLeft;
     }
 
-    update() {
-        if (this.updateTilesLeft() <= 0) {
+    update(tilesLeft: number, pairsLeft: number) {
+        this.updateTilesLeft(tilesLeft);
+
+        if (tilesLeft <= 0) {
             Game.finished();
         } else {
-            var pairsLeft = this.updatePairsLeft();
+            this.updatePairsLeft(pairsLeft);
 
             if (pairsLeft <= 0) {
                 this.timesUpdateWasCalled++;

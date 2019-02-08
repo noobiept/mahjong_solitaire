@@ -79,8 +79,10 @@ export default class Map {
         this.selected_tile = null;
 
         this.mapInformation = new MapInformation({
-            map: this,
             playerNumber: playerNumber,
+            addTimerScore: () => {
+                this.addTimerScore();
+            },
         });
 
         var newMap = this.determineTileNames(mapInfo.mapDescription);
@@ -183,7 +185,7 @@ export default class Map {
             }
         }
 
-        this.mapInformation.update();
+        this.updateMapInformation();
     }
 
     /*
@@ -469,6 +471,9 @@ export default class Map {
         return selectableTiles;
     }
 
+    /**
+     * Return the number of selectable pairs left (moves that can be made).
+     */
     howManySelectablePairs() {
         var selectableTiles = this.getSelectableTiles();
         var count = 0;
@@ -491,6 +496,13 @@ export default class Map {
         }
 
         return count;
+    }
+
+    /**
+     * Return the number of tiles left in the map.
+     */
+    howManyTilesLeft() {
+        return this.all_tiles.length;
     }
 
     getPair() {
@@ -655,7 +667,7 @@ export default class Map {
 
                     this.addToScore(Map.COMBINE_SCORE);
                     this.mapInformation.timesUpdateWasCalled = 0;
-                    this.mapInformation.update();
+                    this.updateMapInformation();
 
                     if (!Game.hasEnded()) {
                         Game.changePlayer();
@@ -771,5 +783,15 @@ export default class Map {
             startingX -= 6 * scale;
             startingY += 6 * scale;
         }
+    }
+
+    /**
+     * Update the map information UI elements.
+     */
+    updateMapInformation() {
+        this.mapInformation.update(
+            this.howManyTilesLeft(),
+            this.howManySelectablePairs()
+        );
     }
 }
