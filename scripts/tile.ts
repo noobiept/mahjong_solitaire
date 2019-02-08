@@ -100,16 +100,16 @@ export default class Tile {
     static readonly WIDTH = 36;
     static readonly HEIGHT = 45;
 
-    width: number;
-    height: number;
-    tileId: TileId;
-    tileName: TileName;
-    background: createjs.Shape | undefined;
-    shape: createjs.Bitmap | undefined;
-    container: createjs.Container | undefined;
-    column: number;
-    line: number;
-    gridObject: Grid;
+    readonly width: number;
+    readonly height: number;
+    readonly tileId: TileId;
+    readonly tileName: TileName;
+    readonly column: number;
+    readonly line: number;
+    readonly gridObject: Grid;
+
+    private background: createjs.Shape | undefined;
+    private container: createjs.Container | undefined;
 
     constructor(args: TileArgs) {
         var _this = this;
@@ -151,8 +151,6 @@ export default class Tile {
                     args.onClick(_this);
                 }
             });
-
-            addToStage(container);
         }
 
         // :: set properties :: //
@@ -160,11 +158,25 @@ export default class Tile {
         this.tileId = args.tileId;
         this.tileName = args.tileName;
         this.background = background;
-        this.shape = shape;
         this.container = container;
         this.column = args.column;
         this.line = args.line;
         this.gridObject = args.gridObject;
+
+        this.addToStage();
+    }
+
+    addToStage() {
+        if (this.container) {
+            addToStage(this.container);
+        }
+    }
+
+    scaleContainer(scale: number) {
+        if (this.container) {
+            this.container.scaleX = scale;
+            this.container.scaleY = scale;
+        }
     }
 
     selectTile() {

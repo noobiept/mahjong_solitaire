@@ -73,14 +73,11 @@ export default class Grid {
         for (var a = 0; a < this.all_tiles.length; a++) {
             var tile = this.all_tiles[a];
 
-            if (tile.container) {
-                tile.container.scaleX = scale;
-                tile.container.scaleY = scale;
-                tile.moveTo(
-                    startingX + (tile.column * tile.width * scale) / 2,
-                    startingY + (tile.line * tile.height * scale) / 2
-                );
-            }
+            tile.scaleContainer(scale);
+            tile.moveTo(
+                startingX + (tile.column * tile.width * scale) / 2,
+                startingY + (tile.line * tile.height * scale) / 2
+            );
         }
     }
 }

@@ -24,7 +24,6 @@ window.onload = function() {
 
 function initApp(data: AppStorage.Data) {
     CANVAS = document.getElementById("MainCanvas") as HTMLCanvasElement;
-
     STAGE = new createjs.Stage(CANVAS);
 
     GameMenu.init();
