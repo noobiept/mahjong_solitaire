@@ -3,7 +3,12 @@ import * as Message from "./message.js";
 import * as MainMenu from "./main_menu.js";
 import * as HighScore from "./high_score.js";
 import Map, { MapInfo } from "./map.js";
-import { STAGE, showHideCanvas, canvasDimensions } from "./main.js";
+import {
+    showHideCanvas,
+    canvasDimensions,
+    addToStage,
+    removeFromStage,
+} from "./main.js";
 import { outerHeight } from "./utilities.js";
 
 // current map information
@@ -45,7 +50,7 @@ export function start(selectedMap: MapInfo, twoPlayers: boolean) {
         PLAYER_TURN = new createjs.Text("", "30px monospace", "red");
         PLAYER_TURN.textAlign = "center";
 
-        STAGE.addChild(PLAYER_TURN);
+        addToStage(PLAYER_TURN);
     } else {
         MAPS.push(new Map({ mapInfo: selectedMap, playerNumber: 1 }));
     }
@@ -196,7 +201,7 @@ function resetStuff() {
     showHideCanvas(false);
 
     if (PLAYER_TURN) {
-        STAGE.removeChild(PLAYER_TURN);
+        removeFromStage(PLAYER_TURN);
         PLAYER_TURN = null;
     }
 }

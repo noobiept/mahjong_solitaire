@@ -1,5 +1,5 @@
 import Grid from "./grid.js";
-import { PRELOAD, STAGE } from "./main.js";
+import { getAsset, addToStage, removeFromStage } from "./main.js";
 
 // the original image dimensions, this can be scaled
 const TILE_WIDTH = 36;
@@ -137,7 +137,7 @@ export default class Tile {
 
         if (args.drawShape !== false) {
             // load the image
-            shape = new createjs.Bitmap(PRELOAD.getResult(args.tileId));
+            shape = new createjs.Bitmap(getAsset(args.tileId));
 
             // and the background (its used to tell when a tile is selected or not)
             background = new createjs.Shape();
@@ -152,7 +152,7 @@ export default class Tile {
                 }
             });
 
-            STAGE.addChild(container);
+            addToStage(container);
         }
 
         // :: set properties :: //
@@ -225,7 +225,7 @@ export default class Tile {
 
     remove() {
         if (this.container) {
-            STAGE.removeChild(this.container);
+            removeFromStage(this.container);
         }
 
         this.gridObject.removeTile(this.column, this.line);

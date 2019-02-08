@@ -4,7 +4,7 @@ import * as Utilities from "./utilities.js";
 import Tile, { TileName, TileArgs, TileId } from "./tile.js";
 import Grid, { GridArgs } from "./grid.js";
 import MapInformation from "./map_information.js";
-import { STAGE } from "./main.js";
+import { addToStage } from "./main.js";
 
 export interface MapPosition {
     line: number;
@@ -157,7 +157,7 @@ export default class Map {
                     element = grid.grid_array[column][line];
 
                     if (element && element.container) {
-                        STAGE.addChild(element.container);
+                        addToStage(element.container);
                     }
 
                     line++;
@@ -174,7 +174,7 @@ export default class Map {
                     element = grid.grid_array[column][line];
 
                     if (element && element.container) {
-                        STAGE.addChild(element.container);
+                        addToStage(element.container);
                     }
 
                     line++;

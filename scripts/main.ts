@@ -15,8 +15,8 @@ interface Dimensions {
 var CANVAS: HTMLCanvasElement;
 
 // createjs
-export var STAGE: createjs.Stage;
-export var PRELOAD: createjs.LoadQueue;
+var STAGE: createjs.Stage;
+var PRELOAD: createjs.LoadQueue;
 
 window.onload = function() {
     AppStorage.getData(["mahjong_high_score"], initApp);
@@ -159,3 +159,25 @@ export function canvasDimensions(dimensions?: Dimensions) {
         height: CANVAS.height,
     };
 }
+
+/**
+ * Get an asset that was pre-loaded at the start of the application.
+ */
+export function getAsset(name: string) {
+    return PRELOAD.getResult(name);
+}
+
+/**
+ * Add a game element to the stage (to be drawn).
+ */
+export function addToStage(element: createjs.DisplayObject) {
+    STAGE.addChild(element);
+}
+
+/**
+ * Remove a game element from the stage.
+ */
+export function removeFromStage(element: createjs.DisplayObject) {
+    STAGE.removeChild(element);
+}
+1;
