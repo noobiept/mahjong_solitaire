@@ -19,7 +19,10 @@ var STAGE: createjs.Stage;
 var PRELOAD: createjs.LoadQueue;
 
 window.onload = function() {
-    AppStorage.getData(["mahjong_high_score", "mahjong_sound_muted"], initApp);
+    AppStorage.getData(
+        ["mahjong_high_score", "mahjong_sound_muted", "mahjong_selected_map"],
+        initApp
+    );
 };
 
 function initApp(data: AppStorage.Data) {
@@ -99,13 +102,16 @@ function initApp(data: AppStorage.Data) {
         Message.hide();
 
         // the order of the array needs to match the order of the html elements in the main menu
-        MainMenu.init([
-            PRELOAD.getResult("map_pyramid") as MapInfo,
-            PRELOAD.getResult("map_tower") as MapInfo,
-            PRELOAD.getResult("map_fish") as MapInfo,
-            PRELOAD.getResult("map_crossroads") as MapInfo,
-            PRELOAD.getResult("map_cross") as MapInfo,
-        ]);
+        MainMenu.init(
+            [
+                PRELOAD.getResult("map_pyramid") as MapInfo,
+                PRELOAD.getResult("map_tower") as MapInfo,
+                PRELOAD.getResult("map_fish") as MapInfo,
+                PRELOAD.getResult("map_crossroads") as MapInfo,
+                PRELOAD.getResult("map_cross") as MapInfo,
+            ],
+            data["mahjong_selected_map"]
+        );
         MainMenu.open();
     });
     PRELOAD.loadManifest(manifest, true);

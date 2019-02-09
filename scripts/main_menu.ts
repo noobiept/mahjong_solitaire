@@ -3,18 +3,19 @@ import * as HighScore from "./high_score.js";
 import * as Utilities from "./utilities.js";
 import { MapInfo } from "./map.js";
 import { stopMusic } from "./sound.js";
+import { setData } from "./app_storage.js";
 
 var MENU: HTMLElement;
 var HIGH_SCORE: HTMLElement;
 
 // has the mapInfo of the maps (the .json loaded from /maps/)
 var MAPS_AVAILABLE: MapInfo[] = [];
-var SELECTED_MAP = 0;
+var SELECTED_MAP = -1;
 
 // has reference for the html elements used to select the map in the main menu
 var MAPS_ELEMENTS: Element[] = [];
 
-export function init(maps: MapInfo[]) {
+export function init(maps: MapInfo[], initialSelectedMap?: number) {
     MENU = document.getElementById("MainMenu")!;
     HIGH_SCORE = document.getElementById("HighScore")!;
 
@@ -62,6 +63,12 @@ export function init(maps: MapInfo[]) {
 
     MAPS_AVAILABLE = maps;
     MAPS_ELEMENTS = Array.from(selectMapContainer.children);
+
+    if (typeof initialSelectedMap !== "number") {
+        selectMap(0, false);
+    } else {
+        selectMap(initialSelectedMap, false);
+    }
 }
 
 /**
@@ -147,9 +154,25 @@ export function openHighScore() {
     HIGH_SCORE.classList.remove("hidden");
 }
 
-export function selectMap(position: number) {
-    MAPS_ELEMENTS[SELECTED_MAP].classList.remove("mapSelected");
-    MAPS_ELEMENTS[position].classList.add("mapSelected");
+/**
+ * Select a different map.
+ */
+export function selectMap(position: number, save = true) {
+    if (position === SELECTED_MAP) {
+        return;
+    }
 
+    const previous = MAPS_ELEMENTS[SELECTED_MAP];
+    const next = MAPS_ELEMENTS[position];
+
+    if (previous) {
+        previous.classList.remove("mapSelected");
+    }
+
+    next.classList.add("mapSelected");
     SELECTED_MAP = position;
+
+    if (save) {
+        setData({ mahjong_selected_map: position });
+    }
 }
