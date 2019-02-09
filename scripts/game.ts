@@ -10,6 +10,7 @@ import {
     removeFromStage,
 } from "./main.js";
 import { outerHeight } from "./utilities.js";
+import { playMusic } from "./sound.js";
 
 // current map information
 var CURRENT_MAP: MapInfo;
@@ -37,6 +38,7 @@ var GAME_FINISHED = false;
 export function start(selectedMap: MapInfo, twoPlayers: boolean) {
     resetStuff();
     showHideCanvas(true);
+    playMusic();
 
     TWO_PLAYER_MODE = twoPlayers;
     GAME_FINISHED = false; // can't have this on Game.resetStuff() (leads to an issue when finishing the game)

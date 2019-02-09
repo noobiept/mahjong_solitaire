@@ -28,6 +28,7 @@ function initApp(data: AppStorage.Data) {
 
     GameMenu.init();
     Message.init();
+    Sound.init();
     HighScore.load(data["mahjong_high_score"]);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -106,7 +107,6 @@ function initApp(data: AppStorage.Data) {
             PRELOAD.getResult("map_cross") as MapInfo,
         ]);
         MainMenu.open();
-        Sound.init();
     });
     PRELOAD.loadManifest(manifest, true);
 }

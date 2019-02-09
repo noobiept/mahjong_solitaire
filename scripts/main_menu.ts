@@ -2,6 +2,7 @@ import * as Game from "./game.js";
 import * as HighScore from "./high_score.js";
 import * as Utilities from "./utilities.js";
 import { MapInfo } from "./map.js";
+import { stopMusic } from "./sound.js";
 
 var MENU: HTMLElement;
 var HIGH_SCORE: HTMLElement;
@@ -67,6 +68,7 @@ export function init(maps: MapInfo[]) {
  * Show the main menu.
  */
 export function open() {
+    stopMusic();
     selectMap(SELECTED_MAP);
     MENU.classList.remove("hidden");
 }
