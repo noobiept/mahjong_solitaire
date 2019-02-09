@@ -1,7 +1,8 @@
 import { Score } from "./high_score";
 
 export interface Data {
-    mahjong_high_score?: Score;
+    mahjong_high_score?: Score; // all the high-scores
+    mahjong_sound_muted?: boolean; // whether the sound is muted or not
 }
 
 /**

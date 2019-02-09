@@ -19,7 +19,7 @@ var STAGE: createjs.Stage;
 var PRELOAD: createjs.LoadQueue;
 
 window.onload = function() {
-    AppStorage.getData(["mahjong_high_score"], initApp);
+    AppStorage.getData(["mahjong_high_score", "mahjong_sound_muted"], initApp);
 };
 
 function initApp(data: AppStorage.Data) {
@@ -28,7 +28,7 @@ function initApp(data: AppStorage.Data) {
 
     GameMenu.init();
     Message.init();
-    Sound.init();
+    Sound.init(data["mahjong_sound_muted"]);
     HighScore.load(data["mahjong_high_score"]);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
