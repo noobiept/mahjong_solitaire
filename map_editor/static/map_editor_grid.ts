@@ -7,11 +7,11 @@ export interface GridArgs {
 }
 
 export default class MapEditorGrid {
-    grid_array: (MapEditorTile | null)[][];
-    all_tiles: MapEditorTile[];
-    numberOfColumns: number;
-    numberOfLines: number;
-    position: number;
+    private grid_array: (MapEditorTile | null)[][];
+    private all_tiles: MapEditorTile[];
+    readonly numberOfColumns: number;
+    readonly numberOfLines: number;
+    readonly position: number;
 
     constructor(args: GridArgs) {
         const numberOfColumns = args.numberOfColumns;
@@ -73,8 +73,7 @@ export default class MapEditorGrid {
         for (var a = 0; a < this.all_tiles.length; a++) {
             var tile = this.all_tiles[a];
 
-            tile.container.scaleX = scale;
-            tile.container.scaleY = scale;
+            tile.scaleContainer(scale);
             tile.moveTo(
                 startingX + (tile.column * tile.width * scale) / 2,
                 startingY + (tile.line * tile.height * scale) / 2

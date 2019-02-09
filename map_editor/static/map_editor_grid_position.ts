@@ -1,5 +1,5 @@
 import * as MapEditorMap from "./map_editor_map.js";
-import { addToStage, removeFromStage, setIndexInStage } from "./map_editor.js";
+import { addToStage, removeFromStage } from "./map_editor.js";
 import MapEditorGrid from "./map_editor_grid.js";
 import MapEditorTile from "./map_editor_tile.js";
 
@@ -18,15 +18,15 @@ var ALL_POSITIONS: GridPosition[][] = [];
  * Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square.
  */
 export default class GridPosition {
-    container: createjs.Container;
-    width: number;
-    height: number;
-    hasTile: boolean;
-    tileObject: MapEditorTile | null;
-    column: number;
-    line: number;
-    gridObject: MapEditorGrid;
-    gridPosition: number;
+    private container: createjs.Container;
+    private hasTile: boolean;
+    private tileObject: MapEditorTile | null;
+    private gridObject: MapEditorGrid;
+    readonly gridPosition: number;
+    readonly column: number;
+    readonly line: number;
+    readonly width: number;
+    readonly height: number;
 
     constructor(args: GridPositionArgs) {
         var _this = this;
@@ -102,37 +102,37 @@ export default class GridPosition {
 
             this.tileObject = tile;
 
-            tile.container.scaleX = 2;
-            tile.container.scaleY = 2;
-            tile.container.x = this.container.x;
-            tile.container.y = this.container.y;
+            tile.scaleContainer(2);
+            tile.moveTo(this.container.x, this.container.y);
 
             // so that it is drawn below the other elements (otherwise the tile could be on top of some other grid position, making it difficult to click on it
-            if (
-                drawBelow !== false &&
-                this.tileObject &&
-                this.tileObject.container
-            ) {
-                setIndexInStage(this.tileObject.container, 0);
+            if (drawBelow !== false && this.tileObject) {
+                this.tileObject.changeDepthInStage(0);
             }
         }
 
         MapEditorMap.updateTilesLeft();
     }
 
+    /**
+     * Add the associated tile to the stage (if it exists).
+     */
+    addTileToStage() {
+        if (this.tileObject) {
+            this.tileObject.addToStage();
+        }
+    }
+
     show() {
         addToStage(this.container);
-
-        if (this.tileObject) {
-            addToStage(this.tileObject.container);
-        }
+        this.addTileToStage();
     }
 
     hide() {
         removeFromStage(this.container);
 
         if (this.tileObject) {
-            removeFromStage(this.tileObject.container);
+            this.tileObject.removeFromStage();
         }
     }
 

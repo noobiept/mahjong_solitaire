@@ -1,10 +1,5 @@
 import GridPosition from "./map_editor_grid_position.js";
-import {
-    updateMenuValues,
-    canvasDimensions,
-    addToStage,
-    removeFromStage,
-} from "./map_editor.js";
+import { updateMenuValues, canvasDimensions } from "./map_editor.js";
 import { MapInfo, MapPosition } from "../../scripts/map.js";
 import { Omit } from "../../scripts/utilities.js";
 import { GridArgs } from "../../scripts/grid.js";
@@ -161,10 +156,8 @@ export function selectGrid(gridPosition: number) {
             var individualGrid = allGridPositions[a];
 
             for (var b = 0; b < individualGrid.length; b++) {
-                const tile = individualGrid[b].tileObject;
-                if (tile) {
-                    addToStage(tile.container);
-                }
+                const position = individualGrid[b];
+                position.addTileToStage();
             }
         }
 
@@ -177,10 +170,8 @@ export function selectGrid(gridPosition: number) {
         if (SELECTED_GRID < 0) {
             // hide all tiles
             for (let a = 0; a < allTiles.length; a++) {
-                const container = allTiles[a].container;
-                if (container) {
-                    removeFromStage(container);
-                }
+                const tile = allTiles[a];
+                tile.removeFromStage();
             }
         }
 
@@ -297,9 +288,6 @@ export function addTile(args: TileArgs) {
     var tile = new MapEditorTile(args);
 
     ALL_TILES.push(tile);
-
-    tile.container.removeAllEventListeners("click");
-
     TILES_LEFT--;
 
     return tile;

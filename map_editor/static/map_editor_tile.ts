@@ -1,5 +1,10 @@
 import MapEditorGrid from "./map_editor_grid.js";
-import { addToStage, removeFromStage, getAsset } from "./map_editor.js";
+import {
+    addToStage,
+    removeFromStage,
+    getAsset,
+    setIndexInStage,
+} from "./map_editor.js";
 
 // the original image dimensions, this can be scaled
 const TILE_WIDTH = 36;
@@ -92,27 +97,23 @@ export interface TileArgs {
     column: number;
     line: number;
     gridObject: MapEditorGrid;
-    onClick?: (tile: MapEditorTile) => any;
 }
 
 /**
  * A tile is a manufactured piece of hard-wearing material such as ceramic, stone, metal, or even glass.
  */
 export default class MapEditorTile {
-    width: number;
-    height: number;
-    tileId: TileId;
-    tileName: TileName;
-    background: createjs.Shape;
-    shape: createjs.Bitmap;
-    container: createjs.Container;
-    column: number;
-    line: number;
-    gridObject: MapEditorGrid;
+    private container: createjs.Container;
+    private background: createjs.Shape;
+    readonly gridObject: MapEditorGrid;
+    readonly width: number;
+    readonly height: number;
+    readonly tileId: TileId;
+    readonly tileName: TileName;
+    readonly column: number;
+    readonly line: number;
 
     constructor(args: TileArgs) {
-        var _this = this;
-
         // :: validate the arguments :: //
 
         if (typeof args.tileId === "undefined") {
@@ -142,11 +143,6 @@ export default class MapEditorTile {
         const container = new createjs.Container();
         container.addChild(shape);
         container.addChild(background);
-        container.on("click", function() {
-            if (args.onClick) {
-                args.onClick(_this);
-            }
-        });
 
         addToStage(container);
 
@@ -155,7 +151,6 @@ export default class MapEditorTile {
         this.tileId = args.tileId;
         this.tileName = args.tileName;
         this.background = background;
-        this.shape = shape;
         this.container = container;
         this.column = args.column;
         this.line = args.line;
@@ -217,6 +212,23 @@ export default class MapEditorTile {
     remove() {
         removeFromStage(this.container);
         this.gridObject.removeTile(this.column, this.line);
+    }
+
+    addToStage() {
+        addToStage(this.container);
+    }
+
+    removeFromStage() {
+        removeFromStage(this.container);
+    }
+
+    changeDepthInStage(depth: number) {
+        setIndexInStage(this.container, depth);
+    }
+
+    scaleContainer(scale: number) {
+        this.container.scaleX = scale;
+        this.container.scaleY = scale;
     }
 
     static getImageWidth() {
