@@ -39,7 +39,7 @@
         "dev": "npm-run-all --parallel game map",
         "game": "npm-run-all --parallel game:*",
         "game:watch": "tsc -w",
-        "game:copy_libraries": "grunt copy:libraries",
+        "game:update_libraries": "grunt update_libraries",
         "game:server": "http-server -p 8000 --silent",
         "map": "npm-run-all --parallel map_client map_server",
         "map_client": "tsc -w --project ./map_editor/static/",
