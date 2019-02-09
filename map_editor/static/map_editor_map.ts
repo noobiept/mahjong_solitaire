@@ -20,6 +20,9 @@ var ALL_TILES: MapEditorTile[] = [];
 var SELECTED_GRID = -1;
 var TILES_LEFT = 144;
 
+/**
+ * Create the grid with the grid positions.
+ */
 export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
     var numberOfGrids;
 
@@ -93,6 +96,9 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
     updateMenuValues(mapInfo.mapName);
 }
 
+/**
+ * Show the tiles in the map editor based on the map info.
+ */
 export function constructMap(mapInfo: MapInfo) {
     var mapDescription = mapInfo.mapDescription;
 
@@ -125,6 +131,9 @@ export function constructMap(mapInfo: MapInfo) {
     }
 }
 
+/**
+ * Select a grid. Show only the tiles and grid position elements from that grid.
+ */
 export function selectGrid(gridPosition: number) {
     // -1 is to show all grids, 0+ is to select a specific grid
     if (gridPosition < -1 || gridPosition >= ALL_GRIDS.length) {
@@ -198,6 +207,9 @@ export function selectGrid(gridPosition: number) {
     SELECTED_GRID = gridPosition;
 }
 
+/**
+ * Save the current map state.
+ */
 export async function save() {
     const mapNameInput = document.getElementById("MapName") as HTMLInputElement;
     var mapName = mapNameInput.value;
@@ -248,6 +260,9 @@ export async function save() {
     }
 }
 
+/**
+ * Load a specific map from the server.
+ */
 export async function load(mapName?: string) {
     clear();
 
@@ -284,6 +299,9 @@ export async function load(mapName?: string) {
     }
 }
 
+/**
+ * Add a tile to the map.
+ */
 export function addTile(args: TileArgs) {
     var tile = new MapEditorTile(args);
 
@@ -293,16 +311,20 @@ export function addTile(args: TileArgs) {
     return tile;
 }
 
+/**
+ * Remove a tile from the map.
+ */
 export function removeTile(tileObject: MapEditorTile) {
     var position = ALL_TILES.indexOf(tileObject);
 
     ALL_TILES.splice(position, 1);
-
     tileObject.remove();
-
     TILES_LEFT++;
 }
 
+/**
+ * Add a new grid to the map.
+ */
 export function addGrid(args: Omit<GridArgs, "position">) {
     var grid = new MapEditorGrid({
         numberOfColumns: args.numberOfColumns,
@@ -315,28 +337,46 @@ export function addGrid(args: Omit<GridArgs, "position">) {
     return grid;
 }
 
+/**
+ * Remove a grid from the map.
+ */
 export function removeGrid(gridObject: MapEditorGrid) {
     var position = ALL_GRIDS.indexOf(gridObject);
 
     ALL_GRIDS.splice(position, 1);
 }
 
+/**
+ * Get a specific grid object.
+ */
 export function getGrid(position: number) {
     return ALL_GRIDS[position];
 }
 
+/**
+ * Get all the grids.
+ */
 export function getAllGrids() {
     return ALL_GRIDS;
 }
 
+/**
+ * Get all the tiles.
+ */
 export function getAllTiles() {
     return ALL_TILES;
 }
 
+/**
+ * Remove all the grids.
+ */
 export function removeAllGrids() {
     ALL_GRIDS.length = 0;
 }
 
+/**
+ * Remove all the tiles.
+ */
 export function removeAllTiles() {
     for (var a = 0; a < ALL_TILES.length; a++) {
         ALL_TILES[a].remove();
@@ -345,6 +385,9 @@ export function removeAllTiles() {
     ALL_TILES.length = 0;
 }
 
+/**
+ * Clear the map state.
+ */
 export function clear() {
     GridPosition.removeAll();
     removeAllGrids();
@@ -354,6 +397,9 @@ export function clear() {
     document.getElementById("Grids-container")!.innerHTML = "";
 }
 
+/**
+ * Update the UI with the current number of tiles left (to have a complete map).
+ */
 export function updateTilesLeft() {
     const tilesLeft = document.getElementById("TilesLeft")!;
     tilesLeft.innerText = "Tiles Left: " + TILES_LEFT;

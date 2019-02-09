@@ -34,16 +34,16 @@ export interface MapArgs {
     playerNumber: number;
 }
 
-/*
-    Generates a map. Each map has 144 tiles.
-
-        - 4x bamboo suit (1 to 9)
-        - 4x character suit (1 to 9)
-        - 4x circle suit (1 to 9)
-        - 4x wind tiles (4)
-        - 4x dragon tiles (3)
-        - flower tiles (4)
-        - season tiles (4)
+/**
+ * Generates a map. Each map has 144 tiles.
+ *
+ *      - 4x bamboo suit (1 to 9)
+ *      - 4x character suit (1 to 9)
+ *      - 4x circle suit (1 to 9)
+ *      - 4x wind tiles (4)
+ *      - 4x dragon tiles (3)
+ *      - flower tiles (4)
+ *      - season tiles (4)
  */
 export default class Map {
     static SHUFFLE_SCORE = -100;
@@ -96,18 +96,9 @@ export default class Map {
         this.buildMap(newMap);
     }
 
-    /*
-    mapDescription = [
-            [           // grid 1
-                { column: 0, line: 0, tileId: 'bamboo1', tileName: 'bamboo1' },
-                { column: 2, line: 2, tileId: 'flower1', tileName: 'flower' },
-                    // ...
-            ],
-            [           // grid 2
-                // ...
-            ]
-        ]
- */
+    /**
+     * Build the map based on the map description. The first dimension is the grids, and the next one is the description of each tile.
+     */
     buildMap(mapDescription: MapTilePosition[][]) {
         var mapObject = this;
         var grid;
@@ -188,11 +179,10 @@ export default class Map {
         this.updateMapInformation();
     }
 
-    /*
-    Determines the tile name for each position in the map, in a way so that the map is solvable
-
-    Start with a complete map, and find the selectable tiles. Determine the tile names, and remove those tiles, find again the selectable tiles, and so on.
- */
+    /**
+     * Determines the tile name for each position in the map, in a way so that the map is solvable.
+     * Start with a complete map, and find the selectable tiles. Determine the tile names, and remove those tiles, find again the selectable tiles, and so on.
+     */
     determineTileNames(
         mapDescription: MapPosition[][],
         tilePairs?: TileName[]
@@ -263,6 +253,9 @@ export default class Map {
         return newMap;
     }
 
+    /**
+     * Re-make the current map.
+     */
     shuffle(addToScore = true) {
         var allTiles = this.all_tiles;
         var a;
@@ -325,6 +318,9 @@ export default class Map {
         Game.resize();
     }
 
+    /**
+     * Return valid pairs of tiles, making sure that the generated map has the correct number of each type of tile.
+     */
     getNextTile(tilesNames?: TileName[]) {
         if (typeof tilesNames === "undefined") {
             // i'll get a pair of each one of the names here
@@ -452,9 +448,9 @@ export default class Map {
         };
     }
 
-    /*
-    Returns an array with the tiles that can be selected in the map
- */
+    /**
+     * Returns an array with the tiles that can be selected in the map.
+     */
     getSelectableTiles() {
         var allTiles = this.all_tiles;
         var tile;
@@ -505,6 +501,9 @@ export default class Map {
         return this.all_tiles.length;
     }
 
+    /**
+     * Get a valid pair that is selectable.
+     */
     getPair() {
         var tiles = this.getSelectableTiles();
         var first, second;
@@ -524,6 +523,9 @@ export default class Map {
         return null;
     }
 
+    /**
+     * Highlight a random valid selectable pair.
+     */
     highlightRandomPair() {
         var pair = this.getPair();
 
@@ -535,9 +537,9 @@ export default class Map {
         }
     }
 
-    /*
-    shadows the un-selectable tiles in the map
- */
+    /**
+     * Shadows the un-selectable tiles in the map.
+     */
     shadowTiles() {
         this.hasShadows = true;
         var allTiles = this.all_tiles;
@@ -553,6 +555,9 @@ export default class Map {
         }
     }
 
+    /**
+     * Removes the shadow from the un-selectable tiles in the map.
+     */
     unShadowTiles() {
         this.hasShadows = false;
         var allTiles = this.all_tiles;
@@ -564,6 +569,9 @@ export default class Map {
         }
     }
 
+    /**
+     * Add a tile to the map.
+     */
     addTile(args: TileArgs) {
         var tile = new Tile(args);
 
@@ -575,14 +583,19 @@ export default class Map {
         return tile;
     }
 
+    /**
+     * Remove a tile from the map.
+     */
     removeTile(tileObject: Tile) {
         var position = this.all_tiles.indexOf(tileObject);
 
         this.all_tiles.splice(position, 1);
-
         tileObject.remove();
     }
 
+    /**
+     * Add a new grid to the map.
+     */
     addGrid(args: Utilities.Omit<GridArgs, "position">) {
         var grid = new Grid({
             numberOfColumns: args.numberOfColumns,
@@ -595,16 +608,25 @@ export default class Map {
         return grid;
     }
 
+    /**
+     * Remove a grid from the map.
+     */
     removeGrid(gridObject: Grid) {
         var position = this.all_grids.indexOf(gridObject);
 
         this.all_grids.splice(position, 1);
     }
 
+    /**
+     * Remove all grids.
+     */
     removeAllGrids() {
         this.all_grids.length = 0;
     }
 
+    /**
+     * Remove all the tiles.
+     */
     removeAllTiles() {
         for (var a = 0; a < this.all_tiles.length; a++) {
             this.all_tiles[a].remove();
@@ -613,21 +635,28 @@ export default class Map {
         this.all_tiles.length = 0;
     }
 
+    /**
+     * Clear the map state.
+     */
     clear() {
         this.removeAllTiles();
         this.removeAllGrids();
         this.mapInformation.clear();
     }
 
+    /**
+     * Select a single tile.
+     */
     selectTile(tile: Tile) {
         this.selected_tile = tile;
-
         tile.selectTile();
     }
 
+    /**
+     * Unselect a tile.
+     */
     unSelectTile(tile: Tile) {
         this.selected_tile = null;
-
         tile.clearBackground();
     }
 
@@ -764,11 +793,17 @@ export default class Map {
         return this.score;
     }
 
+    /**
+     * As time passes, we keep worsening the score (the faster you finish the map, the better the score will be).
+     */
     addTimerScore() {
         const shadowsNumber = this.hasShadows === true ? 1 : 0; // if the shadow option is being used, we add a penalty to the timer score
         this.addToScore(Map.TIMER_SCORE + shadowsNumber * Map.SHADOW_SCORE);
     }
 
+    /**
+     * Scale the map to a new value.
+     */
     scaleMap(dimensions: MapDimension) {
         var tileWidth = Tile.WIDTH;
         var tileHeight = Tile.HEIGHT;

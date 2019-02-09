@@ -34,10 +34,9 @@ export default class MapEditorGrid {
     }
 
     /**
-    Each tile occupies a 2x2 square
-
-    The column/line argument, points to the position in top left
- */
+     * Each tile occupies a 2x2 square.
+     * The column/line argument, points to the position in top left.
+     */
     addTile(tileObject: MapEditorTile, column: number, line: number) {
         this.grid_array[column][line] = tileObject;
         this.grid_array[column][line + 1] = tileObject;

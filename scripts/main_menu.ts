@@ -15,6 +15,9 @@ var SELECTED_MAP = -1;
 // has reference for the html elements used to select the map in the main menu
 var MAPS_ELEMENTS: Element[] = [];
 
+/**
+ * Initialize the main menu. Pass as arguments the maps to be shown and which one is to be initially selected.
+ */
 export function init(maps: MapInfo[], initialSelectedMap?: number) {
     MENU = document.getElementById("MainMenu")!;
     HIGH_SCORE = document.getElementById("HighScore")!;
@@ -87,6 +90,9 @@ export function hide() {
     MENU.classList.add("hidden");
 }
 
+/**
+ * Show the high-scores section/page.
+ */
 export function openHighScore() {
     var table = document.getElementById("HighScore-table")!;
     var scores = HighScore.getAll();

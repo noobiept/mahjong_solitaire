@@ -73,13 +73,17 @@ export default class GridPosition {
         ALL_POSITIONS[gridPosition].push(this);
     }
 
+    /**
+     * Move to a different position.
+     */
     moveTo(x: number, y: number) {
         this.container.x = x;
         this.container.y = y;
     }
 
     /**
-     * @param drawBelow If the tile is draw below all elements (z-index)
+     * Add/remove a tile in this position.
+     * @param drawBelow If the tile is draw below all elements (z-index).
      */
     onClick(drawBelow = true) {
         if (this.hasTile) {
@@ -123,11 +127,17 @@ export default class GridPosition {
         }
     }
 
+    /**
+     * Show this grid position and the associated tile.
+     */
     show() {
         addToStage(this.container);
         this.addTileToStage();
     }
 
+    /**
+     * Hide the grid position and the associated tile.
+     */
     hide() {
         removeFromStage(this.container);
 
@@ -136,6 +146,9 @@ export default class GridPosition {
         }
     }
 
+    /**
+     * Remove this grid position.
+     */
     remove() {
         if (this.tileObject) {
             MapEditorMap.removeTile(this.tileObject);
@@ -145,17 +158,18 @@ export default class GridPosition {
         removeFromStage(this.container);
 
         var position = ALL_POSITIONS[this.gridPosition].indexOf(this);
-
         ALL_POSITIONS[this.gridPosition].splice(position, 1);
     }
 
+    /**
+     * Remove all the grid positions.
+     */
     static removeAll() {
         for (var a = 0; a < ALL_POSITIONS.length; a++) {
             var grids = ALL_POSITIONS[a];
 
             for (var b = 0; b < grids.length; b++) {
                 var gridPosition = grids[b];
-
                 gridPosition.remove();
 
                 b--;
@@ -165,13 +179,16 @@ export default class GridPosition {
         ALL_POSITIONS.length = 0;
     }
 
-    /*
-    Get all the GridPosition elements from a selected grid
- */
+    /**
+     * Get all the GridPosition elements from a selected grid.
+     */
     static getGrid(gridPosition: number) {
         return ALL_POSITIONS[gridPosition];
     }
 
+    /**
+     * Get all the grid positions in all the grids.
+     */
     static getAll() {
         return ALL_POSITIONS;
     }

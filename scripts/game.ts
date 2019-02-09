@@ -71,6 +71,9 @@ export function restart() {
     start(CURRENT_MAP, TWO_PLAYER_MODE);
 }
 
+/**
+ * Game is finished, add the scores, show an ending message and go back to the main menu.
+ */
 export function finished() {
     // confirm that all players have finished the game, otherwise return and wait until the last player finish to proceed
     for (let a = 0; a < MAPS.length; a++) {
@@ -110,6 +113,9 @@ export function finished() {
     quit(message);
 }
 
+/**
+ * Activate a specific map. Useful to switch between maps in 2 player mode.
+ */
 export function setActiveMap(position: number) {
     var previousMap = MAPS[ACTIVE_MAP];
 
@@ -135,6 +141,9 @@ export function setActiveMap(position: number) {
     }
 }
 
+/**
+ * Next player's turn.
+ */
 export function changePlayer() {
     // only 1 player
     if (MAPS.length <= 1) {
@@ -150,6 +159,9 @@ export function changePlayer() {
     setActiveMap(nextPlayer);
 }
 
+/**
+ * Shadow the tiles that aren't playable (because they're underneath other tiles).
+ */
 export function shadowTiles() {
     for (var a = 0; a < MAPS.length; a++) {
         const map = MAPS[a];
@@ -160,6 +172,9 @@ export function shadowTiles() {
     }
 }
 
+/**
+ * Remove the shadow on unplayable tiles.
+ */
 export function unShadowTiles() {
     for (var a = 0; a < MAPS.length; a++) {
         const map = MAPS[a];
@@ -170,6 +185,9 @@ export function unShadowTiles() {
     }
 }
 
+/**
+ * Update some state on the game (for now just re-set the shadow on every map).
+ */
 export function updateInformation() {
     if (SHADOW_ON) {
         for (var a = 0; a < MAPS.length; a++) {
@@ -178,10 +196,16 @@ export function updateInformation() {
     }
 }
 
+/**
+ * Highlight a random pair of tiles as a help to the player.
+ */
 export function highlightRandomPair() {
     getActiveMap().highlightRandomPair();
 }
 
+/**
+ * Reset the game state.
+ */
 function resetStuff() {
     for (var a = 0; a < MAPS.length; a++) {
         MAPS[a].clear();
@@ -199,10 +223,16 @@ function resetStuff() {
     }
 }
 
+/**
+ * Pause the game.
+ */
 export function pause() {
     createjs.Ticker.setPaused(true);
 }
 
+/**
+ * Resume the game.
+ */
 export function resume() {
     createjs.Ticker.setPaused(false);
 }
@@ -223,6 +253,9 @@ export function hasEnded() {
     return GAME_FINISHED;
 }
 
+/**
+ * Resize the game canvas and all of its elements.
+ */
 export function resize() {
     const gameMenu = document.getElementById("GameMenu")!;
     const width = window.outerWidth;

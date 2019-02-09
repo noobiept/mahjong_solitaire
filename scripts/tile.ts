@@ -161,15 +161,24 @@ export default class Tile {
         this.addToStage();
     }
 
+    /**
+     * Add the tile's container to the stage (to be drawn).
+     */
     addToStage() {
         addToStage(this.container);
     }
 
+    /**
+     * Scale the tile's container (same scale for X/Y).
+     */
     scaleContainer(scale: number) {
         this.container.scaleX = scale;
         this.container.scaleY = scale;
     }
 
+    /**
+     * Show the selected background on the tile.
+     */
     selectTile() {
         var g = this.background.graphics;
 
@@ -177,6 +186,9 @@ export default class Tile {
         g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
+    /**
+     * Show the highlighted background on the tile.
+     */
     highlightTile() {
         var g = this.background.graphics;
 
@@ -185,6 +197,9 @@ export default class Tile {
         g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
+    /**
+     * Go back to the normal background on the tile.
+     */
     clearBackground() {
         var g = this.background.graphics;
 
@@ -193,6 +208,9 @@ export default class Tile {
         g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
+    /**
+     * Show the shadow background on the tile.
+     */
     shadow() {
         var g = this.background.graphics;
 
@@ -201,11 +219,17 @@ export default class Tile {
         g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
     }
 
+    /**
+     * Move the tile to a different position.
+     */
     moveTo(x: number, y: number) {
         this.container.x = x;
         this.container.y = y;
     }
 
+    /**
+     * Remove the tile from the stage/grid.
+     */
     remove() {
         removeFromStage(this.container);
         this.gridObject.removeTile(this.column, this.line);

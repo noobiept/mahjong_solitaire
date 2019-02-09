@@ -66,10 +66,16 @@ export const EVENT_KEY = {
     f12: 123,
 };
 
+/**
+ * Get a random integer number in the range (inclusive).
+ */
 export function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/**
+ * Get a random float number in the range (inclusive).
+ */
 export function getRandomFloat(min: number, max: number) {
     return Math.random() * (max - min) + min;
 }

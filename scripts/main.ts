@@ -25,6 +25,9 @@ window.onload = function() {
     );
 };
 
+/**
+ * Initialize the application after the data from the storage has been loaded.
+ */
 function initApp(data: AppStorage.Data) {
     CANVAS = document.getElementById("MainCanvas") as HTMLCanvasElement;
     STAGE = new createjs.Stage(CANVAS);
@@ -117,6 +120,9 @@ function initApp(data: AppStorage.Data) {
     PRELOAD.loadManifest(manifest, true);
 }
 
+/**
+ * Resize the game as the browser window also resizes.
+ */
 window.onresize = function() {
     Game.resize();
 };

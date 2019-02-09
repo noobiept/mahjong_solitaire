@@ -157,6 +157,9 @@ export default class MapEditorTile {
         this.gridObject = args.gridObject;
     }
 
+    /**
+     * Show the selected background on the tile.
+     */
     selectTile() {
         if (!this.background) {
             return;
@@ -168,6 +171,9 @@ export default class MapEditorTile {
         g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
     }
 
+    /**
+     * Show the highlighted background on the tile.
+     */
     highlightTile() {
         if (!this.background) {
             return;
@@ -180,6 +186,9 @@ export default class MapEditorTile {
         g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
     }
 
+    /**
+     * Go back to the normal background on the tile.
+     */
     clearBackground() {
         if (!this.background) {
             return;
@@ -192,6 +201,9 @@ export default class MapEditorTile {
         g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
     }
 
+    /**
+     * Show the shadow background on the tile.
+     */
     shadow() {
         if (!this.background) {
             return;
@@ -204,37 +216,61 @@ export default class MapEditorTile {
         g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
     }
 
+    /**
+     * Move the tile to a different position.
+     */
     moveTo(x: number, y: number) {
         this.container.x = x;
         this.container.y = y;
     }
 
+    /**
+     * Remove the tile from the stage/grid.
+     */
     remove() {
         removeFromStage(this.container);
         this.gridObject.removeTile(this.column, this.line);
     }
 
+    /**
+     * Add the tile's container to the stage (to be drawn).
+     */
     addToStage() {
         addToStage(this.container);
     }
 
+    /**
+     * Remove the tile from the stage.
+     */
     removeFromStage() {
         removeFromStage(this.container);
     }
 
+    /**
+     * Change the depth of the tile in the stage (z-index).
+     */
     changeDepthInStage(depth: number) {
         setIndexInStage(this.container, depth);
     }
 
+    /**
+     * Scale the tile's container (same scale for X/Y).
+     */
     scaleContainer(scale: number) {
         this.container.scaleX = scale;
         this.container.scaleY = scale;
     }
 
+    /**
+     * Get the original width of the tile image.
+     */
     static getImageWidth() {
         return TILE_WIDTH;
     }
 
+    /**
+     * Get the original height of the tile image.
+     */
     static getImageHeight() {
         return TILE_HEIGHT;
     }

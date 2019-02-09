@@ -61,33 +61,54 @@ export default class MapInformation {
         this.updateScore(0);
     }
 
+    /**
+     * Start the game timer. Reduce the score at every second.
+     */
     startTimer() {
         this.interval = window.setInterval(() => {
             this.args.addTimerScore();
         }, 1000);
     }
 
+    /**
+     * Stop the game timer.
+     */
     stopTimer() {
         window.clearInterval(this.interval);
         this.interval = undefined;
     }
 
+    /**
+     * Reset the counter of the times update was called. This is used to know when we're in a recursion due to no more valid plays available.
+     */
     resetTimesUpdateWasCalled() {
         this.timesUpdateWasCalled = 0;
     }
 
+    /**
+     * Update the `score` UI.
+     */
     updateScore(score: number) {
         this.score.innerText = score.toString();
     }
 
+    /**
+     * Update the `tiles left` UI.
+     */
     updateTilesLeft(tilesLeft: number) {
         this.tilesLeft.innerText = tilesLeft.toString();
     }
 
+    /**
+     * Update the `pairs left` UI.
+     */
     updatePairsLeft(pairsLeft: number) {
         this.pairsLeft.innerText = pairsLeft.toString();
     }
 
+    /**
+     * Update the map information and check if the game is over.
+     */
     update(tilesLeft: number, pairsLeft: number) {
         this.updateTilesLeft(tilesLeft);
 
@@ -113,6 +134,9 @@ export default class MapInformation {
         }
     }
 
+    /**
+     * Clear the class state.
+     */
     clear() {
         this.stopTimer();
 

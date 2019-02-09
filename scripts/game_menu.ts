@@ -3,6 +3,9 @@ import * as Game from "./game.js";
 // reference to html elements
 var GAME_MENU_CONTAINER: HTMLElement;
 
+/**
+ * Initialize the game menu elements.
+ */
 export function init() {
     var gameMenu = document.getElementById("GameMenu")!;
 
