@@ -258,8 +258,8 @@ export function hasEnded() {
  */
 export function resize() {
     const gameMenu = document.getElementById("GameMenu")!;
-    const width = window.outerWidth;
-    const height = window.outerHeight - outerHeight(gameMenu);
+    const width = window.innerWidth;
+    const height = window.innerHeight - outerHeight(gameMenu);
 
     canvasDimensions({
         width: width,
