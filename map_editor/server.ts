@@ -1,7 +1,7 @@
-import * as Express from "express";
-import * as BodyParser from "body-parser";
-import * as Path from "path";
-import * as Fs from "fs";
+import Express from "express";
+import BodyParser from "body-parser";
+import Path from "path";
+import Fs from "fs";
 
 const app = Express();
 const port = 8080;

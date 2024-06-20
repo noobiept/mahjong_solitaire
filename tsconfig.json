@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "target": "es2017",
-        "module": "es2015",
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
         "strict": true
     },
     "include": ["scripts/**/*.ts"]

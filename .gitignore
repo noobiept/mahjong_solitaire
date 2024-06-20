@@ -1,0 +1,7 @@
+/release/
+/info.txt
+/map_editor/**/*.js
+/scripts/**/*.js
+.DS_Store
+node_modules
+*.svg
