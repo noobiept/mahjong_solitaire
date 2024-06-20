@@ -137,7 +137,7 @@ export function timeToString(dateMilliseconds: number) {
         ["second", secondsLeft],
     ];
 
-    var constructDate = function(dateTmp: string, numberOf: number) {
+    var constructDate = function (dateTmp: string, numberOf: number) {
         // day to days, hour to hours...
         if (numberOf !== 1) {
             dateTmp += "s";

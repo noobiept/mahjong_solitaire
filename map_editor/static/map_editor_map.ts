@@ -56,7 +56,7 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
         var gridElement = document.createElement("div");
 
         gridElement.innerText = (a + 1).toString();
-        gridElement.onclick = function() {
+        gridElement.onclick = function () {
             const text = gridElement.innerText;
             var newGrid = parseInt(text, 10) - 1;
 

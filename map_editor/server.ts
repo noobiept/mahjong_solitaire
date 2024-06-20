@@ -13,7 +13,7 @@ app.use("/static", Express.static(Path.join(__dirname, "..")));
 /**
  * Update or create a new map file based on the given data.
  */
-app.post("/save_map", function(req, res) {
+app.post("/save_map", function (req, res) {
     const data = req.body.data;
 
     if (!data) {
@@ -34,7 +34,7 @@ app.post("/save_map", function(req, res) {
 /**
  * Load an existing map.
  */
-app.post("/load_map", function(req, res) {
+app.post("/load_map", function (req, res) {
     const mapName = req.body.mapName;
 
     if (!mapName) {
@@ -50,6 +50,6 @@ app.post("/load_map", function(req, res) {
     return res.send(content);
 });
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log(`Running on port ${port}`);
 });

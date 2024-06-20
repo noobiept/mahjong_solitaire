@@ -16,12 +16,12 @@ export function init() {
     var restart = document.getElementById("GameMenu-restart")!;
     var quit = document.getElementById("GameMenu-quit")!;
 
-    shuffle.onclick = function() {
+    shuffle.onclick = function () {
         Game.getActiveMap().shuffle();
         Game.updateInformation();
     };
 
-    shadow.onclick = function() {
+    shadow.onclick = function () {
         var shadowOn = Game.getShadowOption();
 
         if (shadowOn) {
@@ -37,15 +37,15 @@ export function init() {
         }
     };
 
-    help.onclick = function() {
+    help.onclick = function () {
         Game.highlightRandomPair();
     };
 
-    restart.onclick = function() {
+    restart.onclick = function () {
         Game.restart();
     };
 
-    quit.onclick = function() {
+    quit.onclick = function () {
         Game.quit();
     };
 

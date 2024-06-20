@@ -26,21 +26,21 @@ export function init(maps: MapInfo[], initialSelectedMap?: number) {
     var twoPlayers = document.getElementById("MainMenu-twoPlayers")!;
     var highScore = document.getElementById("MainMenu-highScore")!;
 
-    startGame.onclick = function(event) {
+    startGame.onclick = function (event) {
         hide();
         Game.start(MAPS_AVAILABLE[SELECTED_MAP], false);
 
         event.stopPropagation();
     };
 
-    twoPlayers.onclick = function(event) {
+    twoPlayers.onclick = function (event) {
         hide();
         Game.start(MAPS_AVAILABLE[SELECTED_MAP], true);
 
         event.stopPropagation();
     };
 
-    highScore.onclick = function(event) {
+    highScore.onclick = function (event) {
         hide();
         openHighScore();
 
@@ -56,7 +56,7 @@ export function init(maps: MapInfo[], initialSelectedMap?: number) {
         item.className = "button";
         item.innerText = capitalizedName;
         item.setAttribute("data-position", a.toString());
-        item.onclick = function() {
+        item.onclick = function () {
             const position = parseInt(item.getAttribute("data-position")!, 10);
             selectMap(position);
         };
@@ -149,7 +149,7 @@ export function openHighScore() {
 
     var back = document.getElementById("HighScore-back")!;
 
-    back.onclick = function() {
+    back.onclick = function () {
         // clear the table (since we're always using the same <table> element)
         table.innerHTML = "";
         HIGH_SCORE.classList.add("hidden");

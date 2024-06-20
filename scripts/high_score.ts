@@ -37,7 +37,7 @@ export function add(mapName: string, score: number) {
     HIGH_SCORE[mapName].push(score);
 
     // have the better scores first (better means an higher value)
-    HIGH_SCORE[mapName].sort(function(a, b) {
+    HIGH_SCORE[mapName].sort(function (a, b) {
         return b - a;
     });
 

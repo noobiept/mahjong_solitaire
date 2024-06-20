@@ -18,7 +18,7 @@ export function show(text: string, timeoutDuration = -1) {
     HTML_ELEMENT.classList.remove("hidden"); // show the message element
 
     if (timeoutDuration > 0) {
-        TIMEOUT = window.setTimeout(function() {
+        TIMEOUT = window.setTimeout(function () {
             hide();
             TIMEOUT = null;
         }, timeoutDuration);

@@ -312,7 +312,7 @@ export function quit(message?: string) {
     if (message) {
         Message.show(message);
 
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             Message.hide();
             MainMenu.open();
         }, 2500);

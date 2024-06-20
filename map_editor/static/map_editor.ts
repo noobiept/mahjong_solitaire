@@ -5,30 +5,30 @@ var CANVAS: HTMLCanvasElement;
 var STAGE: createjs.Stage;
 var PRELOAD: createjs.LoadQueue;
 
-window.onload = function() {
+window.onload = function () {
     CANVAS = document.getElementById("Canvas") as HTMLCanvasElement;
     CANVAS.width = 1500;
     CANVAS.height = 850;
 
     STAGE = new createjs.Stage(CANVAS);
 
-    createjs.Ticker.addEventListener("tick", function() {
+    createjs.Ticker.addEventListener("tick", function () {
         STAGE.update();
     });
 
     document.getElementById("SaveMap")!.onclick = MapEditorMap.save;
-    document.getElementById("LoadMap")!.onclick = function() {
+    document.getElementById("LoadMap")!.onclick = function () {
         const label = document.getElementById("MapName") as HTMLInputElement;
         var mapName = label.value;
 
         MapEditorMap.load(mapName);
     };
 
-    document.getElementById("Grids-seeAll")!.onclick = function() {
+    document.getElementById("Grids-seeAll")!.onclick = function () {
         MapEditorMap.selectGrid(-1);
     };
 
-    document.getElementById("NewMap")!.onclick = function() {
+    document.getElementById("NewMap")!.onclick = function () {
         const gridsInput = document.getElementById("Grids") as HTMLInputElement;
         const columnsInput = document.getElementById(
             "Columns"
@@ -54,7 +54,7 @@ window.onload = function() {
 
     PRELOAD = new createjs.LoadQueue();
     PRELOAD.loadManifest(manifest, true);
-    PRELOAD.addEventListener("complete", function() {
+    PRELOAD.addEventListener("complete", function () {
         MapEditorMap.load();
     });
 };

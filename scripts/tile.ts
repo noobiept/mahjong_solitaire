@@ -142,7 +142,7 @@ export default class Tile {
         const container = new createjs.Container();
         container.addChild(shape);
         container.addChild(background);
-        container.on("click", function() {
+        container.on("click", function () {
             if (args.onClick) {
                 args.onClick(_this);
             }

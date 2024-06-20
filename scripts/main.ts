@@ -18,7 +18,7 @@ var CANVAS: HTMLCanvasElement;
 var STAGE: createjs.Stage;
 var PRELOAD: createjs.LoadQueue;
 
-window.onload = function() {
+window.onload = function () {
     AppStorage.getData(
         ["mahjong_high_score", "mahjong_sound_muted", "mahjong_selected_map"],
         initApp
@@ -101,7 +101,7 @@ function initApp(data: AppStorage.Data) {
     ];
 
     PRELOAD.addEventListener("progress", progress as (event: Object) => void);
-    PRELOAD.addEventListener("complete", function() {
+    PRELOAD.addEventListener("complete", function () {
         Message.hide();
 
         // the order of the array needs to match the order of the html elements in the main menu
@@ -123,7 +123,7 @@ function initApp(data: AppStorage.Data) {
 /**
  * Resize the game as the browser window also resizes.
  */
-window.onresize = function() {
+window.onresize = function () {
     Game.resize();
 };
 

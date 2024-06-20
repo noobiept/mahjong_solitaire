@@ -45,7 +45,7 @@ export default class GridPosition {
         g.drawRoundRect(0, 0, 10, 10, 3);
 
         container.addChild(background);
-        container.on("click", function() {
+        container.on("click", function () {
             _this.onClick();
         });
 

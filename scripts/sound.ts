@@ -9,7 +9,7 @@ let AUDIO_CONTROL: HTMLElement;
 export function init(muted?: boolean) {
     AUDIO = document.getElementById("AudioElement") as HTMLAudioElement;
     AUDIO_CONTROL = document.getElementById("AudioControl")!;
-    AUDIO_CONTROL.onclick = function() {
+    AUDIO_CONTROL.onclick = function () {
         mute();
     };
     AUDIO_CONTROL.classList.remove("hidden");

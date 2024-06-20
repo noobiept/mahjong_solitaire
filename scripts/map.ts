@@ -122,7 +122,7 @@ export default class Map {
                     column: position.column,
                     line: position.line,
                     gridObject: grid,
-                    onClick: function(tile) {
+                    onClick: function (tile) {
                         mapObject.onTileClick(tile);
                     },
                 });
@@ -410,7 +410,7 @@ export default class Map {
         var flowerNumber = 1;
         var seasonNumber = 1;
 
-        return function() {
+        return function () {
             var tileName: TileName;
             var tileId: TileId;
 
