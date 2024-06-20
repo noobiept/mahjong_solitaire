@@ -84,8 +84,8 @@ module.exports = function(grunt) {
             const directoryPath = Path.dirname(destPath);
 
             const code = Fs.readFileSync(filePath, "utf8");
-            const result = Terser.minify(code, {
-                ecma: 8,
+            const result = Terser.minify_sync(code, {
+                ecma: 2022,
             });
 
             if (result.error) {
