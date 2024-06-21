@@ -5,10 +5,10 @@ export interface Score {
 }
 
 // HIGH_SCORE = { mapName: [ time1, time2, ... ] }
-var HIGH_SCORE: Score = {};
+let HIGH_SCORE: Score = {};
 
 // max. number of scores saved per map (the top 5 scores)
-var MAX_SCORES_SAVED = 5;
+const MAX_SCORES_SAVED = 5;
 
 /**
  * Load the high-scores into the game.

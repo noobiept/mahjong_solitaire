@@ -10,11 +10,11 @@ export interface Data {
  * Calls the `callback` with a dictionary that has all the requested keys/values from `localStorage`.
  */
 export function getData(keys: (keyof Data)[], callback: (data: Data) => void) {
-    var data: Data = {};
+    const data: Data = {};
 
-    for (var a = 0; a < keys.length; a++) {
-        var key = keys[a];
-        var value = localStorage.getItem(key);
+    for (let a = 0; a < keys.length; a++) {
+        const key = keys[a];
+        const value = localStorage.getItem(key);
 
         data[key] = value && JSON.parse(value);
     }
@@ -27,8 +27,8 @@ export function getData(keys: (keyof Data)[], callback: (data: Data) => void) {
  * Converts the value to string (with json).
  */
 export function setData(items: Data, callback?: () => void) {
-    for (var key in items) {
-        if (items.hasOwnProperty(key)) {
+    for (const key in items) {
+        if (Object.prototype.hasOwnProperty.call(items, key)) {
             const dataKey = key as keyof Data;
             const item = items[dataKey];
 

@@ -1,6 +1,4 @@
-/*global module, require*/
-"use strict";
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const Glob = require("glob");
 const Terser = require("terser");
 const Fs = require("fs");
@@ -11,7 +9,7 @@ const Package = JSON.parse(Fs.readFileSync("package.json", "utf8"));
 const ROOT = "./";
 const DEST = `./release/${Package.name} ${Package.version}/`;
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
@@ -75,7 +73,7 @@ module.exports = function(grunt) {
     /**
      * Run the javascript minimizer task.
      */
-    grunt.registerTask("terser", function() {
+    grunt.registerTask("terser", function () {
         const files = Glob.sync(ROOT + "scripts/**/*.js");
 
         for (let a = 0; a < files.length; a++) {
@@ -103,7 +101,7 @@ module.exports = function(grunt) {
     /**
      * Run the typescript compiler.
      */
-    grunt.registerTask("typescript", function() {
+    grunt.registerTask("typescript", function () {
         ChildProcess.execSync("tsc");
     });
 

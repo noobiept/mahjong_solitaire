@@ -1,20 +1,20 @@
 import * as Game from "./game.js";
 
 // reference to html elements
-var GAME_MENU_CONTAINER: HTMLElement;
+let GAME_MENU_CONTAINER: HTMLElement;
 
 /**
  * Initialize the game menu elements.
  */
 export function init() {
-    var gameMenu = document.getElementById("GameMenu")!;
+    const gameMenu = document.getElementById("GameMenu")!;
 
-    var shuffle = document.getElementById("GameMenu-shuffle")!;
-    var shadow = document.getElementById("GameMenu-shadow")!;
-    var shadowValue = shadow.querySelector("span")!;
-    var help = document.getElementById("GameMenu-help")!;
-    var restart = document.getElementById("GameMenu-restart")!;
-    var quit = document.getElementById("GameMenu-quit")!;
+    const shuffle = document.getElementById("GameMenu-shuffle")!;
+    const shadow = document.getElementById("GameMenu-shadow")!;
+    const shadowValue = shadow.querySelector("span")!;
+    const help = document.getElementById("GameMenu-help")!;
+    const restart = document.getElementById("GameMenu-restart")!;
+    const quit = document.getElementById("GameMenu-quit")!;
 
     shuffle.onclick = function () {
         Game.getActiveMap().shuffle();
@@ -22,7 +22,7 @@ export function init() {
     };
 
     shadow.onclick = function () {
-        var shadowOn = Game.getShadowOption();
+        const shadowOn = Game.getShadowOption();
 
         if (shadowOn) {
             Game.setShadowOption(false);

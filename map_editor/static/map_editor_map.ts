@@ -13,18 +13,18 @@ export interface ConstructArgs {
     mapName: string;
 }
 
-var ALL_GRIDS: MapEditorGrid[] = [];
-var ALL_TILES: MapEditorTile[] = [];
+const ALL_GRIDS: MapEditorGrid[] = [];
+const ALL_TILES: MapEditorTile[] = [];
 
 // current selected grid (0+), or -1 is none is selected (when its showing the whole map)
-var SELECTED_GRID = -1;
-var TILES_LEFT = 144;
+let SELECTED_GRID = -1;
+let TILES_LEFT = 144;
 
 /**
  * Create the grid with the grid positions.
  */
 export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
-    var numberOfGrids;
+    let numberOfGrids;
 
     if ("numberOfGrids" in mapInfo) {
         numberOfGrids = mapInfo.numberOfGrids;
@@ -32,20 +32,19 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
         numberOfGrids = mapInfo.mapDescription.length;
     }
 
-    var columns = mapInfo.numberOfColumns;
-    var lines = mapInfo.numberOfLines;
-    var grid;
-    var tileWidth = MapEditorTile.getImageWidth();
-    var tileHeight = MapEditorTile.getImageHeight();
-    var startingX = 100;
-    var startingY = 0;
+    const columns = mapInfo.numberOfColumns;
+    const lines = mapInfo.numberOfLines;
+    const tileWidth = MapEditorTile.getImageWidth();
+    const tileHeight = MapEditorTile.getImageHeight();
+    let startingX = 100;
+    let startingY = 0;
 
     canvasDimensions({
         width: columns * tileWidth + startingX,
         height: lines * tileHeight + startingY,
     });
 
-    var gridsContainer = document.getElementById("Grids-container")!;
+    const gridsContainer = document.getElementById("Grids-container")!;
 
     for (let a = 0; a < numberOfGrids; a++) {
         addGrid({
@@ -53,12 +52,12 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
             numberOfLines: lines,
         });
 
-        var gridElement = document.createElement("div");
+        const gridElement = document.createElement("div");
 
         gridElement.innerText = (a + 1).toString();
         gridElement.onclick = function () {
             const text = gridElement.innerText;
-            var newGrid = parseInt(text, 10) - 1;
+            const newGrid = parseInt(text, 10) - 1;
 
             selectGrid(newGrid);
         };
@@ -70,11 +69,11 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
     SELECTED_GRID = -1;
 
     for (let a = 0; a < numberOfGrids; a++) {
-        grid = getGrid(a);
+        const grid = getGrid(a);
 
-        for (var b = 0; b < columns; b++) {
-            for (var c = 0; c < lines; c++) {
-                var gridPosition = new GridPosition({
+        for (let b = 0; b < columns; b++) {
+            for (let c = 0; c < lines; c++) {
+                const gridPosition = new GridPosition({
                     column: b,
                     line: c,
                     grid: grid,
@@ -100,21 +99,21 @@ export function constructGrid(mapInfo: ConstructArgs | MapInfo) {
  * Show the tiles in the map editor based on the map info.
  */
 export function constructMap(mapInfo: MapInfo) {
-    var mapDescription = mapInfo.mapDescription;
+    const mapDescription = mapInfo.mapDescription;
 
-    for (var a = 0; a < mapDescription.length; a++) {
-        var gridDescription = mapDescription[a];
-        var gridPositions = GridPosition.getGrid(a);
+    for (let a = 0; a < mapDescription.length; a++) {
+        const gridDescription = mapDescription[a];
+        const gridPositions = GridPosition.getGrid(a);
 
         // so that we don't change the array in GridPosition, we get a new one (clone)
-        var gridPositionsCopy = gridPositions.slice(0);
+        const gridPositionsCopy = gridPositions.slice(0);
 
-        for (var b = 0; b < gridDescription.length; b++) {
-            var tile = gridDescription[b];
+        for (let b = 0; b < gridDescription.length; b++) {
+            const tile = gridDescription[b];
 
             // find the GridPosition that corresponds to the column/line tile
-            for (var c = 0; c < gridPositionsCopy.length; c++) {
-                var gridPosition = gridPositionsCopy[c];
+            for (let c = 0; c < gridPositionsCopy.length; c++) {
+                const gridPosition = gridPositionsCopy[c];
 
                 if (
                     gridPosition.column === tile.column &&
@@ -145,14 +144,13 @@ export function selectGrid(gridPosition: number) {
         return;
     }
 
-    var previousGridPositions;
-    var allTiles = getAllTiles();
-    var allGridPositions = GridPosition.getAll();
+    const allTiles = getAllTiles();
+    const allGridPositions = GridPosition.getAll();
     const current = document.getElementById("Grids-currentGrid")!;
 
     // show all the tiles (but not the GridPosition)
     if (gridPosition < 0) {
-        previousGridPositions = GridPosition.getGrid(SELECTED_GRID);
+        const previousGridPositions = GridPosition.getGrid(SELECTED_GRID);
 
         // hide previous grid
         for (let a = 0; a < previousGridPositions.length; a++) {
@@ -162,9 +160,9 @@ export function selectGrid(gridPosition: number) {
         // show all the tiles
         // add the tiles starting on the bottom grid, and going up (so that the z-index is correct (the tiles on top grids, are above the tiles on grids below))
         for (let a = 0; a < allGridPositions.length; a++) {
-            var individualGrid = allGridPositions[a];
+            const individualGrid = allGridPositions[a];
 
-            for (var b = 0; b < individualGrid.length; b++) {
+            for (let b = 0; b < individualGrid.length; b++) {
                 const position = individualGrid[b];
                 position.addTileToStage();
             }
@@ -186,16 +184,16 @@ export function selectGrid(gridPosition: number) {
 
         // a grid was selected, and now we're choosing a different one
         else {
-            previousGridPositions = GridPosition.getGrid(SELECTED_GRID);
+            const previousGridPositions = GridPosition.getGrid(SELECTED_GRID);
 
             // hide previous grid
-            for (var a = 0; a < previousGridPositions.length; a++) {
+            for (let a = 0; a < previousGridPositions.length; a++) {
                 previousGridPositions[a].hide();
             }
         }
 
         // show next one
-        var gridPositions = GridPosition.getGrid(gridPosition);
+        const gridPositions = GridPosition.getGrid(gridPosition);
 
         for (let a = 0; a < gridPositions.length; a++) {
             gridPositions[a].show();
@@ -212,26 +210,24 @@ export function selectGrid(gridPosition: number) {
  */
 export async function save() {
     const mapNameInput = document.getElementById("MapName") as HTMLInputElement;
-    var mapName = mapNameInput.value;
+    const mapName = mapNameInput.value;
 
-    var grid = getGrid(0);
-    var allGrids = getAllGrids();
-    var allTiles = getAllTiles();
+    const grid = getGrid(0);
+    const allGrids = getAllGrids();
+    const allTiles = getAllTiles();
 
-    var numberOfColumns = grid.numberOfColumns;
-    var numberOfLines = grid.numberOfLines;
-    var a;
-    var mapDescription: MapPosition[][] = [];
+    const numberOfColumns = grid.numberOfColumns;
+    const numberOfLines = grid.numberOfLines;
+    const mapDescription: MapPosition[][] = [];
 
     // init mapDescription
-    for (a = 0; a < allGrids.length; a++) {
+    for (let a = 0; a < allGrids.length; a++) {
         mapDescription[a] = [];
     }
 
-    for (a = 0; a < allTiles.length; a++) {
-        var tile = allTiles[a];
-
-        var gridPosition = tile.gridObject.position;
+    for (let a = 0; a < allTiles.length; a++) {
+        const tile = allTiles[a];
+        const gridPosition = tile.gridObject.position;
 
         mapDescription[gridPosition].push({
             column: tile.column,
@@ -239,7 +235,7 @@ export async function save() {
         });
     }
 
-    var mapDefinition = {
+    const mapDefinition = {
         mapName: mapName,
         numberOfColumns: numberOfColumns,
         numberOfLines: numberOfLines,
@@ -268,7 +264,7 @@ export async function load(mapName?: string) {
 
     // try to load the latest map (that was loaded in the previous session)
     if (typeof mapName === "undefined") {
-        var previousMap = localStorage.getItem("previousMap");
+        const previousMap = localStorage.getItem("previousMap");
 
         if (previousMap !== null) {
             mapName = previousMap;
@@ -303,7 +299,7 @@ export async function load(mapName?: string) {
  * Add a tile to the map.
  */
 export function addTile(args: TileArgs) {
-    var tile = new MapEditorTile(args);
+    const tile = new MapEditorTile(args);
 
     ALL_TILES.push(tile);
     TILES_LEFT--;
@@ -315,7 +311,7 @@ export function addTile(args: TileArgs) {
  * Remove a tile from the map.
  */
 export function removeTile(tileObject: MapEditorTile) {
-    var position = ALL_TILES.indexOf(tileObject);
+    const position = ALL_TILES.indexOf(tileObject);
 
     ALL_TILES.splice(position, 1);
     tileObject.remove();
@@ -326,7 +322,7 @@ export function removeTile(tileObject: MapEditorTile) {
  * Add a new grid to the map.
  */
 export function addGrid(args: Omit<GridArgs, "position">) {
-    var grid = new MapEditorGrid({
+    const grid = new MapEditorGrid({
         numberOfColumns: args.numberOfColumns,
         numberOfLines: args.numberOfLines,
         position: ALL_GRIDS.length,
@@ -341,7 +337,7 @@ export function addGrid(args: Omit<GridArgs, "position">) {
  * Remove a grid from the map.
  */
 export function removeGrid(gridObject: MapEditorGrid) {
-    var position = ALL_GRIDS.indexOf(gridObject);
+    const position = ALL_GRIDS.indexOf(gridObject);
 
     ALL_GRIDS.splice(position, 1);
 }
@@ -378,7 +374,7 @@ export function removeAllGrids() {
  * Remove all the tiles.
  */
 export function removeAllTiles() {
-    for (var a = 0; a < ALL_TILES.length; a++) {
+    for (let a = 0; a < ALL_TILES.length; a++) {
         ALL_TILES[a].remove();
     }
 

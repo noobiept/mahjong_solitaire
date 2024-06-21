@@ -1,9 +1,9 @@
 import * as MapEditorMap from "./map_editor_map.js";
 import { Dimensions } from "../../scripts/main.js";
 
-var CANVAS: HTMLCanvasElement;
-var STAGE: createjs.Stage;
-var PRELOAD: createjs.LoadQueue;
+let CANVAS: HTMLCanvasElement;
+let STAGE: createjs.Stage;
+let PRELOAD: createjs.LoadQueue;
 
 window.onload = function () {
     CANVAS = document.getElementById("Canvas") as HTMLCanvasElement;
@@ -19,7 +19,7 @@ window.onload = function () {
     document.getElementById("SaveMap")!.onclick = MapEditorMap.save;
     document.getElementById("LoadMap")!.onclick = function () {
         const label = document.getElementById("MapName") as HTMLInputElement;
-        var mapName = label.value;
+        const mapName = label.value;
 
         MapEditorMap.load(mapName);
     };
@@ -35,9 +35,9 @@ window.onload = function () {
         ) as HTMLInputElement;
         const linesInput = document.getElementById("Lines") as HTMLInputElement;
 
-        var numberOfGrids = gridsInput.value;
-        var numberOfColumns = columnsInput.value;
-        var numberOfLines = linesInput.value;
+        const numberOfGrids = gridsInput.value;
+        const numberOfColumns = columnsInput.value;
+        const numberOfLines = linesInput.value;
 
         MapEditorMap.clear();
         MapEditorMap.constructGrid({
@@ -50,7 +50,7 @@ window.onload = function () {
 
     document.onkeyup = keyboardShortcuts;
 
-    var manifest = [{ id: "bamboo1", src: "/static/images/bamboo1.png" }];
+    const manifest = [{ id: "bamboo1", src: "/static/images/bamboo1.png" }];
 
     PRELOAD = new createjs.LoadQueue();
     PRELOAD.loadManifest(manifest, true);
@@ -64,10 +64,10 @@ window.onload = function () {
  * - a: See all the grids.
  */
 function keyboardShortcuts(event: KeyboardEvent) {
-    var key = event.key;
-    var selectGrid = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const key = event.key;
+    const selectGrid = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-    for (var a = 0; a < selectGrid.length; a++) {
+    for (let a = 0; a < selectGrid.length; a++) {
         const gridId = selectGrid[a];
 
         if (event.key === gridId) {
@@ -85,13 +85,13 @@ function keyboardShortcuts(event: KeyboardEvent) {
  * Update the number of grids/columns/lines value in the menu's input elements.
  */
 export function updateMenuValues(mapName: string) {
-    var numberOfGrids = MapEditorMap.getAllGrids().length;
+    const numberOfGrids = MapEditorMap.getAllGrids().length;
 
     // all grids have the same number of columns/lines, so we only need to check the numbers of one
-    var grid = MapEditorMap.getGrid(0);
+    const grid = MapEditorMap.getGrid(0);
 
-    var numberOfColumns = grid.numberOfColumns;
-    var numberOfLines = grid.numberOfLines;
+    const numberOfColumns = grid.numberOfColumns;
+    const numberOfLines = grid.numberOfLines;
 
     const gridsInput = document.getElementById("Grids") as HTMLInputElement;
     const columnsInput = document.getElementById("Columns") as HTMLInputElement;

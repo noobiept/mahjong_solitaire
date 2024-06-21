@@ -17,20 +17,20 @@ export default class MapInformation {
 
     constructor(args: MapInformationArgs) {
         // add the html elements to the game menu
-        var player = document.createElement("div");
-        var tilesLeft = document.createElement("div");
-        var pairsLeft = document.createElement("div");
-        var score = document.createElement("div");
-        var container = document.createElement("div");
+        const player = document.createElement("div");
+        const tilesLeft = document.createElement("div");
+        const pairsLeft = document.createElement("div");
+        const score = document.createElement("div");
+        const container = document.createElement("div");
 
         player.innerText = "Player " + args.playerNumber;
         tilesLeft.innerText = "Tiles Left: ";
         pairsLeft.innerText = "Pairs Left: ";
         score.innerText = "Score: ";
 
-        var tilesLeftValue = document.createElement("span");
-        var pairsLeftValue = document.createElement("span");
-        var scoreValue = document.createElement("span");
+        const tilesLeftValue = document.createElement("span");
+        const pairsLeftValue = document.createElement("span");
+        const scoreValue = document.createElement("span");
 
         tilesLeft.appendChild(tilesLeftValue);
         pairsLeft.appendChild(pairsLeftValue);
@@ -47,7 +47,9 @@ export default class MapInformation {
         container.appendChild(pairsLeft);
         container.appendChild(score);
 
-        var mainContainer = document.getElementById("GameMenu-MapInformation")!;
+        const mainContainer = document.getElementById(
+            "GameMenu-MapInformation"
+        )!;
 
         mainContainer.appendChild(container);
 
@@ -140,7 +142,9 @@ export default class MapInformation {
     clear() {
         this.stopTimer();
 
-        var mainContainer = document.getElementById("GameMenu-MapInformation")!;
+        const mainContainer = document.getElementById(
+            "GameMenu-MapInformation"
+        )!;
         mainContainer.removeChild(this.container);
     }
 }

@@ -94,15 +94,15 @@ export function timeToString(dateMilliseconds: number) {
     // :: convert to days/hours :: //
 
     //in milliseconds
-    var second = 1000;
-    var minute = 60 * second;
-    var hour = 60 * minute;
-    var day = 24 * hour;
+    const second = 1000;
+    const minute = 60 * second;
+    const hour = 60 * minute;
+    const day = 24 * hour;
 
-    var minutesLeft = 0;
-    var hoursLeft = 0;
-    var daysLeft = 0;
-    var secondsLeft = 0;
+    let minutesLeft = 0;
+    let hoursLeft = 0;
+    let daysLeft = 0;
+    let secondsLeft = 0;
 
     //count the days
     while (dateMilliseconds > day) {
@@ -130,14 +130,14 @@ export function timeToString(dateMilliseconds: number) {
 
     // :: construct the string :: //
 
-    var theDate = [
+    const theDate = [
         ["day", daysLeft],
         ["hour", hoursLeft],
         ["minute", minutesLeft],
         ["second", secondsLeft],
     ];
 
-    var constructDate = function (dateTmp: string, numberOf: number) {
+    const constructDate = function (dateTmp: string, numberOf: number) {
         // day to days, hour to hours...
         if (numberOf !== 1) {
             dateTmp += "s";
@@ -147,12 +147,11 @@ export function timeToString(dateMilliseconds: number) {
     };
 
     // limit the number of units to be shown (days/hours, or hours/minutes or minutes/seconds, and not days/hours/minutes for example)
-    var totalUnits = 2;
+    let totalUnits = 2;
 
-    var date = "";
-    var i;
+    let date = "";
 
-    for (i = 0; i < theDate.length; i++) {
+    for (let i = 0; i < theDate.length; i++) {
         // reached the limit of the units
         if (totalUnits === 0) {
             break;

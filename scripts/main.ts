@@ -12,11 +12,11 @@ export interface Dimensions {
     height: number;
 }
 
-var CANVAS: HTMLCanvasElement;
+let CANVAS: HTMLCanvasElement;
 
 // createjs
-var STAGE: createjs.Stage;
-var PRELOAD: createjs.LoadQueue;
+let STAGE: createjs.Stage;
+let PRELOAD: createjs.LoadQueue;
 
 window.onload = function () {
     AppStorage.getData(
@@ -38,14 +38,14 @@ function initApp(data: AppStorage.Data) {
     HighScore.load(data["mahjong_high_score"]);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.on("tick", tick as (event: Object) => void);
+    createjs.Ticker.on("tick", tick as (event: object) => void);
 
     PRELOAD = new createjs.LoadQueue();
     PRELOAD.setMaxConnections(10);
     PRELOAD.maintainScriptOrder = false;
     PRELOAD.installPlugin(createjs.Sound);
 
-    var manifest = [
+    const manifest = [
         { id: "bamboo1", src: "images/bamboo1.png" },
         { id: "bamboo2", src: "images/bamboo2.png" },
         { id: "bamboo3", src: "images/bamboo3.png" },
@@ -100,7 +100,7 @@ function initApp(data: AppStorage.Data) {
         { id: "music", src: "audio/Jaoan.ogg" },
     ];
 
-    PRELOAD.addEventListener("progress", progress as (event: Object) => void);
+    PRELOAD.addEventListener("progress", progress as (event: object) => void);
     PRELOAD.addEventListener("complete", function () {
         Message.hide();
 

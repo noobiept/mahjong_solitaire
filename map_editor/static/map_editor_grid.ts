@@ -20,10 +20,10 @@ export default class MapEditorGrid {
         this.grid_array = [];
         this.all_tiles = [];
 
-        for (var a = 0; a < numberOfColumns; a++) {
+        for (let a = 0; a < numberOfColumns; a++) {
             this.grid_array[a] = [];
 
-            for (var b = 0; b < numberOfLines; b++) {
+            for (let b = 0; b < numberOfLines; b++) {
                 this.grid_array[a][b] = null;
             }
         }
@@ -50,12 +50,12 @@ export default class MapEditorGrid {
      * Remove a tile from the grid (in a 2x2 square).
      */
     removeTile(column: number, line: number) {
-        var tile = this.grid_array[column][line];
+        const tile = this.grid_array[column][line];
         if (!tile) {
             return;
         }
 
-        var position = this.all_tiles.indexOf(tile);
+        const position = this.all_tiles.indexOf(tile);
 
         this.all_tiles.splice(position, 1);
 
@@ -69,8 +69,8 @@ export default class MapEditorGrid {
      * Reposition/resize the grid tiles.
      */
     positionElements(startingX: number, startingY: number, scale: number) {
-        for (var a = 0; a < this.all_tiles.length; a++) {
-            var tile = this.all_tiles[a];
+        for (let a = 0; a < this.all_tiles.length; a++) {
+            const tile = this.all_tiles[a];
 
             tile.scaleContainer(scale);
             tile.moveTo(

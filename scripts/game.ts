@@ -13,24 +13,24 @@ import { outerHeight } from "./utilities.js";
 import { playMusic } from "./sound.js";
 
 // current map information
-var CURRENT_MAP: MapInfo;
-var TWO_PLAYER_MODE: boolean; // either 1 player or 2 player mode
+let CURRENT_MAP: MapInfo;
+let TWO_PLAYER_MODE: boolean; // either 1 player or 2 player mode
 
 // has all the map objects (one for each player)
-var MAPS: Map[] = [];
+const MAPS: Map[] = [];
 
 // when there's more than 1 player, means each player takes turns to play, this keeps track of what player/map is currently playing
-var ACTIVE_MAP = 0;
+let ACTIVE_MAP = 0;
 
 // whether we shadow the un-selectable tiles or not
-var SHADOW_ON = false;
+let SHADOW_ON = false;
 
 // a message to tell which player turn is
 // only for 2 player mode
-var PLAYER_TURN: createjs.Text | null = null;
+let PLAYER_TURN: createjs.Text | null = null;
 
 // tell if the game finished or not
-var GAME_FINISHED = false;
+let GAME_FINISHED = false;
 
 /**
  * Start a new game.
@@ -98,8 +98,8 @@ export function finished() {
 
     // more than 1 player, need to determine who won
     else {
-        var playerOneScore = MAPS[0].getCurrentScore();
-        var playerTwoScore = MAPS[1].getCurrentScore();
+        const playerOneScore = MAPS[0].getCurrentScore();
+        const playerTwoScore = MAPS[1].getCurrentScore();
 
         if (playerOneScore > playerTwoScore) {
             message = "Player 1 Wins! Score: " + playerOneScore;
@@ -117,7 +117,7 @@ export function finished() {
  * Activate a specific map. Useful to switch between maps in 2 player mode.
  */
 export function setActiveMap(position: number) {
-    var previousMap = MAPS[ACTIVE_MAP];
+    const previousMap = MAPS[ACTIVE_MAP];
 
     previousMap.activate(false);
     MAPS[position].activate(true);
@@ -150,7 +150,7 @@ export function changePlayer() {
         return;
     }
 
-    var nextPlayer = ACTIVE_MAP + 1;
+    let nextPlayer = ACTIVE_MAP + 1;
 
     if (nextPlayer >= MAPS.length) {
         nextPlayer = 0;
@@ -163,7 +163,7 @@ export function changePlayer() {
  * Shadow the tiles that aren't playable (because they're underneath other tiles).
  */
 export function shadowTiles() {
-    for (var a = 0; a < MAPS.length; a++) {
+    for (let a = 0; a < MAPS.length; a++) {
         const map = MAPS[a];
         map.shadowTiles();
 
@@ -176,7 +176,7 @@ export function shadowTiles() {
  * Remove the shadow on unplayable tiles.
  */
 export function unShadowTiles() {
-    for (var a = 0; a < MAPS.length; a++) {
+    for (let a = 0; a < MAPS.length; a++) {
         const map = MAPS[a];
         map.unShadowTiles();
 
@@ -190,7 +190,7 @@ export function unShadowTiles() {
  */
 export function updateInformation() {
     if (SHADOW_ON) {
-        for (var a = 0; a < MAPS.length; a++) {
+        for (let a = 0; a < MAPS.length; a++) {
             MAPS[a].shadowTiles();
         }
     }
@@ -207,7 +207,7 @@ export function highlightRandomPair() {
  * Reset the game state.
  */
 function resetStuff() {
-    for (var a = 0; a < MAPS.length; a++) {
+    for (let a = 0; a < MAPS.length; a++) {
         MAPS[a].clear();
     }
 
@@ -274,7 +274,7 @@ export function resize() {
             height: height,
         });
     } else if (MAPS.length === 2) {
-        var halfWidth = width / 2;
+        const halfWidth = width / 2;
 
         MAPS[0].scaleMap({
             x: 0,

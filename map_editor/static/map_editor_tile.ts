@@ -165,7 +165,7 @@ export default class MapEditorTile {
             return;
         }
 
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.beginFill("rgba(255, 0, 0, 0.3)");
         g.drawRoundRect(3, 3, TILE_WIDTH + 2, TILE_HEIGHT + 2, 5);
@@ -179,7 +179,7 @@ export default class MapEditorTile {
             return;
         }
 
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("rgba(255, 215, 0, 0.3)");
@@ -194,7 +194,7 @@ export default class MapEditorTile {
             return;
         }
 
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("transparent");
@@ -209,7 +209,7 @@ export default class MapEditorTile {
             return;
         }
 
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("rgba(0, 0, 0, 0.3)");

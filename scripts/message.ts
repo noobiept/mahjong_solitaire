@@ -1,5 +1,5 @@
-var HTML_ELEMENT: HTMLElement;
-var TIMEOUT: number | null = null;
+let HTML_ELEMENT: HTMLElement;
+let TIMEOUT: number | null = null;
 
 /**
  * Initialize the message module.

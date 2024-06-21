@@ -5,15 +5,15 @@ import { MapInfo } from "./map.js";
 import { stopMusic } from "./sound.js";
 import { setData } from "./app_storage.js";
 
-var MENU: HTMLElement;
-var HIGH_SCORE: HTMLElement;
+let MENU: HTMLElement;
+let HIGH_SCORE: HTMLElement;
 
 // has the mapInfo of the maps (the .json loaded from /maps/)
-var MAPS_AVAILABLE: MapInfo[] = [];
-var SELECTED_MAP = -1;
+let MAPS_AVAILABLE: MapInfo[] = [];
+let SELECTED_MAP = -1;
 
 // has reference for the html elements used to select the map in the main menu
-var MAPS_ELEMENTS: Element[] = [];
+let MAPS_ELEMENTS: Element[] = [];
 
 /**
  * Initialize the main menu. Pass as arguments the maps to be shown and which one is to be initially selected.
@@ -22,9 +22,9 @@ export function init(maps: MapInfo[], initialSelectedMap?: number) {
     MENU = document.getElementById("MainMenu")!;
     HIGH_SCORE = document.getElementById("HighScore")!;
 
-    var startGame = document.getElementById("MainMenu-startGame")!;
-    var twoPlayers = document.getElementById("MainMenu-twoPlayers")!;
-    var highScore = document.getElementById("MainMenu-highScore")!;
+    const startGame = document.getElementById("MainMenu-startGame")!;
+    const twoPlayers = document.getElementById("MainMenu-twoPlayers")!;
+    const highScore = document.getElementById("MainMenu-highScore")!;
 
     startGame.onclick = function (event) {
         hide();
@@ -47,12 +47,12 @@ export function init(maps: MapInfo[], initialSelectedMap?: number) {
         event.stopPropagation();
     };
 
-    var selectMapContainer = document.getElementById("MainMenu-selectMap")!;
+    const selectMapContainer = document.getElementById("MainMenu-selectMap")!;
 
     for (let a = 0; a < maps.length; a++) {
         const capitalizedName = Utilities.capitalize(maps[a].mapName);
 
-        let item = document.createElement("div");
+        const item = document.createElement("div");
         item.className = "button";
         item.innerText = capitalizedName;
         item.setAttribute("data-position", a.toString());
@@ -94,9 +94,9 @@ export function hide() {
  * Show the high-scores section/page.
  */
 export function openHighScore() {
-    var table = document.getElementById("HighScore-table")!;
-    var scores = HighScore.getAll();
-    var keys = Object.keys(scores);
+    const table = document.getElementById("HighScore-table")!;
+    const scores = HighScore.getAll();
+    const keys = Object.keys(scores);
 
     if (keys.length === 0) {
         table.innerHTML = "No Score Yet.";
@@ -105,16 +105,12 @@ export function openHighScore() {
     // fill the table with the scores
     else {
         // header
-        var tableRow = document.createElement("tr");
-        var headers = [""].concat(keys);
-        var tableHeader;
-        var positionElement, scoreElement;
-        var score;
-        var mapScoreList;
-        var maxScores = HighScore.getMaxScoresSaved();
+        let tableRow = document.createElement("tr");
+        const headers = [""].concat(keys);
+        const maxScores = HighScore.getMaxScoresSaved();
 
         for (let a = 0; a < headers.length; a++) {
-            tableHeader = document.createElement("th");
+            const tableHeader = document.createElement("th");
 
             tableHeader.innerText = headers[a];
             tableRow.appendChild(tableHeader);
@@ -124,15 +120,15 @@ export function openHighScore() {
 
         for (let a = 0; a < maxScores; a++) {
             tableRow = document.createElement("tr");
-            positionElement = document.createElement("td");
+            const positionElement = document.createElement("td");
 
             positionElement.innerHTML = (a + 1).toString();
             tableRow.appendChild(positionElement);
 
             for (let b = 0; b < keys.length; b++) {
-                mapScoreList = scores[keys[b]];
-                score = mapScoreList[a];
-                scoreElement = document.createElement("td");
+                const mapScoreList = scores[keys[b]];
+                const score = mapScoreList[a];
+                const scoreElement = document.createElement("td");
 
                 if (!score) {
                     scoreElement.innerHTML = "-";
@@ -147,7 +143,7 @@ export function openHighScore() {
         }
     }
 
-    var back = document.getElementById("HighScore-back")!;
+    const back = document.getElementById("HighScore-back")!;
 
     back.onclick = function () {
         // clear the table (since we're always using the same <table> element)

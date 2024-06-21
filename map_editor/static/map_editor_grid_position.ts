@@ -12,7 +12,7 @@ export interface GridPositionArgs {
 
 // position in array corresponds to position in the grid
 // the value is another array with the GridPosition
-var ALL_POSITIONS: GridPosition[][] = [];
+const ALL_POSITIONS: GridPosition[][] = [];
 
 /**
  * Each GridPosition represents a point in the grid, not a tile, since each tile occupies a 2x2 square.
@@ -29,24 +29,22 @@ export default class GridPosition {
     readonly height: number;
 
     constructor(args: GridPositionArgs) {
-        var _this = this;
-        var width = MapEditorTile.getImageWidth() / 2;
-        var height = MapEditorTile.getImageHeight() / 2;
+        const width = MapEditorTile.getImageWidth() / 2;
+        const height = MapEditorTile.getImageHeight() / 2;
 
-        var container = new createjs.Container();
+        const container = new createjs.Container();
 
         container.setBounds(0, 0, width, height);
 
-        var background = new createjs.Shape();
-
-        var g = background.graphics;
+        const background = new createjs.Shape();
+        const g = background.graphics;
 
         g.beginFill("gray");
         g.drawRoundRect(0, 0, 10, 10, 3);
 
         container.addChild(background);
-        container.on("click", function () {
-            _this.onClick();
+        container.on("click", () => {
+            this.onClick();
         });
 
         if (args.hidden !== true) {
@@ -62,7 +60,7 @@ export default class GridPosition {
         this.line = args.line;
         this.gridObject = args.grid;
 
-        var gridPosition = args.grid.position;
+        const gridPosition = args.grid.position;
 
         if (!ALL_POSITIONS[gridPosition]) {
             ALL_POSITIONS[gridPosition] = [];
@@ -97,7 +95,7 @@ export default class GridPosition {
         } else {
             this.hasTile = true;
 
-            var tile = MapEditorMap.addTile({
+            const tile = MapEditorMap.addTile({
                 tileId: "bamboo1",
                 column: this.column,
                 line: this.line,
@@ -157,7 +155,7 @@ export default class GridPosition {
 
         removeFromStage(this.container);
 
-        var position = ALL_POSITIONS[this.gridPosition].indexOf(this);
+        const position = ALL_POSITIONS[this.gridPosition].indexOf(this);
         ALL_POSITIONS[this.gridPosition].splice(position, 1);
     }
 
@@ -165,11 +163,11 @@ export default class GridPosition {
      * Remove all the grid positions.
      */
     static removeAll() {
-        for (var a = 0; a < ALL_POSITIONS.length; a++) {
-            var grids = ALL_POSITIONS[a];
+        for (let a = 0; a < ALL_POSITIONS.length; a++) {
+            const grids = ALL_POSITIONS[a];
 
-            for (var b = 0; b < grids.length; b++) {
-                var gridPosition = grids[b];
+            for (let b = 0; b < grids.length; b++) {
+                const gridPosition = grids[b];
                 gridPosition.remove();
 
                 b--;

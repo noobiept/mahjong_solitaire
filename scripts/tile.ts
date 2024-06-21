@@ -88,7 +88,7 @@ export interface TileArgs {
     column: number;
     line: number;
     gridObject: Grid;
-    onClick?: (tile: Tile) => any;
+    onClick?: (tile: Tile) => void;
 }
 
 /**
@@ -111,8 +111,6 @@ export default class Tile {
     private container: createjs.Container;
 
     constructor(args: TileArgs) {
-        var _this = this;
-
         // :: validate the arguments :: //
 
         if (typeof args.tileId === "undefined") {
@@ -142,9 +140,9 @@ export default class Tile {
         const container = new createjs.Container();
         container.addChild(shape);
         container.addChild(background);
-        container.on("click", function () {
+        container.on("click", () => {
             if (args.onClick) {
-                args.onClick(_this);
+                args.onClick(this);
             }
         });
 
@@ -180,7 +178,7 @@ export default class Tile {
      * Show the selected background on the tile.
      */
     selectTile() {
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.beginFill("rgba(255, 0, 0, 0.3)");
         g.drawRoundRect(3, 3, Tile.WIDTH + 2, Tile.HEIGHT + 2, 5);
@@ -190,7 +188,7 @@ export default class Tile {
      * Show the highlighted background on the tile.
      */
     highlightTile() {
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("rgba(255, 215, 0, 0.3)");
@@ -201,7 +199,7 @@ export default class Tile {
      * Go back to the normal background on the tile.
      */
     clearBackground() {
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("transparent");
@@ -212,7 +210,7 @@ export default class Tile {
      * Show the shadow background on the tile.
      */
     shadow() {
-        var g = this.background.graphics;
+        const g = this.background.graphics;
 
         g.clear();
         g.beginFill("rgba(0, 0, 0, 0.3)");

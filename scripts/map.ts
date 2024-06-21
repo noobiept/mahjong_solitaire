@@ -65,7 +65,7 @@ export default class Map {
     readonly playerNumber: number;
 
     constructor(args: MapArgs) {
-        let playerNumber = args.playerNumber;
+        const playerNumber = args.playerNumber;
         const mapInfo = args.mapInfo;
 
         this.columns = mapInfo.numberOfColumns;
@@ -85,7 +85,7 @@ export default class Map {
             },
         });
 
-        var newMap = this.determineTileNames(mapInfo.mapDescription);
+        const newMap = this.determineTileNames(mapInfo.mapDescription);
 
         this.playerNumber = playerNumber;
         this.score = 0;
@@ -100,21 +100,17 @@ export default class Map {
      * Build the map based on the map description. The first dimension is the grids, and the next one is the description of each tile.
      */
     buildMap(mapDescription: MapTilePosition[][]) {
-        var mapObject = this;
-        var grid;
-        var a, b;
-
         // add the tiles, each grid at a time
-        for (a = 0; a < mapDescription.length; a++) {
-            var gridDescription = mapDescription[a];
+        for (let a = 0; a < mapDescription.length; a++) {
+            const gridDescription = mapDescription[a];
 
-            grid = this.addGrid({
+            const grid = this.addGrid({
                 numberOfColumns: this.columns,
                 numberOfLines: this.lines,
             });
 
-            for (b = 0; b < gridDescription.length; b++) {
-                var position = gridDescription[b];
+            for (let b = 0; b < gridDescription.length; b++) {
+                const position = gridDescription[b];
 
                 this.addTile({
                     tileId: position.tileId,
@@ -122,32 +118,28 @@ export default class Map {
                     column: position.column,
                     line: position.line,
                     gridObject: grid,
-                    onClick: function (tile) {
-                        mapObject.onTileClick(tile);
+                    onClick: (tile) => {
+                        this.onTileClick(tile);
                     },
                 });
             }
         }
 
-        var line;
-        var column;
-        var element;
-
         // we need to order the tiles z-index (which element is drawn on top of which)
         // so that the tiles don't look out of place
-        for (a = 0; a < this.all_grids.length; a++) {
-            grid = this.all_grids[a];
+        for (let a = 0; a < this.all_grids.length; a++) {
+            const grid = this.all_grids[a];
 
-            var numberOfLines = this.lines;
-            var numberOfColumns = this.columns;
+            const numberOfLines = this.lines;
+            const numberOfColumns = this.columns;
 
             // get last column/line, go diagonal up right
-            for (b = numberOfLines - 1; b >= 0; b--) {
-                line = b;
-                column = 0;
+            for (let b = numberOfLines - 1; b >= 0; b--) {
+                let line = b;
+                let column = 0;
 
                 while (line < numberOfLines && column < numberOfColumns) {
-                    element = grid.getElement(column, line);
+                    const element = grid.getElement(column, line);
 
                     if (element) {
                         element.addToStage();
@@ -159,12 +151,12 @@ export default class Map {
             }
 
             // get 2nd last line, and do all diagonals, in first column
-            for (b = 1; b < numberOfColumns; b++) {
-                line = 0;
-                column = b;
+            for (let b = 1; b < numberOfColumns; b++) {
+                let line = 0;
+                let column = b;
 
                 while (line < numberOfLines && column < numberOfColumns) {
-                    element = grid.getElement(column, line);
+                    const element = grid.getElement(column, line);
 
                     if (element) {
                         element.addToStage();
@@ -187,16 +179,13 @@ export default class Map {
         mapDescription: MapPosition[][],
         tilePairs?: TileName[]
     ) {
-        var newMap: MapTilePosition[][] = [];
-        var grid;
-        var gridDescription;
-        var tilePosition;
+        const newMap: MapTilePosition[][] = [];
 
         // construct the map
-        for (var a = 0; a < mapDescription.length; a++) {
-            gridDescription = mapDescription[a];
+        for (let a = 0; a < mapDescription.length; a++) {
+            const gridDescription = mapDescription[a];
 
-            grid = this.addGrid({
+            const grid = this.addGrid({
                 numberOfColumns: this.columns,
                 numberOfLines: this.lines,
             });
@@ -204,8 +193,8 @@ export default class Map {
             // initialize the grid's array
             newMap[a] = [];
 
-            for (var b = 0; b < gridDescription.length; b++) {
-                tilePosition = gridDescription[b];
+            for (let b = 0; b < gridDescription.length; b++) {
+                const tilePosition = gridDescription[b];
 
                 this.addTile({
                     tileId: "bamboo1", // doesn't matter, since we aren't drawing the shape
@@ -217,24 +206,22 @@ export default class Map {
         }
 
         // determine the selectable tiles
-        var allTiles = this.all_tiles;
-        var selectableTiles = [];
-        var tile;
-        var nextTile = this.getNextTile(tilePairs);
+        const allTiles = this.all_tiles;
+        const nextTile = this.getNextTile(tilePairs);
 
         // while we haven't cleared the map
         while (allTiles.length > 0) {
-            selectableTiles = this.getSelectableTiles();
+            const selectableTiles = this.getSelectableTiles();
 
             while (selectableTiles.length > 0) {
-                var nextTileName = nextTile();
+                const nextTileName = nextTile();
 
-                var position = Utilities.getRandomInt(
+                const position = Utilities.getRandomInt(
                     0,
                     selectableTiles.length - 1
                 );
 
-                tile = selectableTiles.splice(position, 1)[0];
+                const tile = selectableTiles.splice(position, 1)[0];
 
                 newMap[tile.gridObject.position].push({
                     column: tile.column,
@@ -257,22 +244,19 @@ export default class Map {
      * Re-make the current map.
      */
     shuffle(addToScore = true) {
-        var allTiles = this.all_tiles;
-        var a;
+        const allTiles = this.all_tiles;
+        const numberOfGrids = this.all_grids.length;
+        const currentMap: MapPosition[][] = [];
 
-        var numberOfGrids = this.all_grids.length;
-        var currentMap: MapPosition[][] = [];
-
-        for (a = 0; a < numberOfGrids; a++) {
+        for (let a = 0; a < numberOfGrids; a++) {
             currentMap[a] = [];
         }
 
-        var tile;
-        var tileNames: TileName[] = [];
+        const tileNames: TileName[] = [];
 
         // get the current positions and tile names
-        for (a = 0; a < allTiles.length; a++) {
-            tile = allTiles[a];
+        for (let a = 0; a < allTiles.length; a++) {
+            const tile = allTiles[a];
 
             currentMap[tile.gridObject.position].push({
                 column: tile.column,
@@ -283,12 +267,12 @@ export default class Map {
         }
 
         // remove the pairs, since the .getNextTile() already takes care of that (only have one for each pair)
-        var tilePairs: TileName[] = [];
+        const tilePairs: TileName[] = [];
 
-        for (a = 0; a < tileNames.length; a++) {
+        for (let a = 0; a < tileNames.length; a++) {
             const firstTile = tileNames[a];
 
-            for (var b = a + 1; b < tileNames.length; b++) {
+            for (let b = a + 1; b < tileNames.length; b++) {
                 const secondTile = tileNames[b];
 
                 if (firstTile === secondTile) {
@@ -308,7 +292,7 @@ export default class Map {
         this.removeAllGrids();
 
         // re-make the map, with the current tiles
-        var newMap = this.determineTileNames(currentMap, tilePairs);
+        const newMap = this.determineTileNames(currentMap, tilePairs);
 
         if (addToScore) {
             this.addToScore(Map.SHUFFLE_SCORE);
@@ -406,20 +390,20 @@ export default class Map {
             ];
         }
 
-        var previousTile: TileName | null = null;
-        var flowerNumber = 1;
-        var seasonNumber = 1;
+        let previousTile: TileName | null = null;
+        let flowerNumber = 1;
+        let seasonNumber = 1;
 
         return function () {
-            var tileName: TileName;
-            var tileId: TileId;
+            let tileName: TileName;
+            let tileId: TileId;
 
             // we need to return the same tile 2 times (a pair), so check if its time to return the 2nd, otherwise get a new pair from the 'tileNames' array
             if (previousTile) {
                 tileName = previousTile;
                 previousTile = null;
             } else {
-                var position = Utilities.getRandomInt(
+                const position = Utilities.getRandomInt(
                     0,
                     tilesNames!.length - 1
                 );
@@ -452,12 +436,11 @@ export default class Map {
      * Returns an array with the tiles that can be selected in the map.
      */
     getSelectableTiles() {
-        var allTiles = this.all_tiles;
-        var tile;
-        var selectableTiles = [];
+        const allTiles = this.all_tiles;
+        const selectableTiles = [];
 
-        for (var a = 0; a < allTiles.length; a++) {
-            tile = allTiles[a];
+        for (let a = 0; a < allTiles.length; a++) {
+            const tile = allTiles[a];
 
             if (this.isTileSelectable(tile)) {
                 selectableTiles.push(tile);
@@ -471,14 +454,13 @@ export default class Map {
      * Return the number of selectable pairs left (moves that can be made).
      */
     howManySelectablePairs() {
-        var selectableTiles = this.getSelectableTiles();
-        var count = 0;
-        var first;
+        const selectableTiles = this.getSelectableTiles();
+        let count = 0;
 
-        for (var a = 0; a < selectableTiles.length; a++) {
-            first = selectableTiles[a];
+        for (let a = 0; a < selectableTiles.length; a++) {
+            const first = selectableTiles[a];
 
-            for (var b = a + 1; b < selectableTiles.length; b++) {
+            for (let b = a + 1; b < selectableTiles.length; b++) {
                 if (first.tileName === selectableTiles[b].tileName) {
                     count++;
 
@@ -505,14 +487,13 @@ export default class Map {
      * Get a valid pair that is selectable.
      */
     getPair() {
-        var tiles = this.getSelectableTiles();
-        var first, second;
+        const tiles = this.getSelectableTiles();
 
-        for (var a = 0; a < tiles.length; a++) {
-            first = tiles[a];
+        for (let a = 0; a < tiles.length; a++) {
+            const first = tiles[a];
 
-            for (var b = a + 1; b < tiles.length; b++) {
-                second = tiles[b];
+            for (let b = a + 1; b < tiles.length; b++) {
+                const second = tiles[b];
 
                 if (first.tileName === second.tileName) {
                     return [first, second];
@@ -527,7 +508,7 @@ export default class Map {
      * Highlight a random valid selectable pair.
      */
     highlightRandomPair() {
-        var pair = this.getPair();
+        const pair = this.getPair();
 
         if (pair) {
             pair[0].highlightTile();
@@ -542,10 +523,10 @@ export default class Map {
      */
     shadowTiles() {
         this.hasShadows = true;
-        var allTiles = this.all_tiles;
+        const allTiles = this.all_tiles;
 
-        for (var a = 0; a < allTiles.length; a++) {
-            var tile = allTiles[a];
+        for (let a = 0; a < allTiles.length; a++) {
+            const tile = allTiles[a];
 
             if (!this.isTileSelectable(tile)) {
                 tile.shadow();
@@ -560,10 +541,10 @@ export default class Map {
      */
     unShadowTiles() {
         this.hasShadows = false;
-        var allTiles = this.all_tiles;
+        const allTiles = this.all_tiles;
 
-        for (var a = 0; a < allTiles.length; a++) {
-            var tile = allTiles[a];
+        for (let a = 0; a < allTiles.length; a++) {
+            const tile = allTiles[a];
 
             tile.clearBackground();
         }
@@ -573,7 +554,7 @@ export default class Map {
      * Add a tile to the map.
      */
     addTile(args: TileArgs) {
-        var tile = new Tile(args);
+        const tile = new Tile(args);
 
         args.gridObject.addTile(tile, args.column, args.line);
         this.unSelectTile(tile);
@@ -587,7 +568,7 @@ export default class Map {
      * Remove a tile from the map.
      */
     removeTile(tileObject: Tile) {
-        var position = this.all_tiles.indexOf(tileObject);
+        const position = this.all_tiles.indexOf(tileObject);
 
         this.all_tiles.splice(position, 1);
         tileObject.remove();
@@ -597,7 +578,7 @@ export default class Map {
      * Add a new grid to the map.
      */
     addGrid(args: Utilities.Omit<GridArgs, "position">) {
-        var grid = new Grid({
+        const grid = new Grid({
             numberOfColumns: args.numberOfColumns,
             numberOfLines: args.numberOfLines,
             position: this.all_grids.length,
@@ -612,7 +593,7 @@ export default class Map {
      * Remove a grid from the map.
      */
     removeGrid(gridObject: Grid) {
-        var position = this.all_grids.indexOf(gridObject);
+        const position = this.all_grids.indexOf(gridObject);
 
         this.all_grids.splice(position, 1);
     }
@@ -628,7 +609,7 @@ export default class Map {
      * Remove all the tiles.
      */
     removeAllTiles() {
-        for (var a = 0; a < this.all_tiles.length; a++) {
+        for (let a = 0; a < this.all_tiles.length; a++) {
             this.all_tiles[a].remove();
         }
 
@@ -679,7 +660,7 @@ export default class Map {
             return;
         }
 
-        var selectedTile = this.selected_tile;
+        const selectedTile = this.selected_tile;
 
         // no tile is selected, so we select the first one
         if (!selectedTile) {
@@ -723,12 +704,12 @@ export default class Map {
      * To be able to select a tile, one of the sides (left or right) has to be free, and the tile can't have other tiles on top of it (in a grid above).
      */
     isTileSelectable(tile: Tile) {
-        var column = tile.column;
-        var line = tile.line;
-        var grid = tile.gridObject;
+        const column = tile.column;
+        const line = tile.line;
+        const grid = tile.gridObject;
 
-        var isLeftFree = true;
-        var isRightFree = true;
+        let isLeftFree = true;
+        let isRightFree = true;
 
         if (column > 0) {
             if (
@@ -753,13 +734,12 @@ export default class Map {
         }
 
         // check grids above, if there's any tile on top of this one
-        var gridAbove;
-        var gridPosition = grid.position;
+        let gridPosition = grid.position;
 
         for (;;) {
             gridPosition++;
 
-            gridAbove = this.all_grids[gridPosition];
+            const gridAbove = this.all_grids[gridPosition];
 
             if (!gridAbove) {
                 break;
@@ -805,26 +785,26 @@ export default class Map {
      * Scale the map to a new value.
      */
     scaleMap(dimensions: MapDimension) {
-        var tileWidth = Tile.WIDTH;
-        var tileHeight = Tile.HEIGHT;
+        const tileWidth = Tile.WIDTH;
+        const tileHeight = Tile.HEIGHT;
 
         // find the scale value that occupies the whole width/height of the canvas, then choose the lesser value (since width/height can have different values)
         // we're dividing the columns/lines by 2 because the tile occupies a 2x2 square in the grid
-        var scaleWidth = dimensions.width / ((this.columns / 2) * tileWidth);
-        var scaleHeight = dimensions.height / ((this.lines / 2) * tileHeight);
-        var scale = scaleHeight;
+        const scaleWidth = dimensions.width / ((this.columns / 2) * tileWidth);
+        const scaleHeight = dimensions.height / ((this.lines / 2) * tileHeight);
+        let scale = scaleHeight;
 
         if (scaleWidth < scaleHeight) {
             scale = scaleWidth;
         }
 
         // center the map horizontally
-        var mapWidth = (this.columns / 2) * tileWidth * scale;
-        var startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
-        var startingY = dimensions.y;
+        const mapWidth = (this.columns / 2) * tileWidth * scale;
+        let startingX = dimensions.x + dimensions.width / 2 - mapWidth / 2;
+        let startingY = dimensions.y;
 
-        for (var a = 0; a < this.all_grids.length; a++) {
-            var grid = this.all_grids[a];
+        for (let a = 0; a < this.all_grids.length; a++) {
+            const grid = this.all_grids[a];
 
             grid.positionElements(startingX, startingY, scale);
 
